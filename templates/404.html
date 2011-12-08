@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="view_opened">
+	<div class="title">
+		<div class="endblock">&nbsp;</div>
+		<h1>{{ page.title }}</h1>
+	</div>
+	<div class="view_content">
+
+	<div id="textes">
+	    {% autoescape off %}
+	    <h1>Данная страница не существует или возникла непредвиденная ошибка. <a href="/">Вернуться на главную</a></h1>
+	    {% endautoescape %}
+	</div>
+	<div class="endblock">&nbsp;</div>
+</div>&nbsp;</div>
+<div class="right_column">
+    {% block right_column %}
+		{#% include "includes/right_event_state.html" %#}
+		{% include "includes/right_idea_top5.html" %}
+
+        {% include "includes/right_calendar.html" %}
+
+    {% endblock right_column %}
+</div>
+{% endblock content %}

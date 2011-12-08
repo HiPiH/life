@@ -1,0 +1,46 @@
+﻿{% extends "base.html" %}
+
+{% load comments %}
+{% load i18n %}
+
+{% block javascripts %}
+    <script language="javascript" type="text/javascript" src="/media/js/ajax_replies.js"></script>
+    <script type="text/javascript" src="/media/js/comments.js"></script>
+    <script language="javascript" type="text/javascript" src="/media/fckeditor/fckeditor.js"></script>
+	<script type="text/javascript" src="/media/fckeditor/_media/frontend_textarea_all.js"></script>
+{% endblock javascripts %}
+
+{% block style %}
+    <link rel="stylesheet" type="text/css" href="/media/css/blog.css">
+{% endblock style %}
+
+{% block content %}
+<h1>{{ author }}</h1>
+<div class="endblock">&nbsp;</div>
+
+<div class=blogblock>
+    <div style="height: 30px"><a href="{{ back_link }}"><h3>Все сообщения этого блога</h3></a></div>
+    <div>{{ author.get_avatar|safe }}</div>
+    <div style="clear: both"></div>
+    <h2>{{ post.title }}</h2> {% if validuser %}(<a href='{{ post.get_url_to_edit }}'>edit</a>/<a href='{{ post.get_url_to_delete }}'>delete</a>){% endif %}
+    <div style="margin-top:10px">
+    {% if post.teaser %}
+        {{ post.teaser|safe}}
+    {% endif %}
+    </div>
+    <div style="margin-top:20px">
+        {{ post.text|safe }}
+    </div>
+    <div style="clear: both"></div>
+    <div style="margin-top:20px">
+        {% if post.comments_open %}
+	        <h2>Комментарии</h2>
+			{% with "Post" as object_type %}
+			{% with post as object %}
+			    {% include 'ajax_replies/replies.html' %}
+			{% endwith %}
+			{% endwith %}
+		{% endif %}
+    </div>
+</div>
+{% endblock %}

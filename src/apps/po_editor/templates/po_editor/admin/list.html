@@ -1,0 +1,20 @@
+{% extends "admin/base_site.html" %}
+{% load i18n admin_modify adminmedia utils %}
+
+
+
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+     <a href="../">{% trans "Home" %}</a> &rsaquo;
+     {% trans "Select app" %}
+</div>
+{% endblock %}
+
+{% block content %}<div id="content-main">
+<ul>
+{% for locale_path in locale_path_list %}
+	<li><a href="{% url po_editor_form locale_path.app %}">{% trans_app_name  locale_path.app_name %}</a></li>
+{% endfor %}
+</ul>
+</div>
+{% endblock content %}

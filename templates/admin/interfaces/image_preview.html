@@ -1,0 +1,9 @@
+{% if img %}
+<div align="center" class="preview_img"><a rel="lightbox-tour" href="{{ img_open.url }}" title="{{ img_title|safe }}"><img src="{{ img.url }}" width="{% if width %}{{ width }}{% else %}50{% endif %}" height="{% if height %}{{ height }}{% else %}50{% endif %}"></a>
+{% if deletelink %}
+    <div style="margin: 3px 0px 5px 0px;"><a href="/delattrs/{{ appname }}/{{ modelname }}/{{ self.id }}/{{ attrs }}/" class="deletelink">удалить</a></div>
+{% endif %}
+</div>
+{% else %}
+<div align="center"><img src="/media/i/admin/noimage.gif"></div>
+{% endif %}

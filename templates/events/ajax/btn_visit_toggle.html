@@ -1,0 +1,9 @@
+{% ifnotequal event.author user %}
+	{% if event.can_i_visit %}
+		{% if event.i_am_visiters %}
+			<div class="next"><a href="{% url ajax_btn_visit_toggle event.id %}">Не участвовать</a></div>
+		{% else %}
+			<div class="next"><a href="{% url ajax_btn_visit_toggle event.id %}">Участвовать</a></div>
+		{% endif %}
+	{% endif %}
+{% endifnotequal %}

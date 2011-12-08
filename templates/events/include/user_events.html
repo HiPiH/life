@@ -1,0 +1,10 @@
+<div id="jq_my_events"></div>
+<script language="JavaScript">
+$(document).ready(function() {
+	$.post("{% url ajax_user_events user_profile.id %}", {}, function(html) {
+		$("#jq_my_events").html(html);
+		update_user_events();
+		update_toggle();
+	});	
+});
+</script>

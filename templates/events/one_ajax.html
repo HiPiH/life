@@ -1,0 +1,18 @@
+{% load thumbnail %}
+<div class="event_info">
+	<div class="title">{{ event.title }}</div>
+	<div class="event_info_bg">
+	{% if event.photo %}
+		{% thumbnail event.photo 319x239 quality=80,crop as thumb %}
+		<div class="photo"><a href="{{ event.get_absolute_url }}"><img src="{{ thumb.absolute_url }}" title="{{ event }}" alt="{{ event }}" width="{{ thumb.width }}" height="{{ thumb.height }}"/></a></div>
+	{% endif %}
+
+		<div class="etext">		
+			<div class="city">{{ event.metro.city }}</div>
+			<div class="date">c: {{ event.begin|date }} по: {{ event.end|date }}</div>
+			<div class="category">Категория: <a href="{{ event.category.get_absolute_url }}">{{ event.category }}</a></div>
+			<div class="description">{{ event.description }}</div>
+		</div>
+			<br/>
+	</div>
+<hr/>

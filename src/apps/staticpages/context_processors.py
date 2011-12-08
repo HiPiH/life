@@ -1,0 +1,1 @@
+from apps.staticpages.models import Page

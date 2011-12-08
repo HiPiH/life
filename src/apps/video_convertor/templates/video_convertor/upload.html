@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% load compress_static %}
+
+{% block extrahead %}
+	{% static_add "js/kajax.js" %}
+	{% static_add 'video_convertor/ajax_upload.js' %}
+	{% static_add 'video_convertor/ajax_upload.css' %}	
+{% endblock extrahead %}
+
+{% block content %}
+<div class="view_opened">
+	<div class="title">
+		<div class="endblock">&nbsp;</div>
+		<h1>Добавить видео</h1>
+	</div>
+	<div class="view_content">				
+		<form id="jq_upload_form" method="POST"  enctype="multipart/form-data" action="{% url video_upload ct_id id %}">
+			<table id="jq_add_photos" border="1">
+			{{ form.as_table }}
+			</table>
+			<div class="submit"><input type="image" value="сохранить" src="/media/i/btn_load.gif"/></div>
+		</form>
+		<a href="{{ object.get_absolute_url }}">Вернуться</a>
+	</div>
+</div>
+<script type="text/javascript">
+	var uploader = new AjaxUploader('{% url video_ajax %}','jq_upload_form');
+	uploader.init();	
+</script>
+{% endblock content %}

@@ -1,0 +1,52 @@
+{% extends "admin/base_site.html" %}
+{% load i18n admin_modify adminmedia utils %}
+
+{% block extrahead %}{{ block.super }}
+<script type="text/javascript" src="../../../jsi18n/"></script>
+{% endblock %}
+
+{% block extrastyle %}
+<link rel="stylesheet" type="text/css" href="{% load adminmedia %}{% admin_media_prefix %}css/forms.css" />
+{% endblock %}
+
+{% block coltype %}{% if ordered_objects %}colMS{% else %}colM{% endif %}{% endblock %}
+
+{% block bodyclass %}{{ opts.app_label }}-{{ opts.object_name.lower }} change-form{% endblock %}
+
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+     <a href="../../../">{% trans "Home" %}</a> &rsaquo;
+     <a href="../../">{% trans "Select app" %}</a> &rsaquo;
+     {% trans_app_name locale.app_name %} 
+</div>
+{% endblock %}
+
+{% block content %}<div id="content-main">
+
+
+
+<form action="{% url po_editor_form locale.app %}" method="post" enctype="multipart/form-data">
+<fieldset class="module aligned {{ fieldset.classes }}">
+	<h2>{% trans "Translate" %}: &laquo;{% trans_app_name locale.app_name %}&raquo;</h2>
+{% for f in form  %}
+	<div class="form-row{% if f.errors %} errors{% endif %}">
+		{{ f.errors }}
+		<div class="field-box">
+			{{ f.label_tag }}
+			{{ f.as_widget }}
+<!-- 			<p class="help">{{ f.field.initial|safe }}</p>  -->
+			<p class="help">{{ f.field.help_text|safe }}</p>
+		</div>
+	</div>
+{% endfor %}
+</fieldset>
+
+<div class="submit-row">
+	<input type="submit" value="{% trans 'Save' %}" class="default" name="_save"/>
+	<input type="submit" value="{% trans 'Save and continue editing' %}" name="_continue"/>
+</div>
+
+</div>
+</form>
+</div>
+{% endblock content %}

@@ -1,0 +1,38 @@
+﻿{% extends 'base.html' %}
+
+{% block crums %}
+    <a href="/">Главная</a> &gt;
+    <a href="{{ user.get_absolute_url }}">Профиль</a> &gt;
+    <a href="{% url apps.accounts.views.profile_edit %}">Редактирование</a>
+{% endblock crums %}
+
+{% block content %}
+
+<h1>Изменение профиля</h1>
+
+<div class="forms">
+    <form method="post" action="{% url apps.accounts.views.profile_edit %}">
+        <table>
+            {{ edit_form.as_table }}
+        </table>
+        <input type="hidden" name="action" value="editprofile">
+        <div align="right"><input type="submit" value="Отправить" class="submit_button"></div>
+    </form>
+</div>
+
+<!--
+<h1>Смена пароля</h1>
+
+<div class="forms">
+    <form method="post" action="{% url apps.accounts.views.profile_edit %}">
+        <table>
+            {{ EditFormPass.as_table }}
+        </table>
+        {% if passworderr %}<div class="errorlist">{{ passworderr }}</div>{% endif %}
+        <input type="hidden" name="action" value="changepass">
+        <div align="right"><input type="submit" value="Отправить" class="submit_button"></div>
+    </form>
+</div>
+-->
+
+{% endblock content %}

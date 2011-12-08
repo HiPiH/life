@@ -1,0 +1,6 @@
+{% load thumbnail %}
+{% if image %}
+	{% thumbnail image 64x64 quality=70 as thumb %}
+	<a href="{{ obj.pk }}/"><img src="{{ thumb.absolute_url }}"  alt="{{ obj }}" title="{{ obj }}" width="{{ thumb.width }}" height="{{ thumb.height }}"/></a>
+{% endif %}
+{{input}}

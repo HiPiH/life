@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="view_opened">
+	<div class="title">
+		<div class="endblock">&nbsp;</div>
+		<h1>Являюсь организатором следующих мероприятий</h1>
+	</div>
+</div>
+
+<div class="event_list">
+
+<table class="assistant_list">
+	<tr>
+		<th>Мероприятия</th>
+	</tr>	
+	{% for a in objects %}
+	<tr>
+		<td><a href="{{ a.get_absolute_url }}">{{ a.title }}</a></td>
+	</tr>
+	{% empty %}
+	<tr>
+		<td><strong>Список пуст</strong></td>
+	</tr>
+	{% endfor %}
+</table>
+
+</div>
+	
+{% endblock %}

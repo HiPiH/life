@@ -1,0 +1,50 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<link rel="SHORTCUT ICON" href="/i/favicon.ico"/>
+	<title>IM</title>
+{% spaceless %}
+	<script type="text/javascript" src="/media/js/jquery-1.3.2.min.js"></script>
+	<script type="text/javascript" src="/media/js/jquery.scrollTo-min.js"></script>
+	<script type="text/javascript" src="/media/js/jquery.cookie.js"></script>	
+	{% load compress_static %}
+	
+	{% static_add "css/im.css" %}
+	
+	{% static_add "js/kajax.js" %}
+	{% static_add "im/instant_messages.js" %}
+	
+
+	{% static_compile css %}
+	{% static_compile js %}	
+{% endspaceless %}    
+</head>
+<body>
+
+<div id="jq_tabs">
+<!-- <div class="tabs_btns">
+		<a href="#" id="jq_btn_tab_left">&lt;&lt;</a>
+		<a href="#" id="jq_btn_tab_right">&gt;&gt;</a>
+	</div>
+-->
+	<a href="#" id="jq_btn_tab_left">&lt;&lt;</a>
+	<a href="#" id="jq_btn_tab_right">&gt;&gt;</a>
+	<div class="tab_window">
+		<table class="tab_list"><tr id="jq_tab_container">
+		</tr></table>
+	</div>
+</div>
+
+<div id="jq_messages"><div class="msg_window"></div></div>
+
+<div class="submit">
+	<div class="text"><textarea id="jq_text"></textarea></div>
+	<div class="input"><input id="jq_send" type="image" src="/media/i2/btn2_send.gif"/></div>
+</div>
+
+<!-- <div class="ver">Режим тестирования<br/>Все найденые ошибки можно писать в личные сообщения создателю сайта=)</div>
+<div id="jq_log"></div>
+ -->
+
+</body></html>

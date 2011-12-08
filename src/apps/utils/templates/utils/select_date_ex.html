@@ -1,0 +1,13 @@
+<input type="hidden" id="hidden_{{ name }}" name="{{ name }}" value="{{ value }}" readonly/>
+<p><select id="days_{{ name }}" class="size-1"></select>
+<select id="month_{{ name }}" class="size-2"></select>
+<a href="javascript:void(0);" id="trigger{{ name }}"><img src="/media/i/calendar.gif" alt="ico" /></a></p>
+<script type="text/javascript">
+  var cal_{{ name }} = Calendar.setup(
+    {
+      {{ str_args|safe }},
+      onSelect: function (cal){ return on_select_fill_calendar('{{ name }}', cal);}
+    }
+  );
+  fill_calendar('{{ name }}');
+</script>

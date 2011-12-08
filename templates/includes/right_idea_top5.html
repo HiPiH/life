@@ -1,0 +1,24 @@
+{% load thumbnail %}
+{% if cp_events.top5_idea %}
+<div class="right_block">
+	<div class="title">ТОП-5 Идей:</div>
+	<div class="right_block_bg">
+{% for event in cp_events.top5_idea %}
+	<div class="right_block_item">
+		<div class="etext">	
+			<div class="jq_idea_rang">
+				{% if event.can_i_set_rating %}
+				<a href="{% url ajax_idea_rang_mins event.id %}" class="idea_mins">&darr;</a>
+				<a href="{% url ajax_idea_rang_plus event.id %}" class="idea_plus">&uarr;</a>
+				{% endif %}
+				{{ event.idea_rang }}
+			</div>
+			<a href="{{ event.get_absolute_url }}">{{ event }}</a>
+			<div class="add_info"><a href="{{ event.category.get_absolute_url }}">{{ event.category }}</a></div>
+		</div>
+		{% thumbnail event.get_photo 60x60 quality=80,crop as thumb %}
+		<div class="photo"><a href="{{ event.get_absolute_url }}"><img src="{{ thumb.absolute_url }}" title="{{ user_profile }}" alt="{{ user_profile }}" width="{{ thumb.width }}" height="{{ thumb.height }}" border="0"/></a></div>
+	</div>
+{% endfor %}
+<br/></div></div>
+{% endif %}

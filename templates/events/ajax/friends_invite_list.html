@@ -1,0 +1,23 @@
+<form id="jq_invite_form" method="POST" action="{% url ajax_friends_invite event.id meeting.id %}">
+<table border="0" class="invite">
+	<tr>
+		<td><div class="inv_users">{{ invite_form.users }}</div></td>
+		<td class="filter">
+		{% if invite_form.errors %}
+			{{  invite_form.errors }}
+			<hr/>
+		{% endif %}
+		
+		Возраст:
+		<div class="inv_age">{{ invite_form.min_age }} - {{ invite_form.min_age }}</div>
+		Пол:
+		<div class="inv_sex">{{ invite_form.sex }}</div>
+		<div class="inv_city">{{ invite_form.city_connect }} Привязать к городу</div>
+		<div class="inv_metro">{{ invite_form.metro_connect }} Привязать к метро</div>		
+		</td>
+	</tr>
+	<tr>
+		<td colspan="2"><div class="submit"><input type="image" name="real_invite" value="пригласить" src="/media/i/btn_invite.gif"></div></td>
+	</tr>
+	</table>
+</form>

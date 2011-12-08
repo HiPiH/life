@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block style %}
+    <link rel="stylesheet" type="text/css" href="/media/css/blog.css">
+{% endblock style %}
+{% block content %}
+<div class=blogblock>
+<div style="height: 30px"><a href="{{ back_link }}"><h3>К списку</h3></a></div>
+<p>{% trans "Delete post" %}{% if comments %}{% trans " and all comments" %}{% endif %}?
+{% for li in comments %}
+    <li>{{ li }}</li>
+{% endfor %}
+<p>
+<form action="" method=POST>
+    <input type="hidden" name="delete" value="yes" />
+    <input type="submit" value='{% trans "delete" %}' />
+</form>
+</div>
+{% endblock content %}

@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load ajax_view %}
+
+{% block javascripts %}
+<script type="text/javascript" src="/media/js/events_list.js"></script>
+<script type="text/javascript" src="/media/js/calendar.js"></script>
+<script type="text/javascript" src="/media/js/calendar-en.js"></script>
+<script type="text/javascript" src="/media/js/set.js"></script>
+{% endblock javascripts %}
+
+{% block style %}
+<link rel='stylesheet' type='text/css' href='/media/css/cal.css'>
+{% endblock style %}
+
+{% block content %}
+
+	{% ajax_view "Поиск события" "ajax_event_filter" %}
+
+<form method="POST" action="{% url events_list %}">
+
+<strong>Показать события:</strong>
+<table border="1">
+	{{ filter.as_table }}
+<tr>
+	<td colspan="2"><input type="submit"/></td>
+</tr>
+</table>
+
+</form>
+
+{% for event in events %}
+	{% include 'events/include/event.html' %}
+{% endfor %}
+
+{% endblock %}

@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% load i18n admin_tags comments compress_static %}
+
+{% block extrahead %}
+    {% static_add 'css/blog.css' %}
+{% endblock extrahead %}
+
+{% block crums %}
+    <a href="/">Главная</a>
+{% endblock crums %}
+
+{% block right %}
+    
+<div>
+    {% if user.is_authenticated %}
+        {% include 'accounts/profilemini.html' %}
+    {% else %}
+        {% include 'accounts/login_form.html' %}
+    {% endif %}
+</div>
+<div class="zagh1">Облако тегов</div>
+<div class=cloud style="float: left; width: 200px; text-align:center">
+    <h2>{{ cur_tag }}</h2>
+    {% for tag in tags %}
+        {% ifnotequal tag.id cur_tag.id %}
+        {% get_tag_size tag.weight as weight_size and tag_height %}
+        <a href="{{ tag.get_absolute_url }}" style="font-size:{{ weight_size }}px; text-decoration: none">
+        {{ tag }}
+        </a>{% endifnotequal %}
+    {% endfor %}
+</div>
+<div style="clear: both"></div>
+{% endblock right %}
+
+{% block content %}
+<div class="view_opened">
+	<div class="title">
+		<div class="endblock">&nbsp;</div>
+		<h1>Последние записи - блогов</h1>
+	</div>
+	
+	<div class="view_content">
+	
+	{% for post in page.object_list %}
+        {% get_comments_count for post as comments_count %}
+        <div style="margin-top: 20px">
+            <div style="clear: both"></div>
+            <div style="float: left;">{{ post.author.get_avatar|safe }}</div>
+            <div style="margin-top:10px"><h4><a href="{% url blog_post_list post.author.username %}">{{ post.author }}</a></h4></div>
+		    {% if user.is_authenticated %}
+		    	<div class="id_add_to_favorite{{post.author.id}}">
+		        </div>
+		    {% endif %}
+            <div>Комментариев: {{comments_count}}</div>
+            <div>{% include "blog/post_entry.html" %}</div>
+        </div>
+    {% endfor %}
+    
+    </div>
+</div>
+{% include 'paginator.html' %}
+{% endblock %}

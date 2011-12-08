@@ -1,0 +1,345 @@
+# Russian translation of InterZet events.
+# Copyright (C) 2009 THE InterZet events'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the InterZet events package.
+#
+#
+# brandir <ice.tegliaf@gmail.com>, 2009, 2010.
+msgid ""
+msgstr ""
+"Project-Id-Version: InterZet events 0.1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2010-03-10 10:09+0300\n"
+"PO-Revision-Date: 2010-02-16 16:06+0300\n"
+"Last-Translator: brandir <ice.tegliaf@gmail.com>\n"
+"Language-Team: Russian <ru@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: config.py:8
+msgid "настройки событий"
+msgstr "настройки событий"
+
+#: config.py:13
+msgid "кол-во событий на страницу"
+msgstr "кол-во событий на страницу"
+
+#: config.py:14
+msgid "кол-во фотографий на страницу"
+msgstr "кол-во фотографий на страницу"
+
+#: config.py:15
+msgid "событий на странице пользователя"
+msgstr "событий на странице пользователя"
+
+#: config.py:16
+msgid "друзей на странице пользователя"
+msgstr "друзей на странице пользователя"
+
+#: config.py:17
+msgid "друзей на страницу"
+msgstr "комментариев на страницу"
+
+#: config.py:18
+msgid "комментариев на страницу"
+msgstr "комментариев на страницу"
+
+#: config.py:20
+msgid "Кол-во обрабатываемых идей за один шаг"
+msgstr "Кол-во обрабатываемых идей за один шаг"
+
+#: forms.py:26 forms.py:124 forms.py:277
+msgid "Название"
+msgstr "Название"
+
+#: forms.py:183
+msgid "Начало"
+msgstr "Начало"
+
+#: forms.py:184
+msgid "Конец"
+msgstr "Конец"
+
+#: forms.py:214
+msgid "unknown sex"
+msgstr "любой"
+
+#: forms.py:215
+msgid "men"
+msgstr "муж."
+
+#: forms.py:216
+msgid "women"
+msgstr "жен."
+
+#: forms.py:220
+msgid "min_age"
+msgstr "мин. возраст"
+
+#: forms.py:221
+msgid "max_age"
+msgstr "макс. возраст"
+
+#: forms.py:222
+msgid "sex"
+msgstr "пол"
+
+#: forms.py:224
+msgid "connect users to event city"
+msgstr "Привязать к городу"
+
+#: forms.py:225
+msgid "connect users to event metro"
+msgstr "Привязать к метро"
+
+#: forms.py:227
+msgid "user list"
+msgstr "Список пользователей"
+
+#: forms.py:278
+msgid "Age"
+msgstr "Возраст"
+
+#: forms.py:281
+msgid "Адрес"
+msgstr "Адрес"
+
+#: models.py:25 models.py:37 models.py:51 models.py:64 models.py:100
+msgid "название"
+msgstr "название"
+
+#: models.py:30 models.py:31
+msgid "Город"
+msgstr "Город"
+
+#: models.py:39
+msgid "город"
+msgstr "город"
+
+#: models.py:44 models.py:45
+msgid "Метро"
+msgstr "Метро"
+
+#: models.py:57 models.py:58
+msgid "Группа категорий"
+msgstr "Группа категорий"
+
+#: models.py:66
+msgid "группа"
+msgstr "группа"
+
+#: models.py:77 models.py:78
+msgid "Категория"
+msgstr "Категория"
+
+#: models.py:102
+msgid "is idea"
+msgstr "Это идея?"
+
+#: models.py:103
+msgid "idea rang"
+msgstr "рейтинг идеи"
+
+#: models.py:105
+msgid "описание"
+msgstr "описание"
+
+#: models.py:115
+msgid "координатор"
+msgstr "координатор"
+
+#: models.py:120
+msgid "отмечено InterZet"
+msgstr "отмечено InterZet"
+
+#: models.py:122
+msgid "категория"
+msgstr "категория"
+
+#: models.py:126
+msgid "обложка"
+msgstr "обложка"
+
+#: models.py:129 models.py:365
+msgid "заполненность"
+msgstr "заполненность"
+
+#: models.py:137 models.py:138
+msgid "Событие"
+msgstr "Событие"
+
+#: models.py:350
+msgid "адрес"
+msgstr "адрес"
+
+#: models.py:351
+msgid "место"
+msgstr "место"
+
+#: models.py:353
+msgid "начало"
+msgstr "начало"
+
+#: models.py:355
+msgid "конец"
+msgstr "конец"
+
+#: models.py:357
+msgid "метро"
+msgstr "метро"
+
+#: models.py:359
+msgid "мин. ограничение участников"
+msgstr "мин. ограничение участников"
+
+#: models.py:361
+msgid "макс. ограничение участников"
+msgstr "макс. ограничение участников"
+
+#: models.py:363
+msgid "пойдут на мероприятие"
+msgstr "пойдут на мероприятие"
+
+#: models.py:371
+msgid "Встреча"
+msgstr "Встреча"
+
+#: models.py:372
+msgid "Встречи"
+msgstr "Встречи"
+
+#: models.py:442 models.py:456
+msgid "собтие"
+msgstr "собтие"
+
+#: models.py:444 models.py:458 models.py:501
+msgid "кто"
+msgstr "кто"
+
+#: models.py:446 models.py:460
+msgid "оценка"
+msgstr "оценка"
+
+#: models.py:448 models.py:462 models.py:476 models.py:493
+msgid "когда"
+msgstr "когда"
+
+#: models.py:465 models.py:466
+msgid "Рейтинг - история"
+msgstr "Рейтинг - история"
+
+#: models.py:472
+msgid "кого"
+msgstr "кого"
+
+#: models.py:474 models.py:491
+msgid "событие"
+msgstr "событие"
+
+#: models.py:478
+msgid "кто отметил"
+msgstr "кто отметил"
+
+#: models.py:480
+msgid "причина"
+msgstr "причина"
+
+#: models.py:485 models.py:486
+msgid "Черные метки"
+msgstr "Черные метки"
+
+#: models.py:495
+msgid "фотография"
+msgstr "фотография"
+
+#: models.py:497
+msgid "подпись"
+msgstr "подпись"
+
+#: models.py:499
+msgid "опубликовано координатором"
+msgstr "опубликовано координатором"
+
+#: models.py:508 models.py:509
+msgid "Фото"
+msgstr "Фото"
+
+#: models.py:587
+msgid "Запрос"
+msgstr "Запрос"
+
+#: views.py:123
+#, python-format
+msgid "%(invited)s users successful invited"
+msgstr "%(invited)s пользователей успешно извещено"
+
+#: views.py:158 views.py:160
+msgid "You can't set rating"
+msgstr "Вы не можите голосовать"
+
+#: views.py:173
+msgid "Event success added"
+msgstr "Событие успешно добавлено"
+
+#: views.py:205
+msgid "Event success edited"
+msgstr "Событие успешно добавлено"
+
+#: views.py:314
+msgid "You can't delete photo"
+msgstr "Вы не модите удалять фотографию"
+
+#: views.py:338
+msgid "Photos successful added"
+msgstr "Фото успешно добавлено"
+
+#: views.py:510
+msgid "Request for assistant successfully sent"
+msgstr "Ваш запрос успешно отправлен"
+
+#: views.py:524
+msgid "Пользователь успешно добавлен в помощники"
+msgstr "Пользователь успешно добавлен в помощники"
+
+#: views.py:529
+msgid "Пользователь откланен"
+msgstr "Пользователь откланен"
+
+#~ msgid "пользователй на друзья"
+#~ msgstr "пользователй на друзья"
+
+#~ msgid "Amount ideas processing per one step"
+#~ msgstr "Кол-во брабатываемых идей за один шаг"
+
+#~ msgid "видео"
+#~ msgstr "видео"
+
+#~ msgid "Видео"
+#~ msgstr "Видео"
+
+#~ msgid "STATE_IDEA"
+#~ msgstr "Идея"
+
+#~ msgid "STATE_ORGANIZATION"
+#~ msgstr "Организация"
+
+#~ msgid "STATE_COMPLITE"
+#~ msgstr "Событие"
+
+#~ msgid "краткое название"
+#~ msgstr "краткое название"
+
+#~ msgid "event state"
+#~ msgstr "стадия события"
+
+#~ msgid "опубликовано модератором"
+#~ msgstr "опубликовано модератором"
+
+#~ msgid "событие недели"
+#~ msgstr "событие недели"
+
+#~ msgid "сообщение"
+#~ msgstr "сообщение"
+
+#~ msgid "Комментарий"
+#~ msgstr "Комментарий"

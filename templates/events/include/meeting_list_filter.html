@@ -1,0 +1,88 @@
+<script>
+$(function() {
+    $( "#date" ).datepicker({
+			changeMonth: true,
+			changeYear: true,
+            dateFormat: 'yy-mm-dd',
+            showOn: "button",
+            buttonImage: '/media/i/calendar.gif',
+			buttonImageOnly: true
+    });
+    $( "#date2" ).datepicker({
+			changeMonth: true,
+			changeYear: true,
+            dateFormat: 'yy-mm-dd',
+            showOn: "button",
+            buttonImage: '/media/i/calendar.gif',
+			buttonImageOnly: true
+    });
+});
+</script>
+<div class="view_opened">
+	<div class="title">
+		<div class="endblock">&nbsp;</div>
+		<span class="open"></span>
+		<h1>{% if filter.is_archive.real_data %}Архив событий{% else %}Поиск события{% endif %}</h1>
+	</div>
+	<div class="view_content{% if search_closed %} closed{% endif %}">
+	
+		{{filter.errors}}
+		{% if big_url %}
+		<form method="POST" action=".">
+		{% else %}
+		<form method="POST" action="{% url events_list %}">
+		{% endif %}
+		<table border="0" class="filter_form">
+			<tr>
+				<th>Название:</th>
+				<td>{{ filter.string }}</td>
+				<th>Метро:</th>
+				<td>{{ filter.metro }}</td>
+			</tr>
+			<tr>
+				<th>От:</th>
+				<td>{{ filter.date }}</td>
+				<th>До:</th>
+				<td>{{ filter.date2 }}</td>
+			</tr>
+ 			<tr>
+				<th></th>
+				<td>{{ filter.is_archive }} <label for="id_is_archive"><strong>искать в архиве</strong></label></td>
+				<th></th>
+				<td></td>
+			</tr>
+
+		</table>
+		
+		<hr/>
+		<h2>Выбрать категории</h2>
+		<div class="category">{{ filter.category }}</div>
+		<div class="endblock">&nbsp;</div>
+		<div class="btn_search"><input type="image" src="/media/i2/btn2_search.gif" value="найти"/></div>				
+		</form>
+	</div>
+</div>
+
+	<ul class="event_filter">
+{% if user.is_authenticated %}
+	{% if big_url %}
+		<li{% ifequal target "all" %} class="selected"{% endifequal %}><a href="../all/"{% if filter.is_archive.real_data %} class="btn1_2">Архив{% else %} class="btn1">Все события{% endif %}</a></li>
+		<li{% ifequal target "my" %} class="selected"{% endifequal %}><a href="../my/"{% if filter.is_archive.real_data %} class="btn2_2">Мои события{% else %} class="btn2">Мои события{% endif %}</a></li>
+		<li{% ifequal target "where_im_going" %} class="selected"{% endifequal %}><a href="../where_im_going/"{% if filter.is_archive.real_data %}class="btn3_2">Куда я ходил{% else %}class="btn3">Куда я иду{% endif %}</a></li>
+		<li{% ifequal target "friends" %} class="selected"{% endifequal %}><a href="../friends/"{% if filter.is_archive.real_data %}class="btn4_2">События моих друзей{% else %}class="btn4">События моих друзей{% endif %}</a></li>
+		<li class="nosep{% ifequal target "friends_going" %} selected{% endifequal %}"><a href="../friends_going/"{% if filter.is_archive.real_data %}class="btn5_2">Куда ходили мои друзья{% else %}class="btn5">Куда идут мои друзья{% endif %}</a></li>
+	{% else %}
+		<li class="selected_first"><a href="{% url events_list %}" class="btn1">Все события</a></li>
+		<li><a href="{% url events_list_my %}" class="btn2">Мои события</a></li>
+		<li><a href="{% url events_list_where_im_going %}" class="btn3">Куда я иду</a></li>
+		<li><a href="{% url events_list_friends %}" class="btn4">События моих друзей</a></li>
+		<li class="nosep"><a href="{% url events_list_friends_going %}" class="btn5">Куда идут мои друзья</a></li>
+	{% endif %}
+{% else %}
+	{% if big_url %}
+		<li class="selected_first nosep"><a href="../all/" class="btn1">Все события</a></li>
+	{% else %}
+		<li class="selected_first nosep"><a href="{% url events_list %}" class="btn1">Все события</a></li>
+	{% endif %}
+{% endif %}	
+	</ul>

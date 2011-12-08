@@ -1,0 +1,11 @@
+		       <!-- CALENDAR -->
+		       <div id="calendar">
+		       		<div class="title"{% if calendar_closed %} id="jq_btn_calendar"{% endif %}>
+		       			{% if calendar_closed %} <div></div>{% endif %}
+		       			<h2>Календарь</h2>		       			
+		       		</div>
+		           <div align="center"{% if calendar_closed %}  id="jq_open_calendar"{% endif %}>
+			     		{% include 'ajax_calendar/includes/block.html' %}
+		           </div>
+		       </div>
+		       <!-- /CALENDAR -->

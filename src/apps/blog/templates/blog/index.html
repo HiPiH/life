@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load admin_tags %}
+{% load comments %}
+{% block style %}
+    <link rel="stylesheet" type="text/css" href="/media/css/blog.css">
+{% endblock style %}
+
+{% block crums %}
+    <a href="/">Главная</a>
+{% endblock crums %}
+
+{% block right %}
+    
+<div>
+    {% if user.is_authenticated %}
+        {% include 'accounts/profilemini.html' %}
+    {% else %}
+        {% include 'accounts/login_form.html' %}
+    {% endif %}
+</div>
+<div class="zagh1">Облако тегов</div>
+<div class=cloud style="float: left; width: 200px; text-align:center">
+    <h2>{{ cur_tag }}</h2>
+    {% for tag in tags %}
+        {% ifnotequal tag.id cur_tag.id %}
+        {% get_tag_size tag.weight as weight_size and tag_height %}
+        <a href="{{ tag.get_absolute_url }}" style="font-size:{{ weight_size }}px; text-decoration: none">
+        {{ tag }}
+        </a>{% endifnotequal %}
+    {% endfor %}
+</div>
+<div style="clear: both"></div>
+{% endblock right %}
+
+{% block content %}
+<h1>Последние записи</h1>
+<div class="bigline"><img src="/media/i/bigline.jpg"></div>
+<div class="endblock">&nbsp;</div>
+
+<div class=blogblock>
+    <div style="margin-top: 20px">
+        
+        {% for post in page.object_list %}
+        {% get_comments_count for post as comments_count %}
+        <div style="margin-top: 20px">
+            <div style="clear: both"></div>
+            <div style="float: left;">{{ post.author.get_avatar|safe }}</div>
+            <div style="margin-top:10px"><h4><a href="{% url blog_post_list post.author.username %}">{{ post.author }}</a></h4></div>
+		    {% if user.is_authenticated %}
+		    	<div class="id_add_to_favorite{{post.author.id}}">
+		        </div>
+		    {% endif %}
+            <div>Комментариев: {{comments_count}}</div>
+            <div>{% include "blog/post_entry.html" %}</div>
+        </div>
+        {% endfor %}
+        {% include 'paginator.html' %}
+        <div style="clear: both"></div>
+    </div>
+</div>
+{% endblock %}

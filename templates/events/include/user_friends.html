@@ -1,0 +1,9 @@
+<div id="jq_my_friends"></div>
+<script language="JavaScript">
+$(document).ready(function() {
+	$.post("{% url ajax_user_friends user_profile.id %}", {}, function(html) {
+		$("#jq_my_friends").html(html);
+		update_user_friends();
+	});	
+});
+</script>

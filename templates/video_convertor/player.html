@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% load tree_comments compress_static %}
+
+{% block extrahead %}
+	{% static_add "js/jquery.form.js" %}
+
+	{% static_add "js/kajax.js" %}
+	{% static_add 'tree_comments/comments.css' %}
+	{% static_add 'tree_comments/comments.js' %}
+{% endblock extrahead %}
+
+{% block content %}
+<div class="view_opened">
+	<div class="title">
+		<div class="endblock">&nbsp;</div>
+		<h1>Видео - {{ video.owner.title }}</h1>
+	</div>
+	<div class="view_content">
+	    <div id="jq_video_container">
+	        <a href="http://www.macromedia.com/go/getflashplayer">Get the Flash Player</a> to see this player.
+	    </div>
+	    <script type="text/javascript" src="/media/viral/swfobject.js"></script>
+	    <script type="text/javascript">
+			var so = new SWFObject("/media/viral/player.swf","mpl","533","400","9");
+			  so.addParam('allowfullscreen','true');
+			  so.addParam('allowscriptaccess','always');
+			  so.addParam('wmode','opaque');
+			{% if not video.flv %}
+			so.addParam("flashvars","image=/media/i/video_converting.jpg");
+			{% else %}
+			so.addParam("flashvars","file=/media/{{ video.flv }}&image=/media/{{ video.thumb }}");
+			{% endif %}
+			so.write("jq_video_container");
+		</script>
+
+		<br/>
+		<a href="{{ video.owner.get_absolute_url }}" class="btn2_return">Обратно к событию</a>
+		
+	</div>
+</div>
+
+<div class="view_opened inside">
+	<div class="title">
+		<div class="endblock">&nbsp;</div>
+		<span class="open"></span>
+		<h1>Комментарии</h1>
+	</div>
+	<div class="view_content2">
+		<script type="text/javascript">
+			var comments = new CommentsAjax('{% url comments_ajax %}',"{% comments_post_url video %}", '{{ user.is_authenticated }}');
+			comments.init();	
+		</script>
+		{% tree_comments_ajax video %}
+	</div>
+</div>
+{% endblock %}

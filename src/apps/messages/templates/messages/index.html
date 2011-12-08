@@ -1,0 +1,124 @@
+{% extends 'base.html' %}
+
+{% load messages %}
+
+{% block content %}
+<h1>Messages! ver 1.2</h1>
+
+<script language="javascript">
+	function ChangeFolder(num)
+	{
+		url_messages_index = {% url messages_index %};
+		go_url = url_messages_index+num+'/';
+		document.location.href=go_url;
+	}
+</script>
+
+<br />
+<table>
+	<tr>
+		<td valign="top">
+			<table>
+				<tr>
+					<th>
+						папка
+					</th>
+					<th>
+						пользователей&nbsp;
+					</th>
+					<th>
+						сообщений&nbsp;
+					</th>
+					<th>
+						новые&nbsp;
+					</th>
+				</tr>
+				{% for key, value, count_people, count_mes, count_mes_new in folders %}
+					<tr>
+						<td>
+							<div style="margin: 0px 10px 4px 10px;">
+								<a href="{% url messages_index key %}" {% ifequal key folder_now %}style="font-weight: bold;"{% endifequal %}>{{ value }}</a>
+							</div>
+						</td>
+						<td align="center">
+							{{ count_people }}
+						</td>
+						<td align="center">
+							<a href="{% url messages_index key %}">{{ count_mes }}</a>
+						</td>
+						<td align="center">
+							<a href="{% url messages_index_new key 'new' %}">{{ count_mes_new }}</a>
+						</td>
+					</tr>
+				{% endfor %}
+			</table>
+		</td>
+	</tr>
+</table>
+
+{% if show_type_links %}
+<br />
+<table>
+	<tr>
+		<td>Сообщения:</td>
+		<td>
+			<div style="margin-left: 10px;">
+				<a href="{% url messages_index folder_now %}" {% ifequal show None %}style="font-weight: bold"{% endifequal %}>Все</a>
+			</div>
+		</td>
+		<td>
+			<div style="margin-left: 10px;">
+				<a href="{% url messages_index_new folder_now 'new' %}" {% ifequal show 'new' %}style="font-weight: bold"{% endifequal %}>Новые</a>
+			</div>
+		</td>
+	</tr>
+</table>
+{% endif %}
+<br />
+
+<table border="1">
+	<tr>
+		<th>Пользователь</th>
+		<th>Переписка</th>
+		<th>Действия</th>
+	</tr>
+	{% for c in communication %}
+		<tr>
+			{% ifequal c.author user %}
+				<td>{{ c.recipient }}</td>
+				<td>{{ c.show_users_with }}</td>
+				<td>
+					<div>переместить в папку:</div>
+					<form method="post">
+						<input type="hidden" name="action" value="change_folder">
+						<input type="hidden" name="communication_id" value="{{ c.id }}">
+							<select name="to_folder">
+							{% for key, value, count_people, count_mes, count_mes_new in folders %}
+								<option value="{{ key }}" {% ifequal c.folder_a key %}selected{% endifequal %} >{{ value }}</option>
+							{% endfor %} 
+							</select>
+						<input type="submit" value="ok">
+					</form>
+				</td>
+			{% else %}
+				<td>{{ c.author }}</td>
+				<td>{{ c.show_users_with }}</td>
+				<td>
+					<div>переместить в папку:</div>
+					<form method="post">
+						<input type="hidden" name="action" value="change_folder">
+						<input type="hidden" name="communication_id" value="{{ c.id }}">
+							<select name="to_folder">
+							{% for key, value, count_people, count_mes, count_mes_new in folders %}
+								<option value="{{ key }}" {% ifequal c.folder_r key %}selected{% endifequal %} >{{ value }}</option>
+							{% endfor %} 
+							</select>
+						<input type="submit" value="ok">
+					</form>
+				</td>
+			{% endifequal %}
+		</tr>
+	{% endfor %}
+</table>
+
+{% endblock content %}

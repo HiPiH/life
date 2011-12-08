@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% load compress_static %}
+
+{% block extrahead %}
+	{% static_add "js/calendar.js" "js/calendar-en.js" "js/set.js" "js/jquery-ui-1.7.3.custom.min.js" %}
+	{% static_add "css/cal.css" "css/jquery-ui-1.7.3.custom.css" %}
+{% endblock extrahead %}
+
+
+{% block content %}
+<script>
+$(function() {
+    $( "#meeting-begin" ).datepicker({
+			changeMonth: true,
+			changeYear: true,
+            yearRange: '1968:2006',
+            dateFormat: 'yy-mm-dd',
+            showOn: "button",
+            buttonImage: '/media/i/calendar.gif',
+			buttonImageOnly: true
+    });
+    $( "#meeting-end" ).datepicker({
+			changeMonth: true,
+			changeYear: true,
+            yearRange: '1968:2006',
+            dateFormat: 'yy-mm-dd',
+            showOn: "button",
+            buttonImage: '/media/i/calendar.gif',
+			buttonImageOnly: true
+    });
+});
+</script>
+<div class="view_opened">
+	<div class="title">
+		<div class="endblock">&nbsp;</div>
+		<h1>&laquo;{{ event }}&raquo;</h1>
+	</div>
+
+	<form method="POST" action="{{ post_url }}" enctype="multipart/form-data">
+	<div class="view_content">
+	<table border="0" class="forms">
+		{{ form.as_table }}			
+	</table>
+	
+	{% if meeting %}
+	<hr/>
+	{% if meeting.id %}
+		<h2>Существующая встреча:</h2>
+	{% else %}
+		<h2>Новая встреча:</h2>
+	{% endif %}
+	<table border="0" class="forms">
+		{{ meeting_form.as_table }}
+	</table>
+	{% endif %}
+	</div>
+	
+		
+	<div class="btn_submit"><input type="image" src="/media/i/btn_save_dark.gif"/></div>
+</form>
+</div>
+
+{% endblock %}

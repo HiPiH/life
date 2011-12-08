@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block javascripts %}
+<script type="text/javascript" src="/media/js/events_list.js"></script>
+<script type="text/javascript" src="/media/js/calendar.js"></script>
+<script type="text/javascript" src="/media/js/calendar-en.js"></script>
+<script type="text/javascript" src="/media/js/set.js"></script>
+{% endblock javascripts %}
+
+{% block style %}
+<link rel='stylesheet' type='text/css' href='/media/css/cal.css'>
+{% endblock style %}
+
+{% block content %}
+
+<form method="POST" action="{% url events_list %}">
+
+<strong>Показать события:</strong>
+<table border="1">
+	{{ filter.as_table }}
+<tr>
+	<td colspan="2"><input type="submit"/></td>
+</tr>
+</table>
+
+</form>
+
+{% for event in page.object_list %}
+	{% include 'events/include/event.html' %}
+{% endfor %}
+
+{% include 'paginator.html' %}
+
+{% endblock %}

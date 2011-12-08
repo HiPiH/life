@@ -1,0 +1,26 @@
+{% load thumbnail %}
+<div class="blue_link">
+<table>
+	<tr>
+	    <td valign="top">
+	    	<div style="margin: 0px 14px 14px 0px;">
+	    		{{ reply.author.get_avatar }}
+			</div>
+	   	</td>
+	    <td valign="top">
+	       <div style="margin: 4px 4px 0px 0px;"><nobr><a href="{{reply.author.get_absolute_url}}">{{ reply.author }}</a></nobr></div>
+	       <div class="date" style="margin: 4px 4px 0px 0px; font-size: 11px;">
+	           <nobr>
+		           {{ reply.adding_datetime|date }}, {{ reply.adding_datetime|time }}
+		           {% ifequal object.author user %}
+			           {% if reply.is_new %}
+			               <span style="color: #ff4500;">New</span>
+			           {% endif %}
+		           {% endifequal %}
+	           </nobr>
+	       </div>
+		   <div class="text" style="margin: 10px 0px 20px 0px;">{{ reply.body|safe|linebreaksbr }}</div></td>
+	</tr>
+</table>
+<div clas="endblock">&nbsp;</div>
+</div>

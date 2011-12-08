@@ -1,0 +1,105 @@
+﻿{% extends 'base.html' %}
+{% load messages thumbnail compress_static instant_messages %}
+
+{% block crums %}
+    <a href="/">Главная</a>
+{% endblock crums %}
+
+{% block extrahead %}
+	{% static_add 'css/post_list.css' %}
+	{% static_add 'js/events_list.js' %}
+{% endblock extrahead %}
+
+{% block content %}
+<div class="view_opened">
+	<div class="title">
+		<div class="endblock">&nbsp;</div>
+		<h1>{{ user_profile }}</h1>
+	</div>
+	<div class="view_content">
+
+
+<table border="0" width="100%" class="profile">
+<tr>
+	<td class="avatar">
+		{% thumbnail user_profile.avatar.image_orig 300x300 quality=80,crop as thumb %}
+		<img src="{{ thumb.absolute_url }}" title="{{ user_profile }}" alt="{{ user_profile }}" width="{{ thumb.width }}" height="{{ thumb.height }}"/>
+	</td>
+	<td valign="top">
+	<div class="rating"><div class="rating_value" style="width:{{ user_profile.rating_percent }}%"></div></div>
+	<dl class="user_info">
+	    <dt>Дата рождения:</dt><dd>{{ user_profile.birthday|date }}</dd>
+	    {% if user_profile.address %}<dt>Адрес:</dt><dd>{{ user_profile.address }}</dd>{% endif %}
+	    
+    </dl>
+    
+
+    <hr/>
+    <table class='statistics_event'>
+        <tr>
+            <td>Дата регистрации:</td>
+            <td>{{ user_profile.date_joined|date }}</td>
+        </tr>
+        <tr>
+            <td>Создал идей:</td>
+            <td>{{ events_created }}</td>
+        </tr>
+        <tr>
+            <td>Собрал посетителей:</td>
+            <td>{{ visiters_created }}</td>
+        </tr>
+    </table>
+    
+	<hr/>
+	<div class="buttons">
+{% if is_my_profile %}
+		<div><a href="{% url apps.accounts.views.profile_edit %}" class="btn2_edit">Редактировать</a></div>
+		<div><a href="{% url accounts_change_avatar %}" class="btn2_change_avatar">Сменить аватар</a></div>
+        {% if assistant_request %}
+            <div><a href="{% url assistenrequest_list %}" class="btn2_organizate_list_org_on">Список претендентов на моих помощников</a></div>
+        {% endif %}
+        {% if assistant_events %}
+            <div><a href="{% url assisten_list %}" class="btn2_organizate_event_list_on">Являюсь организатором событий</a></div>
+        
+        {% endif %}
+        <div><a href="{% url my_events_assistan_users_list %}" class="btn2_org_list">Заявки организаторов</a></div>
+
+
+
+		<div><a href="{% url events_friends %}" class="btn2_find_friends">Поиск друзей</a></div>
+{% else %}		
+     {% if in_friends %}
+     	<div><a href="{% url accounts_del_friend user_profile.id %}" class="btn2_del_friends">убрать из друзей</a></div>
+     {% else %}
+     	<div><a href="{% url accounts_add_friend user_profile.id %}" class="btn2_add_friends">добавить в друзья</a></div>
+     {% endif %}
+     {% if user_profile.is_blog_author %}
+		{% if is_my_profile %}
+			<div><a href="{% url blog_create_post user.username %}" class="btn2_add_post">добавить пост блога</a></div>
+		{% else %}
+     		<div><a href="{% url blog_post_list user_profile.username %}" class="btn2_view_blog">смотреть блог</a></div>
+     	{% endif %}
+     {% endif %}
+     
+     
+     <br/>{% message_to_user user_profile %}
+{% endif %}
+	</div>		
+    
+    
+    </td></tr></table>
+</div>
+</div>
+<br/>
+{% include "events/include/user_events.html" %}
+{% if user_profile.is_blog_author %}
+	{% include "blog/include/user_posts.html" %}
+{% endif %}
+{% endblock content %}
+
+{% block right_column %}
+	{% include "events/include/user_friends.html" %}	
+	
+    {% include "includes/right_calendar.html" %}
+	
+{% endblock right_column %}

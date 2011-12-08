@@ -1,0 +1,54 @@
+{% extends 'admin/change_list.html' %}
+{% load adminmedia admin_list i18n %}
+
+{% block extrastyle %}
+<link rel="stylesheet" type="text/css" href="/media/css/comments.css">
+{% endblock extrastyle %}
+{% block extrahead %}
+<script type="text/javascript" src="/media/js/comments.js"></script>
+{% endblock extrahead %}
+
+{% block content %}
+<div id="content-main">
+{% block object-tools %}
+{% if has_add_permission %}
+<ul class="object-tools"><li><a href="add/{% if is_popup %}?_popup=1{% endif %}" class="addlink">{% blocktrans with cl.opts.verbose_name as name %}Add {{ name }}{% endblocktrans %}</a></li></ul>
+{% endif %}
+{% endblock %}
+<div class="module{% if cl.has_filters %} filtered{% endif %}" id="changelist">
+{% block search %}{% search_form cl %}{% endblock %}
+{% block date_hierarchy %}{% date_hierarchy cl %}{% endblock %}
+
+{% block filters %}
+{% if cl.has_filters %}
+<div id="changelist-filter">
+<h2>{% trans 'Filter' %}</h2>
+{% for spec in cl.filter_specs %}
+   {% admin_list_filter cl spec %}
+{% endfor %}
+</div>
+{% endif %}
+{% endblock %}
+
+{% block result_list %}{% result_list cl %}{% endblock %}
+{% block pagination %}{% pagination cl %}{% endblock %}
+</div>
+</div>
+<div id="author_control" onMouseOver="clearTimeout(t)" onMouseOut="t=setTimeout('trig_close_control()', 200)">
+<form id="banform" method=GET action="/accounts/ban/">
+<input type="hidden" name="next" value="">
+<div style="width: 100%; text-align: left;">
+</div>
+<div style="width: 100%; text-align: left;">
+<div style="margin: 5px 5px 5px 5px; border: 1px solid Gray">
+<div style="margin: 5px 5px 5px 5px;">
+<input type="checkbox" name="ip" value="">по IP<br>
+      {#<input type="checkbox" name="email" value="">по E-mail<br>#}
+      <input type="checkbox" name="username" value="">по нику<br>
+   </ul>
+   <div style="width: 100%; text-align: right"><input type="submit" value="Ok"></div>
+</div>
+</div>
+</form>
+</div>
+{% endblock %}

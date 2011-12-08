@@ -1,0 +1,96 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2009-06-03 13:11+0400\n"
+"PO-Revision-Date: 2009-05-20 13:00+0300\n"
+"Last-Translator: Doberman <doberman_company@mail.ru>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: __init__.py:3
+msgid "Comments"
+msgstr "Комментарии"
+
+#: forms.py:11 forms.py:17 models.py:17 models.py:68
+msgid "body"
+msgstr "текст"
+
+#: models.py:15 models.py:66 models.py:134
+msgid "author"
+msgstr "автор"
+
+#: models.py:16 models.py:67
+msgid "publishing date"
+msgstr "дата"
+
+#: models.py:18 models.py:69
+msgid "published"
+msgstr "опубликован"
+
+#: models.py:25
+msgid "recall"
+msgstr "ответ"
+
+#: models.py:26
+msgid "recalls"
+msgstr "ответы"
+
+#: models.py:60 models.py:126
+msgid "theme"
+msgstr "тема"
+
+#: models.py:73 models.py:149
+msgid "IP address"
+msgstr "IP адрес"
+
+#: models.py:80
+msgid "comment"
+msgstr "комментарий"
+
+#: models.py:81
+msgid "comments"
+msgstr "комментарии"
+
+#: templates/admin/comments/commentnode/change_list.html:15
+#, python-format
+msgid "Add %(name)s"
+msgstr ""
+
+#: templates/admin/comments/commentnode/change_list.html:25
+msgid "Filter"
+msgstr "фильтр"
+
+#: templates/admin/comments/commentnode/delete_confirmation.html:6
+msgid "Home"
+msgstr "Главная"
+
+#: templates/admin/comments/commentnode/delete_confirmation.html:10
+msgid "Delete"
+msgstr "Удалить"
+
+#: templates/admin/comments/commentnode/delete_confirmation.html:16
+#, python-format
+msgid ""
+"Deleting the %(object_name)s '%(escaped_object)s' would result in deleting "
+"related objects, but your account doesn't have permission to delete the "
+"following types of objects:"
+msgstr ""
+
+#: templates/admin/comments/commentnode/delete_confirmation.html:23
+#, python-format
+msgid ""
+"Are you sure you want to delete the %(object_name)s \"%(escaped_object)s\"? "
+"All of the following related items will be deleted:"
+msgstr ""
+
+#: templates/admin/comments/commentnode/delete_confirmation.html:32
+msgid "Yes, I'm sure"
+msgstr "Да, я уверен"

@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block style %}
+    <link rel="stylesheet" type="text/css" href="/media/css/blog.css">
+{% endblock style %}
+{% block content %}
+
+<h1>{{ author }}</h1>
+<div class="endblock">&nbsp;</div>
+
+
+<div class=blogblock>
+
+
+
+    <div><a href="{{ back_link }}">К списку блогов</a></div>
+    <div style="float: left;">{{ author.get_avatar|safe }}</div>
+    {% if validuser %}<div><a href="{% url blog_create_post user.username %}">Создать статью</a></div>{% endif %}
+    <div style="clear: both"></div>
+    <div><a href="{{user.get_absolute_url}}">Личная страница автора</a></div>
+    
+    {% if author.website %}<div><a href="{{ author.website }}">Официальная страница автора</a></div>{% endif %}
+    {% for post in page.object_list %}
+    <div style="clear: both"></div>
+    <div style="margin-top: 10px">
+    {% include "blog/post_entry.html" %}
+    </div>
+    {% endfor %}
+    {% include 'paginator.html' %}
+    <div style="clear: both"></div>
+</div>
+{% endblock %}

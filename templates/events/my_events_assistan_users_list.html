@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="view_opened">
+	<div class="title">
+		<div class="endblock">&nbsp;</div>
+		<h1>Организаторы моих событий</h1>
+	</div>
+</div>
+
+<div class="event_list">
+
+<table class="assistant_list">
+	<tr>
+		<th>Мероприятие</th>
+        <th>Пользователь</th>
+	</tr>
+	{% for event in events %}
+	<tr>
+		<td><a href="{{ event.get_absolute_url }}">{{ event.title }}</a></td>
+        <td>
+            {% for assistant in event.assistents.all %}
+                <a href="{% url accounts_profile assistant.username %}">{{ assistant.username }} </a><br />
+            {% endfor %}
+        </td>
+	</tr>
+	{% empty %}
+	<tr>
+		<td><strong>Список пуст</strong></td>
+	</tr>
+	{% endfor %}
+</table>
+
+</div>
+
+{% endblock %}

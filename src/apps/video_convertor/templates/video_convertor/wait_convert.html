@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% load compress_static %}
+
+{% block extrahead %}
+	{% static_add "js/kajax.js" %}
+	{% static_add 'video_convertor/wait.js' %}
+	{% static_add 'video_convertor/wait.css' %}	
+{% endblock extrahead %}
+
+{% block content %}
+<div class="view_opened">
+	<div class="title">
+		<div class="endblock">&nbsp;</div>
+		<h1>Обработка видио</h1>
+	</div>
+	<div class="view_content">
+		Загрузка: <strong>успешно</strong><br/><br/>
+		Статус: <strong id="jq_convert_status">ожидание очереди</strong>		
+		<br/><br/>
+		<a href="{{ video.get_absolute_url }}" id="jq_view_video" style="color:yellow">Смотреть видео</a>
+		<span id="jq_video_error" class="error">Формат загруженного файла не обслуживается  в данный момент. Свяжитесь с техническими специалистами администрации сайта, скорее всего проблему можно будет решить. Приносим свои извинения за неудобства, администрация сайта.</span>
+		<br/><br/>
+		<a href="{{ video.owner.get_absolute_url }}">Вернуться</a>
+	</div>&nbsp;
+</div>
+<script type="text/javascript">
+	var waiter = new AjaxWaitConvert('{% url video_ajax %}',{{ video.id }});
+	waiter.init();	
+</script>
+{% endblock content %}

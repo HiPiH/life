@@ -1,0 +1,124 @@
+{% extends 'base.html' %}
+{% load thumbnail messages compress_static %}
+
+{% block extrahead %}
+	{% static_add "js/events_list.js" %}
+	{% static_add "js/calendar.js" %}
+	{% static_add "js/calendar-en.js" %}
+	{% static_add "js/set.js" %}
+	{% static_add "js/event_invite_list.js" %}
+	{% static_add "css/cal.css" "css/user_list.css" %}
+{% endblock extrahead %}
+
+{% block content %}
+
+{% if cp_events.has_new_friends %}
+<div class="view_opened">
+	<div class="title">
+		<div class="endblock">&nbsp;</div>
+		<h1>Вас приглашают в друзья</h1>
+	</div>
+	
+	<div class="view_opened">
+		<table border="0">
+		    {% for friend in cp_events.has_new_friends %}
+		        <tr>                    	
+		            <td width="150px">
+		            <a href="{{ friend.user.get_absolute_url }}">{{ friend.user.get_avatar|safe }}</a>
+		                <a href="{{ friend.user.get_absolute_url }}">{{ friend.user }}</a>
+		              <br/>
+		            {% if friend.accepted %}
+					<br/>{% tag_messages_with user.username friend.user.username %}
+					{% endif %}              
+		            </td>
+		            <td>
+			           {% if not friend.accepted %}
+							<div style="color: Red">не подтверждено</div>
+					   {% endif %}
+					   {% if friend.required_my_acception %}
+							<a href="{% url accounts_accept_friend friend.user.id %}">Подтвердить</a><br/>
+			           {% endif %}
+		                <a href="{% url accounts_del_friend friend.user.id %}" class="notbold red">Удалить</a>
+		            </td>
+		            <td>
+		            	
+		            </td>
+		        </tr>
+		        <tr><td colspan="2">&nbsp;</td></tr>
+		    {% endfor %}
+		</table>
+	</div>
+</div>
+{% endif %}
+
+<div class="view_opened{% if cp_events.has_new_friends %} inside{% endif %}">
+	<div class="title">
+		<div class="endblock">&nbsp;</div>
+		<span class="open"></span>
+		<h1>Поиск пользователя</h1>
+	</div>
+	<div class="view_content">
+		{% if big_url %}
+		<form method="POST" action=".">
+		{% else %}
+		<form method="POST" action="{% url events_list %}">
+		{% endif %}
+		<table border="0">
+			<tr>
+				<td align="right">Имя:</td>
+				<td>{{ filter.string }}</td>
+			</tr>
+			<tr>
+				<td align="right">Возраст:</td>
+				<td>{{ filter.age }}</td>
+			</tr>
+			<tr>
+				<td align="right">Адрес:</td>
+				<td>{{ filter.address }}</td>
+			</tr>
+		</table>
+		
+		<div class="endblock">&nbsp;</div>
+		<div class="btn_search"><input type="image" src="/media/i/btn_search.gif" value="найти"/></div>				
+		</form>
+	</div>
+	&nbsp;
+</div>
+
+{% if user.is_authenticated %}
+<ul class="event_filter">
+	{% if big_url %}
+		<li{% ifequal target "all" %} class="selected"{% endifequal %}><a href="../all/" class="all_users">Все пользователи</a></li>
+		<li class="nosep{% ifequal target "friends" %} selected{% endifequal %}"><a href="../friends/" class="my_friends">Только мои друзья</a></li>
+	{% else %}
+		<li class="selected_first"><a href="{% url events_friends %}" class="all_users">Все пользователи</a></li>
+		<li class="nosep"><a href="{% url events_friends_my %}" class="my_friends">Только мои друзья</a></li>
+	{% endif %}
+</ul>
+{% endif %}	
+
+
+<div class="order_input"></div>
+
+
+<div class="user_list">
+{% for u in page.object_list %}
+	<div class="userbg"><div class="endblock">&nbsp;</div><div class="user">
+		<div class="info">
+			<div class="rating">
+				<div class="rating_value" style="width:{{ u.rating_percent }}%"></div>
+			</div>
+			<a href="{{ u.get_absolute_url }}">{{ u }}</a><br/>
+			Дата рождения: {{ u.birthday|date }}<br/>
+			{% if u.address %}Адрес: {{ u.address }}<br/>{% endif %}
+		</div>
+		<div class="photo">{{ u.get_avatar }}</div>
+	</div>&nbsp;</div>
+{% empty %}
+	пользователей не найдено
+{% endfor %}
+</div>
+
+{% include 'paginator.html' %}
+
+{% endblock %}

@@ -1,0 +1,29 @@
+<div id="ajax-notice"></div>
+
+{% if flash.notice %}
+    <div class="flash-notice" align="center">
+      {{ flash.notice }}
+    </div>
+    <script>
+        function CloseIdSystemMessage()
+        {
+            $(".flash-notice").slideUp('slow');
+        }
+        setTimeout(CloseIdSystemMessage, 4000);
+    </script>
+
+{% endif %}
+
+{% if flash.error %}
+    <div class="flash-error" align="center">
+        <h3>Ошибка:</h3>
+        {{ flash.error }}
+    </div>
+    <script>
+        function CloseIdSystemMessage()
+        {
+            $(".flash-error").slideUp('slow');
+        }
+        setTimeout(CloseIdSystemMessage, 4000);
+    </script>
+{% endif %}

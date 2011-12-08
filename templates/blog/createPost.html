@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% load compress_static %}
+
+{% block extrahead %}
+    <script type="text/javascript" src="/media/fckeditor/fckeditor.js"></script>
+    <script type="text/javascript" src="/media/fckeditor/_media/frontend_textarea_all.js"></script>
+    {% static_add 'css/blog.css' %}
+{% endblock extrahead %}
+
+{% block content %}
+<div class="view_opened">
+	<div class="title">
+		<div class="endblock">&nbsp;</div>
+		<h1>Добавить запись блога</h1>
+	</div>
+	<form action="" method=POST>
+	<div class="view_content">
+	    <a href="{{ back_link }}">К списку</a>
+        <table width="100%">
+        {% for field in form %}
+            {% if field.help_text %}<tr><td colspan=2>{{ field.help_text }}</td></tr>{% endif %}
+            {% if field.errors %}<tr><td class="myerror" colspan=2>{{ field.errors }}<tr><td>{% endif %}
+            <tr><th align=left><label for="id_{{field.name}}">{{ field.label_tag }}</label></th><tr>
+            <td width=100%>{{ field }}</td>
+            </tr>
+        {% endfor %}
+        <tr>
+        <td colspan=2 align=right>
+            <input type=submit><input type=reset>
+        </td>
+        </tr>
+        </table>
+    </div>
+    </form>
+</div>&nbsp;
+{% endblock content %}

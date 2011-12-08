@@ -1,0 +1,5 @@
+{% if self %}
+<div><a href="{{ base_url }}{{ self.address }}.html" target="_blank">{{ base_url }}{{ self.address }}.html</a></div>
+{% else %}
+<div style="color: #ff2400;">ошибка</div>
+{% endif %}

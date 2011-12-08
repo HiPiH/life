@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block metatitle %}{% if page.seo_title %}{{page.seo_title}}{% else %}{{ page.title }}{% endif %}{% endblock %}
+{% block metadescription %}{{page.seo_description}}{% endblock %}
+{% block metakeywords %}{{page.seo_keywords}}{% endblock %}   
+
+{% block crumbs %}                    
+    <a href="/">{% trans 'Home page' %}</a> &gt; {{ page.title }}
+{% endblock crumbs %}
+
+{% block content %}
+<h1>{{ page.title }}</h1>
+<div id="textes">
+    {% autoescape off %}
+    {{ page.content }}
+    {% endautoescape %}
+</div>
+<div class="endblock">&nbsp;</div>
+
+{% endblock content %}

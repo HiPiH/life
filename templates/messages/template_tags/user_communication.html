@@ -1,0 +1,7 @@
+<a href="javascript: void(0);" onclick="window.open('{% url messages_list communication.id %}', '', 'width=600,height=610,scrollbars=no'); return false;">Написать сообщение</a>
+ ({% ifequal communication.author now_user %}
+ 		<span style="color: #c3751a; font-weight: bold;">{{ communication.count_mes_a_new }}</span>
+ 		/ {{ communication.count_mes_a }}
+	{% else %}
+ 		<span style="color: #c3751a; font-weight: bold;">{{ communication.count_mes_r_new }}</span>
+ 		/ {{ communication.count_mes_r }}{% endifequal %})

@@ -1,0 +1,16 @@
+{% if invite.deleted %}
+	<font color="red">Удалено</font>
+{% else %}
+	{% if invite.is_new %}
+		<a href="{% url ajax_invite_action_accept invite.id %}" style="color:yellow" onclick="return send_ajax(this, {{ invite.id }})">я пойду</a> |
+		<a href="{% url ajax_invite_action_reject invite.id %}" style="color:red" onclick="return send_ajax(this, {{ invite.id }})">я не пойду</a>
+	{% endif %}
+	{% if invite.is_rejected %}
+		<a href="{% url ajax_invite_action_accept invite.id %}" style="color:yellow" onclick="return send_ajax(this, {{ invite.id }})">я пойду</a>
+		| <a href="{% url ajax_invite_action_delete invite.id %}" onclick="return send_ajax(this, {{ invite.id }})">удалить</a>
+	{% endif %}
+	{% if invite.is_accepted %}
+		<a href="{% url ajax_invite_action_reject invite.id %}" style="color:red" onclick="return send_ajax(this, {{ invite.id }})">я не пойду</a>
+		| <a href="{% url ajax_invite_action_delete invite.id %}" onclick="return send_ajax(this, {{ invite.id }})">удалить</a>
+	{% endif %}
+{% endif %}

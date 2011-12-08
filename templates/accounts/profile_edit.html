@@ -1,0 +1,68 @@
+﻿{% extends 'base.html' %}
+
+{% load compress_static %}
+
+{% block extrahead %}
+	{% static_add "js/calendar.js" "js/calendar-en.js" "js/set.js" "js/jquery-ui-1.7.3.custom.min.js" %}
+	{% static_add "css/cal.css" "css/jquery-ui-1.7.3.custom.css" %}
+{% endblock extrahead %}
+
+{% block crums %}
+    <a href="/">Главная</a> &gt;
+    <a href="{{ user.get_absolute_url }}">Профиль</a> &gt;
+    <a href="{% url apps.accounts.views.profile_edit %}">Редактирование</a>
+{% endblock crums %}
+
+{% block content %}
+<script>
+$(function() {
+    $( "#birthday" ).datepicker({
+			changeMonth: true,
+			changeYear: true,
+            yearRange: '1968:2006',
+            dateFormat: 'yy-mm-dd',
+            showOn: "button",
+            buttonImage: '/media/i/calendar.gif',
+			buttonImageOnly: true
+    });
+});
+</script>
+<div class="view_opened">
+<form method="post" action="{% url apps.accounts.views.profile_edit %}">
+	<div class="title">
+		<div class="endblock">&nbsp;</div>
+		<h1>Изменение профиля</h1>
+	</div>
+	<div class="view_content">
+	
+	<div class="forms">
+	        <table>
+	            {{ edit_form.as_table }}
+	        </table>
+	        <input type="hidden" name="action" value="editprofile">
+	</div></div>
+    <div class="btn_submit"><input type="image" src="/media/i/btn_save_dark.gif" value="Сохранить"></div>
+</form>
+</div>
+
+<div class="view_opened inside">
+    <form method="post" action="{% url apps.accounts.views.profile_edit %}">
+	<div class="title">
+		<div class="endblock">&nbsp;</div>
+		<h1>Смена пароля</h1>
+	</div>
+	<div class="view_content">
+
+	<div class="forms">
+	        <table>
+	            {{ edit_formPass.as_table }}
+	        </table>
+	        {% if passworderr %}<div class="errorlist">{{ passworderr }}</div>{% endif %}
+	        <input type="hidden" name="action" value="changepass">
+	</div></div>
+    <div class="btn_submit"><input type="image" src="/media/i/btn_save_dark.gif" value="Сохранить"></div>
+</form>
+</div>
+
+
+{% endblock content %}

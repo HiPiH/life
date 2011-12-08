@@ -1,0 +1,18 @@
+﻿{% if not page.isOne %}
+<div class="jq_ajax_paginator">
+    <!-- PAGINATOR -->
+    <div class="paginator">
+    <table><tr>
+            {% if page.has_previous %}<td><div class="page_prev"><a href="{{ajax_url}}{{page.previous_page_number}}.html"></a></div></td>{% endif %}
+            {% for p in page.pageList %}
+                {% ifequal p page.number %}
+                    <td><div class="page_now">{{p}}</div></td>
+                {% else %}
+                    <td><div class="page"><a href="{{ajax_url}}{{p}}.html">{{p}}</a></div></td>
+                {% endifequal %}
+            {% endfor %}
+            {% if page.has_next %}<td><div class="page_next"><a href="{{ajax_url}}{{page.next_page_number}}.html"></a></div></td>{% endif %}
+    </tr></table>
+    </div>
+</div>
+{% endif %}

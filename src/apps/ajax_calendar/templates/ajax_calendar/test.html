@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+       <!-- CALENDAR -->
+       <div id="calendar">
+           <h1>Банкеты и праздники</h1>
+           <div align="center">
+               {% include 'ajax_calendar/includes/block.html' %}
+           </div>
+       </div>
+       <!-- /CALENDAR -->
+{% endblock content %}

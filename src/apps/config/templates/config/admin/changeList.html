@@ -1,0 +1,33 @@
+{% extends "admin/base_site.html" %}
+{% load adminmedia admin_list i18n %}
+{% block extrahead %}
+    <script language="javascript" type="text/javascript" src="/media/fckeditor/fckeditor.js"></script>
+    <script language="javascript" type="text/javascript" src="/media/fckeditor/_media/textarea_all.js"></script>
+{% endblock %}
+
+{% block bodyclass %}change-list{% endblock %}
+{% if not is_popup %}
+	{% block breadcrumbs %}<div class="breadcrumbs"><a href="../../">{% trans "Home" %}</a> &rsaquo;
+	Параметры проекта</div>
+	{% endblock %}
+{% endif %}
+{% block coltype %}flex{% endblock %}
+
+
+{% block content %}
+<h1>Параметры &laquo;{{classTitle}}&raquo;</h1>
+<div id="content-main">
+
+<form method="post" enctype="multipart/form-data">
+<fieldset class="module aligned">
+<table>
+{{ test.as_table }}
+</table>
+</fieldset>
+<div class="submit-row">
+<input type="submit" value="Сохранить и продолжить редактирование" name="_continue" />
+<input type="submit" value="Сохранить" class="default" />
+</div>
+</form>
+</div>
+{% endblock %}

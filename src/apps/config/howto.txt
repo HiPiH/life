@@ -1,0 +1,37 @@
+Как подключить project_settings к проекту:
+
+1. SVN Ceckout svn://web-mark.ru/django/apps/project_settings/trunk
+    или прописываем svn:external для проекта
+    "project_settings        svn://web-mark.ru/django/apps/project_settings/trunk"
+2. Пример создания конфига для "accounts.views":
+---------------------------------------------------------------------
+from django.utils.translation import ugettext as _
+from project_settings import property
+
+class Config(property.Container):
+    _title = _('Authorize')
+    moderation=property.Bool(default=True, title=_('moderation'))
+    tplRegOk = property.Text(title=_('accept registration template'), default = 'шаблон подтверждения аккаунта 123\r\n\r\n{{Login}}\r\n{{Name}}\r\n{{Email}}\r\n%%MobPhone%%\r\n%%OrgPhone%%')
+    tplRegReject = property.Text(title=_('reject registration template'), default = 'шаблон отклонения аккаунта\r\n\r\n{{Login}}\r\n{{Name}}\r\n{{Email}}\r\n%%MobPhone%%\r\n%%OrgPhone%%')
+    
+config = Config()
+
+---------------------------------------------------------------------
+3. Регистрация конфига в settings.py:
+PROJECT_SETTINGS = (
+..................................
+    "accounts.views.config",
+..................................
+)
+4. Подключение к системе администрирования:
+    В файле t/admin/index.html дописать "{% include 'project_settings/admin/menu.html' %}"
+    сразу после цикла "{% for app in app_list %}"
+   
+5. Подключить в главный urls.py следующую строчку.
+    (r'^admin/project_settings/', include('project_settings.admin.urls')),
+    обязательно поставить ее до строк подключения самой админки.
+
+PS: В будущем подключем этот модуль к стартовому проекту и не нужно будет его подключать.
+
+Коваленко Павел (ice.tegliaf@gmail.com)
+

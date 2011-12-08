@@ -1,0 +1,10 @@
+<p class="select_date"><input type="text" id="{{ name }}" name="{{ name }}" value="{{ value }}" readonly>
+<a href="javascript:void()" id="trigger{{ name }}"><img src="/media/i/calendar.gif" width="16" height="16" border="0"/></a>
+<script type="text/javascript">
+  Calendar.setup(
+    {
+      {{ str_args|safe }}
+    }
+  );
+</script>
+</p>

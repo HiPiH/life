@@ -1,0 +1,17 @@
+<div class="view_opened inside">
+	<div class="title">
+		<div class="endblock">&nbsp;</div>
+		<h1>Блог</h1>
+	</div>
+</div>
+
+<div class="post_list">
+{% for post in page.object_list %}
+	{% include "blog/post_entry.html" %}
+{% empty %}
+	событий не найдено
+{% endfor %}
+</div>
+
+{% include 'paginator_ajax.html' %}
+&nbsp;

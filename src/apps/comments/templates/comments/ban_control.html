@@ -1,0 +1,4 @@
+<div>
+    <input style="" type="button" value="Удалить" onclick="javascript: location.href='/admin/comments/commentnode/{{ comment.id }}/delete/'"><br>
+    <input style="" type="button" value="Удалить и забанить" onclick="trig_author_control(this, '{{ comment.ip_address }}', '{{ comment.author.email }}', '{{ comment.author.username }}', '{{ comment.id }}')">
+</div>

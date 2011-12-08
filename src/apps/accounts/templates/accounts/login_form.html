@@ -1,0 +1,26 @@
+﻿    {% if not LoginPage %}
+        <!-- LOGIN FORM -->
+        <div id="loginform">
+            <form method="post" action="{% url apps.accounts.views.login_user %}">
+                <h2>Вход для пользователя</h2>
+                <table>
+                    <tr>
+                        <td>Логин:</td>
+                        <td><input type="text" name="username" class="textpole"></td>
+                    </tr>
+                    <tr>
+                        <td>Пароль:</td>
+                        <td><input type="password" name="password" class="textpole"></td>
+                    </tr>
+                    <tr>
+                        <td><input type="submit" value="Вход" class="submit_button"></td>
+                        <td align="right">
+                            <p><a href="{% url apps.accounts.views.forgot_password %}">Забыли пароль?</a></p>
+                            <p><a href="{% url apps.accounts.views.registration %}">Регистрация</a></p>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+        <!-- /LOGIN FORM -->
+    {% endif %}

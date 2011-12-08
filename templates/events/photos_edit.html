@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% load thumbnail compress_static %}
+
+{% block javascripts %}
+	{#% static_add js/photo_add.js %#}
+{% endblock javascripts %}
+
+
+{% block content %}
+<div class="view_opened">
+	<div class="title">
+		<div class="endblock">&nbsp;</div>
+		<h1>Фоторгафии &laquo;<a href="{{ event.get_absolute_url }}">{{ event }}</a>&raquo;</h1>
+	</div>
+	<div class="view_content">
+
+{% for photo in page.object_list %}
+		<dl id="jq_photo_{{ photo.id }}" class="photo_in_list">
+			<dd>
+				<strong>{{ photo.title }}</strong>
+				<div class="author">Автор: <a href="{{ photo.author }}">{{ photo.author }}</a></div>
+				<div class="date">Добавлена: {{ photo.created|time }} / {{ photo.created|date }}</div>			
+				<a href="{% url ajax_btn_photo_delete photo.id %}" onclick="return delete_photo(this, {{ photo.id }})">Удалить</a>
+			</dd>
+			<dt>
+				{% thumbnail photo.photo 160x120 quality=80,crop as thumb %}
+				{% thumbnail photo.photo 800x800 quality=80 as thumb2 %}
+				<a href="{{ thumb2.absolute_url }}" target="_blank"><img src="{{ thumb.absolute_url }}" title="{{ photo }}" alt="{{ photo }}" width="{{ thumb.width }}" height="{{ thumb.height }}"/></a>
+			</dt>
+		</dl>
+		<hr/>
+{% empty %}
+	В данный момент фотографий не загружено.
+	<hr/>
+{% endfor %}
+	<a href="{{ event.get_absolute_url }}">К событию</a>
+	{% if event.can_i_add_photo %}
+		| <a href="{% url event_photo_add event.id %}">добавить фото</a>
+	{% endif %}
+</div></div>
+
+{% include 'paginator.html' %}
+
+{% endblock content %}

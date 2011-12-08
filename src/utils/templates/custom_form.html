@@ -1,0 +1,17 @@
+{% if top_errors %}
+<tr>
+	<td colspan="2">{{ top_errors }}</td>
+</tr>
+{% endif %}
+{% for field in fields %}
+<tr>	
+	<th class="form-label {% if field.field.required %}required{% endif %}">{% if field.field.required %}<span>*</span> {% endif %}{{ field.label }}:</th>
+	<td>
+		{{ field.errors }}
+		{{ field|safe }}
+		{% if field.help_text %}
+		<div class="help_text">{{ field.help_text }}</div>
+		{% endif %}
+	</td>
+</tr>
+{% endfor %}

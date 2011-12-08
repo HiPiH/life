@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+	{% load compress_static %}
+
+{% block extrahead %}
+	{% static_add "js/calendar.js" %}
+	{% static_add "js/calendar-en.js" %}
+	{% static_add "js/set.js" %}
+	{% static_add 'css/cal.css' %}
+{% endblock extrahead %}
+
+
+{% block content %}
+<div class="view_opened">
+	<div class="title">
+		<div class="endblock">&nbsp;</div>
+		<h1>Создание события</h1>
+	</div>
+	<form method="POST" action="{% url events_create %}" enctype="multipart/form-data">
+	<div class="view_content">
+
+	<table border="0" class="forms">
+		{{ form.as_table }}
+	</table></div>
+	<div class="btn_submit"><input type="image" src="/media/i/btn_create.gif"/><br/><br/></div>
+	</form>
+</div>
+
+{% endblock %}

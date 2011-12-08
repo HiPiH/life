@@ -1,0 +1,76 @@
+{% load thumbnail %}
+{% with meeting.event as event %}
+<div class="eventbg"><div class="endblock">&nbsp;</div><div class="event">
+	<div class="photo">
+	{% if event.get_photo %}
+                {% thumbnail event.get_photo 160x120 quality=80,crop as thumb %}
+		<a href="{{ meeting.get_absolute_url }}"><img src="{{ thumb.absolute_url }}" title="{{ self }}" alt="{{ self }}" width="{{ thumb.width }}" height="{{ thumb.height }}"/></a>
+	{% else %}
+		<a href="{{ meeting.get_absolute_url }}"><img src="/media/i/nophoto.jpg" title="{{ self }}" alt="{{ self }}" width="{{ thumb.width }}" height="{{ thumb.height }}"/></a>
+	{% endif %}	
+	</div>
+	<div class="info">
+		<div class="title"><a href="{{ meeting.get_absolute_url }}">{{ event.title }}</a></div>
+		<div class="right1">
+			{% if event.is_idea_state %}				
+				<div class="jq_idea_rang">
+					{% if event.can_i_set_rating %}
+					<a href="{% url ajax_idea_rang_mins event.id %}" class="idea_mins">&darr;</a>
+					<a href="{% url ajax_idea_rang_plus event.id %}" class="idea_plus">&uarr;</a>
+					{% endif %}
+					{{ event.idea_rang }}
+				</div>
+			{% endif %}
+			{% if event.is_complite_state %}
+				<div class="rating">
+					<div class="rating_value" id="jq_rating_value_{{ event.id }}" style="width:{{ event.rating_percent }}%"></div>
+				{% if event.can_i_set_rating %}
+					<div id="hide_if_vote_{{ event.id }}">
+					<a class="start1" href="{% url ajax_event_rating event.id 1 %}" onclick="return rating(this, {{ event.id }})"></a>
+					<a class="start2" href="{% url ajax_event_rating event.id 2 %}" onclick="return rating(this, {{ event.id }})"></a>
+					<a class="start3" href="{% url ajax_event_rating event.id 3 %}" onclick="return rating(this, {{ event.id }})"></a>
+					<a class="start4" href="{% url ajax_event_rating event.id 4 %}" onclick="return rating(this, {{ event.id }})"></a>
+					<a class="start5" href="{% url ajax_event_rating event.id 5 %}" onclick="return rating(this, {{ event.id }})"></a>
+					</div>
+				{% endif %}
+				</div>
+			{% endif %}
+		</div>
+		<div class="left1">
+			<div class="category"><a href="{{ event.category.get_absolute_url }}">{{ event.category }}</a></div>
+			<div class="date">
+				{% if meeting.is_equal_date %}
+					{% if meeting.is_equal_time %}
+						{{ meeting.begin|date }} {{ meeting.begin|time }}
+					{% else %}
+						{{ meeting.begin|date }} c {{ meeting.begin|time }} по {{ meeting.end|time }}
+					{% endif %}
+				{% else %}
+					c {{ meeting.begin|date }} по {{ meeting.end|date }}
+				{% endif %}			
+			</div>
+		</div>
+		<dl class="place">
+		{% if meeting.address %}
+			<dt>Адрес:</dt>
+			<dd>{{ meeting.address }}</dd>
+		{% endif %}
+		{% if meeting.place %}
+			<dt>Место:</dt>
+			<dd>{{ meeting.place }}</dd>
+		{% endif %}
+		</dl>
+		{% if event.visiters_count %}
+		<dl class="place">
+			<dt>Идут:</dt>
+			<dd><a href="{% url event_visiters event.id %}">{{ event.visiters_count }}</a>
+			(из них моих друзей <a href="{% url event_my_friends_visiters event.id %}">{{ event.my_friends_visiters_count }}</a>)</dd>
+		</dl>
+		{% endif %}
+		<div class="jq_btn_visit_toggle">
+		{% include 'events/ajax/btn_visit_toggle.html' %}
+		</div>
+	</div>
+<div class="endblock">&nbsp;</div>
+</div><div class="endblock">&nbsp;</div></div>
+{% endwith %}

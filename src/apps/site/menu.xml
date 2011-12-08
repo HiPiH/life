@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<item>
+	<childs>
+			<item name="Идеи">
+				<url name="events_idea"/>
+				<view name="apps.events.views.idea"/>
+			</item>
+			<item name="События">
+				<url name="events_list">
+					<is_archive value=""/>
+				</url>
+				<view name="apps.events.views.index"/>
+				<view name="apps.events.views.list">
+					<is_archive value_ne="1"/>
+				</view>
+				<view name="apps.events.views.one"/>
+				<view name="apps.events.views.create"/>
+				<view name="apps.events.views.edit"/>
+				<view name="apps.events.views.visiters"/>
+				<view name="apps.events.views.my_friends_visiters"/>
+				<view name="apps.events.views.invite_list"/>
+				<view name="apps.events.views.photos_edit"/>
+				<view name="apps.events.views.photo_add"/>
+			</item>
+		
+			<item name="TOP">
+				<url name="events_top_idea"/>
+				<view name="apps.events.views.top"/>
+			</item>
+			
+			<item name="Архив">
+				<url name="events_list">
+					<is_archive value="1"/>
+				</url>
+				<view name="apps.events.views.list">
+					<is_archive value="1"/>
+				</view>
+			</item>
+						
+<!--			
+			<item name="Профиль">
+				<url name="myprofile"/>
+				<view name="apps.accounts.views.myprofile"/>
+				<view function="apps.accounts.views.check_profile_menu_state"/>
+			</item>
+			<item name="Сообщения">
+				<url name="messages_index"/>
+				<view name="apps.messages.views.[\w+]"/>
+			</item>
+			<item name="Друзья">
+				<url name="events_friends"/>
+				<view name="apps.events.views.friends"/>
+				<view name="apps.accounts.views.myfriends"/>
+				<view name="apps.accounts.views.addfriend"/>
+				<view name="apps.accounts.views.delfriend"/>
+			</item>
+-->			
+	</childs>
+</item>

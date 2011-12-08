@@ -1,0 +1,205 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<link rel="SHORTCUT ICON" href="/media/i/favicon.ico"/>
+		<title>{% block metatitle %}{{ cp_config.access.apps__site__config__Config.seo_title|safe }}{% endblock %}</title>
+		<meta name="description" content="{% block metadescription %}{{ cp_config.access.apps__site__config__Config.seo_description|safe }}{% endblock metadescription %}" />
+		<meta name="keywords" content="{% block metakeywords %}{{ cp_config.access.apps__site__config__Config.seo_keywords|safe }}{% endblock metakeywords %}" />      
+		{% spaceless %}
+		{% load compress_static %}
+		<script type="text/javascript" src="/media/js/jquery-1.3.2.min.js"></script>
+		<script type="text/javascript" src="/media/js/jquery.cookie.js"></script>
+		<script type="text/javascript" src="/media/js/jquery.scrollTo-min.js"></script>
+		
+		{% static_add "js/captcha.js" %}
+		{% static_add "js/ajax_calendar.js" %}
+		{% static_add "js/views.js" %}
+                {% static_add "js/jquery-ui-1.7.3.custom.min.js" %}
+                
+        
+		{% static_add "css/base.css" %}
+		{% static_add "css/ajax_calendar.css" %}
+                {% static_add "css/jquery-ui-1.7.3.custom.css" %}
+
+        {% block javascripts %}{% endblock javascripts %}
+        {% block style %}{% endblock style %}
+		{% block extrahead %}{% endblock extrahead %}
+		{% static_compile css %}
+		{% static_compile js %}	
+		{% block extrahead2 %}{% endblock extrahead2 %}        
+{% endspaceless %}    
+    </head>
+    
+
+{% if 1 %}
+    {% if sql_queries %}
+<body onkeypress="ctrlEnter(event);">
+        <!--LiveInternet counter-->
+        <script type="text/javascript"><!--
+            new Image().src = "//counter.yadro.ru/hit?r"+
+            escape(document.referrer)+((typeof(screen)=="undefined")?"":
+            ";s"+screen.width+"*"+screen.height+"*"+(screen.colorDepth?
+            screen.colorDepth:screen.pixelDepth))+";u"+escape(document.URL)+
+            ";"+Math.random();//--></script><!--/LiveInternet-->
+        <script type="text/javascript">
+            
+    		function ctrlEnter(event)
+    		{
+                if ((event.ctrlKey) && ((event.keyCode == 0xA)||(event.keyCode == 0xD))) 
+                {
+                    if ($("#debugshow").css("display") == "none")
+                    {
+                        $("#debugshow").show("slow");
+                    }
+                    else
+                    {
+                        $("#debugshow").hide("slow");
+                    }
+                }
+    		}
+            
+            function debugshow()
+            {
+                if ($("#debugshow").css("display") == "none")
+                {
+                    $("#debugshow").show("slow");
+                }
+                else
+                {
+                    $("#debugshow").hide("slow");
+                }
+            }
+        </script>
+        <div id="debugshow" style="position: absolute; top: 0; left: 0; display: none; background: #fff; border: 5px solid red; padding: 10px; z-index: 100000;">
+        <div><strong>SQL QUERIES DEBUG</strong></div>
+        <div id="debug">
+        	<br clear="both" />
+        	<hr/>
+        	<p>
+        	{% for sql_query in sql_queries %}
+        		{{ forloop.counter }}. {{ sql_query.sql }} in {{ sql_query.time }}<br />
+        	{% endfor %}
+        	</p>
+        </div></div>
+    {% else %}
+<body>
+    {% endif %}
+{% else %}
+    <body>  
+{% endif %}    
+  	<div class="endblock">&nbsp;</div>
+    <div align="center"><div class="main">
+    	<table border="0" cellpadding="0" cellspacing="0" class="mhead"><tr><td valign="top">
+    	<div class="topmenu">
+	    	<ul>
+	    		<li><a href="http://www.interzet.ru/docs/request.html" target="_blank">Подключиться</a></li>
+	    		<li><a href="{% url staticpages_page 'about' %}">О проекте</a></li>
+	    		<li><a href="{% url staticpages_page 'rules' %}">Правила</a></li>
+	    		<!-- <li><a href="{% url staticpages_page 'rights' %}">Права</a></li>-->
+	    		<li><a href="{% url feedback_form %}">Обратная связь</a></li>
+	    		<li><a href="{% url staticpages_page 'advertising' %}">Рекламодателям</a></li>
+	    	</ul>
+	    </div>
+	    </td></tr><tr><td>
+    	{% spaceless %}
+    	<div class="header">
+    		{% include "accounts/loginbox.html" %}
+    		{% if cp_banners.one %}
+    			<div class="banner"><a href="{{ cp_banners.one.url }}"><img src="{{ cp_banners.one.image.url }}" alt="{{ cp_banners.one.name }}" width="400" height="64"/></div>
+    		{% endif %}
+			<a href="/" class="logo"><img src="/media/i/life-logo.gif" width="174" height="63" title="Inter Zet Telecom"></a>
+    	</div>
+    	{% endspaceless %}
+    	</td></tr></table>
+    	
+    	<div class="body">
+    		<table border="0" cellpadding="0" cellspacing="0" class="mbody"><tr><td valign="top">
+    		<div class="center_column">
+    			<ul class="tabs">
+					{% for item in cp_xml_menu %}
+						<li class="tab{{ forloop.counter }}{% if item.selected %} selected{% endif %}">
+						<a href="{{ item.get_absolute_url }}">{{ item }}</a>
+						</li>
+					{% endfor %}
+					
+    			</ul>
+    			<div class="content"><div class="endblock">&nbsp;</div><div class="contentbg">
+    			{% include "flash.html" %}
+    			{% block content %}
+    			{% endblock content %}    			
+    			</div><div class="endblock">&nbsp;</div></div>
+    		</div>
+    		</td><td valign="top">
+		<div class="right_column">{% block right_column %}
+		{#% include "includes/right_event_state.html" %#}
+		{% include "includes/right_idea_top5.html" %}
+		
+        {% include "includes/right_calendar.html" %}
+		
+		{% endblock right_column %}</div>
+		</td>
+	</tr></table>
+    	</div>
+
+    	<div class="footer"><table border="0" cellpadding="0" cellspacing="0" class="mbody"><tr><td valign="top">
+    		<div class="center_column"><div class="center_columnbg">    		
+				<div class="left">Санкт-Петербург,<br />Выборгский, Калининский, Красногвардейский,<br />
+					Приморский, Невский, Кировский, Фрунзенский<br />р-ны: пр. Энгельса, дом 133<br />&nbsp;<br />
+					Контактный телефон:<br />(812) 640-31-31,<br />факс (812) 640-31-81
+				</div>
+				<div class="right">Санкт-Петербург,<br />Василеостровский, Кировский, Красносельский, <br />
+					Невский, Московский р-ны:<br />ул. Лени Голикова, дом 27, корп. 3<br />&nbsp;<br />
+					Контактный телефон:<br />(812) 327-17-70
+				</div>
+			</div></div>
+			</td><td valign="top">
+			<div class="right_column">
+				<div class="contrast">
+                    <!--LiveInternet logo--><a href="http://www.liveinternet.ru/click"
+                        target="_blank"><img src="//counter.yadro.ru/logo?44.1"
+                        title="LiveInternet"
+                        alt="" border="0" width="31" height="31"/></a>
+                    <!--/LiveInternet-->
+                </div>
+			</div>
+			</td></tr></table>
+    	</div>
+
+    </div></div>
+    
+    <script type="text/javascript">
+       var _gaq = _gaq || [];
+       _gaq.push(['_setAccount', 'UA-21988348-1']);
+       _gaq.push(['_trackPageview']);
+
+       (function() {
+         var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+         ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+         var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+       })();
+
+    </script>
+    <!-- Yandex.Metrika counter -->
+        <script type="text/javascript">
+            var ya_params = {/*Здесь параметры визита*/};
+        </script>
+
+        <div style="display:none;"><script type="text/javascript">
+        (function(w, c) {
+            (w[c] = w[c] || []).push(function() {
+                try {
+                    w.yaCounter7305904 = new Ya.Metrika({id:7305904, enableAll: 
+        true,params:window.ya_params||{ }});
+                }
+                catch(e) { }
+            });
+        })(window, "yandex_metrika_callbacks");
+        </script></div>
+        <script src="//mc.yandex.ru/metrika/watch.js" type="text/javascript" 
+        defer="defer"></script>
+        <noscript><div><img src="//mc.yandex.ru/watch/7305904" 
+        style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+    <!-- /Yandex.Metrika counter -->
+    </body>
+</html>

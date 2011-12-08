@@ -1,0 +1,166 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2009-04-06 13:17+0400\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: __init__.py:3
+msgid "Blog"
+msgstr "Блог"
+
+#: config.py:9
+msgid "Blog config"
+msgstr "Настройки блогов"
+
+#: forms.py:22 models.py:55
+msgid "text"
+msgstr "текст"
+
+#: forms.py:23 models.py:45 models.py:60
+msgid "tags"
+msgstr "теги"
+
+#: forms.py:23
+msgid "insert comma separated tags"
+msgstr "Введите теги разделенные запятыми"
+
+#: models.py:23
+msgid "section title"
+msgstr "заголовок раздела"
+
+#: models.py:24
+msgid "section description"
+msgstr "описание раздела"
+
+#: models.py:30
+msgid "section"
+msgstr "раздел"
+
+#: models.py:31 models.py:59
+msgid "sections"
+msgstr "разделы"
+
+#: models.py:38
+msgid "tag name"
+msgstr "наименование тега"
+
+#: models.py:39
+msgid "tag weight"
+msgstr "вес тега"
+
+#: models.py:44
+msgid "tag"
+msgstr "тег"
+
+#: models.py:52
+msgid "post title"
+msgstr "заголовок сообщения"
+
+#: models.py:53
+msgid "author"
+msgstr "автор"
+
+#: models.py:54
+msgid "slug"
+msgstr "системное имя"
+
+#: models.py:56
+msgid "date"
+msgstr "дата"
+
+#: models.py:57
+msgid "post published"
+msgstr "опубликовано"
+
+#: models.py:58
+msgid "enable comments"
+msgstr "разрешить комментарии"
+
+#: models.py:73
+msgid "post"
+msgstr "сообщение"
+
+#: models.py:74
+msgid "posts"
+msgstr "сообщения"
+
+#: views.py:245 views.py:251 views.py:291
+msgid "Blog has been featured"
+msgstr "Блог стал избранным"
+
+#: views.py:254 views.py:310
+msgid "Not enough balance"
+msgstr "Недостаточно средств"
+
+#: views.py:297
+msgid "Произошла ошибка"
+msgstr ""
+
+#: views.py:323
+#, python-format
+msgid "%(site_name)s featured blog"
+msgstr "избранный блог %(site_name)s"
+
+#: views.py:325
+msgid "Featured blogs RSS list"
+msgstr "RSS лист избранныз блогов"
+
+#: templates/blog/delete_confirm.html:9
+msgid "Delete post"
+msgstr "удалить сообщение"
+
+#: templates/blog/delete_confirm.html:9
+msgid " and all comments"
+msgstr "и все комментарии"
+
+#: templates/blog/delete_confirm.html:16
+msgid "delete"
+msgstr "удалить"
+
+#~ msgid "body"
+#~ msgstr "текст"
+
+#~ msgid "publishing date"
+#~ msgstr "дата публикации"
+
+#~ msgid "published"
+#~ msgstr "опубликовано"
+
+#~ msgid "comment"
+#~ msgstr "комментарий"
+
+#~ msgid "comments"
+#~ msgstr "комментарии"
+
+#~ msgid "Comment"
+#~ msgstr "комментарий"
+
+#~ msgid "Cancel"
+#~ msgstr "отмена"
+
+#~ msgid "path"
+#~ msgstr "путь"
+
+#~ msgid "is last post"
+#~ msgstr "последнее сообщение"
+
+#~ msgid "tag string"
+#~ msgstr "строка тегов"
+
+#~ msgid "post teaser"
+#~ msgstr "вступление"
+
+#, fuzzy
+#~ msgid "Date"
+#~ msgstr "дата"

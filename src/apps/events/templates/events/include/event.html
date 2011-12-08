@@ -1,0 +1,7 @@
+
+<div class="event">
+	<div class="title"><a href="{{ event.get_absolute_url }}">{{ event.title }}</a></div>
+	<div class="city">{{ event.metro.city }}</div>
+	<div class="date">c: {{ event.begin|date }} по: {{ event.end|date }}</div>
+	<div class="category">Категория: {{ event.category }}</div>
+</div>

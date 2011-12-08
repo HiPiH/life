@@ -1,0 +1,12 @@
+{% for visiter in event.random_visiters %}
+	<div class="visiter">
+		{{ visiter.get_avatar }}
+	</div>
+{% endfor %}
+<br/>
+
+{% if i_am_visiters %}
+	<a href="{% url ajax_btn_visit_toggle event.id %}">НЕ Участвовать</a>
+{% else %}
+	<a href="{% url ajax_btn_visit_toggle event.id %}">Участвовать</a>
+{% endif %}

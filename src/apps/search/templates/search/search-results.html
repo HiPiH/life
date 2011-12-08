@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Результаты поиска:</h1>
+<div class="bigline"><img src="/media/i/bigline.jpg"></div>
+<div class="endblock">&nbsp;</div>
+
+<div class=pageblock>
+<div style="margin: 5px 0px 5px 0px;">
+	<form name=wtsearch id=wtsearch action="" method=GET>
+	    <input name=q type=text value="{{ query }}"><input type=submit value="поиск" style="cursor: hand; cursor: pointer;">
+	</form>
+</div>
+{% if query %}
+{% if page.object_list %}
+<div class=pagehead>Результаты поиска</div>
+{% else %}
+<div class=pagehead>Поиск не дал результатов</div>
+{% endif %}
+{% for li in page.object_list %}
+    <div style="color: blue; font-size: 10pt; margin-top: 10px;"><a href="{{ li.url }}" class="bluelink">{{ li.title|safe }}</a></div>
+    <div>{{ li.preview|safe }}</div>
+{% endfor %}
+<script>
+    document.getElementsByTagName('FORM')['wtsearch'].elements['q'].value = '{{ query }}';
+</script>
+<div style="margin-top: 10px">{% include 'search/paginator.html' %}</div>
+{% endif %}
+</div>
+{% endblock content %}

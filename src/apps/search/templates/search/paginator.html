@@ -1,0 +1,22 @@
+{% if paginator %}
+<!-- PAGINATOR -->
+<div id="paginator">
+	<table>
+		<tr>
+			<td>
+			    {% if page.has_previous %}
+			    <a href="1.html?q={{ q }}">В начало</a>
+			    <a href="{{ page.previous_page_number }}.html?q={{ q }}">&lt;&lt;</a>
+			    {% endif %}
+                {% ifnotequal 1 paginator.num_pages %}
+                <span>{{ page.number }}</span>
+                {% endifnotequal %}
+				{% if page.has_next %}
+				<a href="{{page.next_page_number}}.html?q={{ q }}">&gt;&gt;</a>
+				<a href="{{paginator.num_pages}}.html?q={{ q }}">В конец</a>
+				{% endif %}
+			</td>
+		</tr>
+	</table>
+</div>
+{% endif %}

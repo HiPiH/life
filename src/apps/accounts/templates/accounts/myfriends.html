@@ -1,0 +1,35 @@
+﻿{% extends 'base.html' %}
+
+{% block crums %}
+    <a href="/">Главная</a> - <a href="{{ user.get_absolute_url }}">Профайл</a>
+{% endblock crums %}
+
+{% block content %}
+
+<h1>Мои друзья</h1>
+
+<div>{{ cp_config.access.apps__accounts__config__Config.text_for_myfriends_page|safe }}</div>
+
+<div class="table">
+    {% if page.object_list %}
+        <table>
+            {% for friend in page.object_list %}
+            <tr>
+                <th><br />{{ friend.get_avatar|safe }}</th>
+                <td><br />
+                    {{ friend }}
+                    <br />
+                    <a href="/accounts/users/{{ friend }}/">подробнее</a>
+                    <br />
+                    <a href="/accounts/delfriend/{{ friend }}/">Убрать из друзей</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+        {% include "paginator.html" %}
+    {% else %}
+        У Вас нет друзей...
+    {% endif %}
+</div>
+
+{% endblock content %}

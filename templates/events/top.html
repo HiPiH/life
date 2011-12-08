@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load compress_static %}
+
+{% block extrahead %}
+	{% static_add "js/events_list.js" %}
+{% endblock extrahead %}
+
+{% block metatitle %}
+    Life.interzet.ru | ТОП идей для проведения времени, организации встречи с друзьями, проведения мероприятий в Санкт-Петербурге
+{% endblock %}
+{% block metadescription %}
+    ТОП самых лучших идей для создания событий и мероприятий на портале Life.interzet.ru. Только лучшие и самые оригинальные идеи событий! Голосуйте за понравившуюся идею и добавляйте свои, чем выше рейтинг, тем более вероятно что ее заметят все пользователи сети, тем больше будет желающих для ее воплощения!
+{% endblock %}
+{% block metakeywords %}
+    топ идей, топ лучших, топ самых
+{% endblock %}
+
+{% block content %}
+<ul class="event_filter">
+	<li{% ifequal target "complite" %} class="selected"{% endifequal %}><a href="../complite/" class="old_events">Прошедшие события</a></li>
+	<li class="nosep{% ifequal target "idea" %} selected{% endifequal %}"><a href="../idea/" class="idea">Идеи</a></li>
+</ul>
+<div class="event_list">
+<br/>
+{% ifequal target 'idea' %}
+	{% for event in page.object_list %}
+		{% include 'events/include/event.html' %}
+	{% empty %}
+		событий не найдено
+	{% endfor %}
+{% else %}
+	{% for meeting in page.object_list %}
+		{% include 'events/include/meeting.html' %}
+	{% empty %}
+		событий не найдено
+	{% endfor %}
+{% endifequal %}
+</div>
+
+{% include 'paginator.html' %}
+
+{% endblock %}

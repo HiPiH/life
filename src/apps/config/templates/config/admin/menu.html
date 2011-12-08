@@ -1,0 +1,15 @@
+{% load i18n %}
+{% if cp_config.hasList %}
+      <div class="module">
+      <table summary="Параметры проекта">
+      <caption>Параметры проекта</caption>
+      {% for config in cp_config.getList %}
+      		<tr>
+      			<th scope="row"><a href="{{ config.get_absolute_url}}">{{ config.title }}</a></th>
+      			<td>&nbsp;</td>
+      			<td>&nbsp;</td>
+            </tr>
+      {% endfor %}
+      </table>
+      </div>      
+{% endif %}

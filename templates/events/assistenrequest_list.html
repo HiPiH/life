@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="view_opened">
+	<div class="title">
+		<div class="endblock">&nbsp;</div>
+		<h1>Список претендентов на помощников</h1>
+	</div>
+</div>
+
+<div class="event_list">
+
+<table class="assistantrequest_list">
+	<tr>
+		<th>Пользователь</th>
+		<th>Мероприятие</th>
+		<th>Действие</th>
+	</tr>
+	{% for a in objects %}
+	<tr>
+		<td><a href="{{ a.user.get_absolute_url }}">{{ a.user }}</a></td>
+		<td><a href="{{ a.event.get_absolute_url }}">{{ a.event }}</a></td>
+		<td>
+			<form method="post" action="{% url assistenrequest_list %}">
+				<input type="hidden" name="a" value="{{ a.id }}"><input type="submit" name="yes" value="Принять">
+				<input type="hidden" name="a" value="{{ a.id  }}"> <input type="submit" name="no" value="Отклонить">
+			</form>
+		</td>
+	</tr>
+	{% empty %}
+	<tr>
+		<td colspan="3"><strong>Список пуст</strong></td>
+	</tr>
+	{% endfor %}
+</table>
+
+</div>
+
+{% endblock %}

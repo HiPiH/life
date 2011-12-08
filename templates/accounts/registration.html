@@ -1,0 +1,47 @@
+﻿{% extends 'base.html' %}
+
+{% load compress_static %}
+
+{% block extrahead %}
+	{% static_add "js/calendar.js" "js/calendar-en.js" "js/set.js" "js/jquery-ui-1.7.3.custom.min.js" %}
+	{% static_add "css/cal.css" "css/jquery-ui-1.7.3.custom.css" %}
+{% endblock extrahead %}
+
+
+{% block content %}
+<script>
+$(function() {
+    $.datepicker.setDefaults( $.datepicker.regional[ "ru" ] );
+    $( "#birthday" ).datepicker({
+			changeMonth: true,
+			changeYear: true,
+            yearRange: '1968:2006',
+            dateFormat: 'yy-mm-dd',
+            showOn: "button",
+            buttonImage: '/media/i/calendar.gif',
+			buttonImageOnly: true
+    });
+});
+</script>
+<div class="view_opened">
+	<div class="title">
+		<div class="endblock">&nbsp;</div>
+		<h1>Регистрация</h1>
+	</div>
+	<form method="POST" action="{% url apps.accounts.views.registration %}">
+		<div class="view_content">
+			<div>{{ cp_config.access.apps__accounts__config__Config.text_for_registration_page|safe }}</div>
+			<table border="0" class="filter_form">
+				{{ reg_form.as_table }}
+			</table>
+			<div class="errorlist">{{ reg_form.non_field_errors }}</div>
+            <!-- <div class="red">* обязательные для заполнения поля</div> -->
+			<div class="endblock">&nbsp;</div>
+		</div>
+        
+		<div class="btn_submit"><input type="image" value="Отправить" src="/media/i/btn_save_dark.gif"/></div>
+		</div>	
+	</form>	
+</div><div class="endblock">&nbsp;</div>
+
+{% endblock content %}

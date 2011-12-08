@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load thumbnail compress_static %}
+
+{% block javascripts %}
+	{% static_add js/events_list.js %}
+	{% static_add js/calendar.js %}
+	{% static_add js/calendar-en.js %}
+	{% static_add js/set.js %}
+	{% static_add js/event_invite_list.js %}
+{% endblock javascripts %}
+
+{% block style %}
+	{% static_add 'css/cal.css' %}
+{% endblock style %}
+
+{% block content %}
+<div class="event_list">
+{% for event in page.object_list %}
+	{% include 'events/include/event.html' %}
+{% empty %}
+	событий не найдено
+{% endfor %}
+<br/></div>
+
+{% include 'paginator.html' %}
+
+{% endblock %}

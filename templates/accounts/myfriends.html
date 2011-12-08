@@ -1,0 +1,45 @@
+﻿{% extends "base.html" %}
+{% load  messages %}
+
+{% block content %}
+<h1>Друзья</h1>
+
+<div>{{ cp_config.access.apps__accounts__config__Config.text_for_myfriends_page|safe }}</div>
+<br />
+{% if not page.object_list %}
+    <h3>Список пока пуст</h3>
+    <br />
+{% endif %}
+<br />
+<br />
+
+<table border="0">
+    {% for friend in page.object_list %}
+        <tr>                    	
+            <td width="150px">
+            <a href="{{ friend.user.get_absolute_url }}">{{ friend.user.get_avatar|safe }}</a>
+                <a href="{{ friend.user.get_absolute_url }}">{{ friend.user }}</a>
+              <br/>
+            {% if friend.accepted %}
+			<br/>{% tag_messages_with user.username friend.user.username %}
+			{% endif %}              
+            </td>
+            <td>
+	           {% if not friend.accepted %}
+					<span style="color: Red">не подтверждено</span><br/>
+			   {% endif %}
+			   {% if friend.required_my_acception %}
+					<a href="{% url accounts_accept_friend friend.user.id %}">Подтвердить</a><br/>
+	           {% endif %}
+                <a href="{% url accounts_del_friend friend.user.id %}" class="notbold red">Удалить</a>
+            </td>
+            <td>
+            	
+            </td>
+        </tr>
+        <tr><td colspan="2">&nbsp;</td></tr>
+    {% endfor %}
+</table>
+
+{% include "paginator.html" %}
+{% endblock content %}

@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block content %}
+	    <div id="jq_video_container">
+	        <a href="http://www.macromedia.com/go/getflashplayer">Get the Flash Player</a> to see this player.
+	    </div>
+	    <script type="text/javascript" src="/media/viral/swfobject.js"></script>
+	    <script type="text/javascript">
+			var so = new SWFObject("/media/viral/player.swf","mpl","580","435","9");
+			  so.addParam('allowfullscreen','true');
+			  so.addParam('allowscriptaccess','always');
+			  so.addParam('wmode','opaque');
+			{% if not video.flv %}
+			so.addParam("flashvars","image=/media/i/video_converting.jpg");
+			{% else %}
+			so.addParam("flashvars","file=/media/{{ video.flv }}&image=/media/{{ video.thumb }}");
+			{% endif %}
+			so.write("jq_video_container");
+		</script>
+{% endblock %}

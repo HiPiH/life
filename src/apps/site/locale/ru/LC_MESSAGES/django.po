@@ -1,0 +1,65 @@
+# Russian translation of apps accounts.
+# Copyright (C) 2008 THE apps accounts'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the apps accounts package.
+# Kovalenko Pavel <ice.tegliaf@gmail.com>, 2008.
+#
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: Doberman <doberman_company@mail.ru>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "Site config"
+msgstr "Настройки сайта"
+
+msgid "slogan"
+msgstr "Слоган (под логотипом)"
+
+msgid "Site name"
+msgstr "Название сайта"
+
+msgid "Description"
+msgstr "Описание сайта"
+
+msgid "SEO title for main page"
+msgstr "СЕО заголовок главной страницы"
+
+msgid "SEO description for main page"
+msgstr "СЕО описание главной страницы"
+
+msgid "SEO keywords for main page"
+msgstr "СЕО ключевые слова главной страницы"
+
+msgid "Title on main page"
+msgstr "Заголвок на главной странице"
+
+msgid "Text on main page"
+msgstr "Текст на главной странице"
+
+msgid "Text in footer"
+msgstr "Текст внизу страницы"
+
+msgid "Our contacts"
+msgstr "Наши контакты"
+
+msgid "Copyrights"
+msgstr "Копирайты"
+
+msgid "Site email"
+msgstr "E-mail адрес сайта"
+
+msgid "auth"
+msgstr "Пользователи"
+
+msgid "comments"
+msgstr "Коментарии"
+
+msgid "Sites"
+msgstr "Сайты"
+

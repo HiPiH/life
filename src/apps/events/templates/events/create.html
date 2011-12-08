@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block javascripts %}
+<script type="text/javascript" src="/media/js/calendar.js"></script>
+<script type="text/javascript" src="/media/js/calendar-en.js"></script>
+<script type="text/javascript" src="/media/js/set.js"></script>
+{% endblock javascripts %}
+
+{% block style %}
+<link rel='stylesheet' type='text/css' href='/media/css/cal.css'>
+{% endblock style %}
+
+
+{% block content %}
+<h1>Создание события</h1>
+
+<form method="POST" action="{% url events_create %}" enctype="multipart/form-data">
+<table border="0">
+	{{ form.as_table }}
+	<tr>
+		<td><input type="submit" value="ok"/></td>
+	</tr>
+</table>
+</form>
+
+{% endblock %}

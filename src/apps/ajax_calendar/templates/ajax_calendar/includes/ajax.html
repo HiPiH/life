@@ -1,0 +1,35 @@
+<h3>
+    <a href="{{ ajax_calendar.prev_month_url }}" class="jq_calendar_link">&lt;--</a>
+    {{ ajax_calendar.cur_date|date:"F Y" }}
+    <a href="{{ ajax_calendar.next_month_url }}" class="jq_calendar_link">--&gt;</a>
+</h3>
+
+<table class="ajax_calendar">
+<tr>
+    <th>Пн</th>
+    <th>Вт</th>
+    <th>Ср</th>
+    <th>Чт</th>
+    <th>Пт</th>
+    <th>Сб</th>
+    <th>Вс</th>
+</th>
+{% for week in ajax_calendar.month %}
+<tr>
+    {% for day in week.days %}
+        <td class="{% if day.is_actual %}actual{% else %}not-actual{% endif %}{% if day.is_today %} current{% endif %}{% if day.is_day_off %} day-off{% endif %}">
+        	{% if day.is_actual %}
+	            {% if day.is_linked %}
+	                <a href="{{ day.url }}">{{day.date.day}}</a>
+	            {% else %}
+	                {{day.date.day}}	                
+	            {% endif %}                
+	       {% else %}
+                {{day.date.day}}
+           {% endif %}                
+        </td>
+    {% endfor %}
+</tr>
+{% endfor%}
+</table>
+<a href="{{ ajax_calendar.today_month_url }}" class="jq_calendar_link">Сегодня</a>

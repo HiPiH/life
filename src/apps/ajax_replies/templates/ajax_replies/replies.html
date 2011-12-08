@@ -1,0 +1,34 @@
+<div name="ajax_replies_pagination_block" style="padding-bottom: 10px;"></div>
+<div id="ajax_replies_block"></div>
+<div name="ajax_replies_pagination_block" style="padding-bottom: 10px;"></div>
+<div id="ajax_replies_feedback_block"></div>
+{% if user.is_authenticated %}
+    <div id="add_reply">
+	    <form id="add_reply_form" action="." method="POST">
+	        <h2>Ваш комментарий:</h2>
+	        <div id="form_as_table">
+	            {{ ajax_replies_add_form.as_p }}
+	            <div align="right"><input type="submit" value="Добавить комментарий" class="submit_but_big" style="margin-right: 20px;"></div>
+	        </div>
+	    </form>
+    </div>
+    <script type="text/javascript">
+    //$(document).ready ( function () {
+        $("#add_reply_form").submit ( function ( event ) { add_reply ( event, "{% url ajax_replies_add type=object_type,object_id=object.id %}" ) } );
+        {% if object.replies_count %}
+            get_replies_at_page ( document.location.href.split ( "#replies_page" ) [ 1 ] || 0, "{% url ajax_replies_get type=object_type,object_id=object.id %}" );
+        {% endif %}
+    //});
+    </script>
+{% else %}
+    <div style="float: right;">
+        <a href="{% url apps.accounts.views.login_user %}?next={{ object.get_absolute_url }}">Авторизуйтесь, чтобы оставить комметарий</a>
+    </div>
+    <script type="text/javascript">
+    //$(document).ready ( function () {
+        {% if object.replies_count %}
+            get_replies_at_page ( document.location.href.split ( "#replies_page" ) [ 1 ] || 0, "{% url ajax_replies_get type=object_type,object_id=object.id %}" );
+        {% endif %}
+    //});
+    </script>
+{% endif %}

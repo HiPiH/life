@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load compress_static %}
+
+{% block extrahead %}
+	{% static_add 'js/events_list.js' %}
+	{% static_add 'js/calendar.js' %}
+	{% static_add 'js/calendar-en.js' %}
+	{% static_add 'js/set.js' %}
+	{% static_add 'css/cal.css' %}
+{% endblock extrahead %}
+
+{% block content %}
+{% with 0 as search_closed %}
+	{% include 'events/include/meeting_list_filter.html' %}
+{% endwith %}
+
+<div class="order_input"></div>
+
+<div class="event_list">
+{% for meeting in meetings %}
+	{% include 'events/include/meeting.html' %}
+{% empty %}
+	событий не найдено
+{% endfor %}
+<div class="clearer">&nbsp;</div></div>
+{% endblock %}
+
+{% block right_column %}
+		{% include "includes/right_idea_top5.html" %}
+		{% include "includes/right_calendar.html" %}
+{% endblock right_column %}

@@ -1,0 +1,16 @@
+<div class="view_opened inside">
+	<div class="title">
+		<div class="endblock">&nbsp;</div>
+		<h1>Мои события</h1>
+	</div>
+</div>
+
+<div class="event_list">
+{% for event in page.object_list %}
+	{% include 'events/include/event.html' %}
+{% empty %}
+	событий не найдено
+{% endfor %}
+</div>
+
+{% include 'paginator_ajax.html' %}

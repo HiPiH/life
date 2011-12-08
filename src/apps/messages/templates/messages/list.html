@@ -1,0 +1,44 @@
+	<h1>Messages! ver 1.2</h1>
+	
+	<a href="{% url messages_index %}">&lt;&lt;&lt; к списку пользователей</a>
+	
+	<div style="margin: 10px;">
+		<strong>Вы переписываетесь с:</strong>
+		{% ifequal c.author user %}
+			{{ c.recipient }}
+		{% else %}
+			{{ c.author }}
+		{% endifequal %}
+	</div>
+	
+	<div>Показано {{ messages_list.count }} сообщений: 
+		{% ifequal c.author user %}
+			{{ c.count_mes_a }}
+		{% else %}
+			{{ c.author_mes_r }}
+		{% endifequal %} <a href="{% url messages_history c.id %}">история переписки</a>
+	</div>
+	
+	<div style="width: 500px; height: 300px; overflow-y:auto; border: 1px solid #555; padding: 10px;">
+		{% for m in messages_list %}
+			{% ifequal m.recipient user %}
+				<div style="background: #fafa9f"><strong>Вам: {% if not m.is_new %}<span style="color: red">Новое</span>{% endif %}</strong>
+			{% else %}
+				<div style="background: #9afa9f"><strong>Вы: {% if not m.is_new %}<span style="color: red">не прочитано получателем</span>{% endif %}</strong>
+			{% endifequal %}
+					<span style="font-size: 12px;">{{ m.date_create|date }} {{ m.date_create|time }}</span>
+					<div style="margin: 0px 0px 10px 10px;">
+						{{ m.text|safe|linebreaks }}
+					</div>
+				</div>
+		{% endfor %}
+	</div>
+	
+	<div style="margin-top: 10px;">
+		<form method="post">
+			<div style="color: red;">{{ textarea_error }}</div>
+			<input type="hidden" name="action" value="send">
+			<textarea style="width: 525px; height: 70px;" name="text"></textarea>
+			<div><input type="submit" value="Отправить"></div>
+		</form>
+	</div>

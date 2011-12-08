@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% load thumbnail %}
+
+{% block crums %}
+    <a href="/">Главная</a>
+{% endblock crums %}
+
+{% block content %}
+<h1>Авторы</h1>
+<div class="endblock">&nbsp;</div>
+
+<div id="blog_authors">
+    <table>
+	{% for u in page.object_list %}
+        <tr>
+            <td valign="top">
+                {% if u.photo %}
+                    <div style="margin: 0px 10px 10px 0px;"><img src="{% thumbnail u.photo 64x64 %}" alt="{{ u }}" /></div>
+                {% endif %}
+            </td>
+            <td valign="top">
+                <p><a href="{{ u.get_blog_absolute_url }}">{{ u }}</a></p>
+                {% if u.job %}<p style="margin: 5px; font-size: 11px;">{{ u.job }}</p>{% endif %}
+            </td>
+        </tr>
+	{% endfor %}
+    </table>
+</div>
+
+{% include 'paginator.html' %}
+
+{% endblock content %}

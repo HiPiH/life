@@ -1,0 +1,121 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2010-03-10 10:14+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: admin.py:18 models.py:33 models.py:52
+msgid "Comment"
+msgstr "Комментарий"
+
+#: models.py:36
+msgid "Submit date"
+msgstr "Дата публикации"
+
+#: models.py:37
+msgid "IP address"
+msgstr "IP адрес"
+
+#: models.py:39
+msgid "is removed"
+msgstr "удален?"
+
+#: models.py:40
+msgid ""
+"Check this box if the comment is inappropriate. A \"This comment has been "
+"removed\" message will be displayed instead."
+msgstr "Отметьте, если комментарий нежелателен. Взамен будет показано сообщение "
+"\\"Этот комментарий был удалён\\"."
+
+#: models.py:53
+msgid "Comments"
+msgstr "Комментарии"
+
+#: notify.py:11
+#, python-format
+msgid "Добавлен комментарий на Ваш %(type_name)s - \"%(title)s\"
+msgstr "Добавлен комментарий на Ваш %(type_name)s - \\"%(title)s\"
+
+#: notify.py:12
+#, python-format
+msgid ""
+"\"%(author)s\" ответил на ваш %(type_name)s - \"%(title)s\"\n"
+"\n"
+"%(comment)s"
+msgstr "\\"%(author)s\\" ответил на ваш %(type_name)s - \\"%(title)s\\"\n \n %(comment)s "
+
+#: notify.py:15
+#, python-format
+msgid "Добавлен ответ на Ваш комментарий %(type_name)s - \"%(title)s\"
+msgstr "Добавлен ответ на Ваш комментарий %(type_name)s - \\"%(title)s\"
+
+#: notify.py:16
+#, python-format
+msgid ""
+"\"%(author)s\" ответил Вам в теме \"%(title)s\"\n"
+"\n"
+"%(comment)s"
+msgstr "\\"%(author)s\\" ответил Вам в теме \\"%(title)s\\"\n \n %(comment)s "
+
+#: templates/tree_comments/ajax_tree.html:10
+msgid "Comment has been removed"
+msgstr "Комментарий был удален"
+
+#: templatetags/tree_comments.py:52
+msgid "now"
+msgstr "сейчас"
+
+#: templatetags/tree_comments.py:55
+msgid "1 minute ago"
+msgstr "1 минуту назад"
+
+#: templatetags/tree_comments.py:56
+msgid "2 minutes ago"
+msgstr "2 минуты назад"
+
+#: templatetags/tree_comments.py:57
+msgid "5 minutes ago"
+msgstr "5 минут назад"
+
+#: templatetags/tree_comments.py:60
+msgid "hour ago"
+msgstr "час назад"
+
+#: templatetags/tree_comments.py:65
+msgid "1 hour ago"
+msgstr "час назад"
+
+#: templatetags/tree_comments.py:66
+msgid "2 hours ago"
+msgstr "2 часа назад"
+
+#: templatetags/tree_comments.py:67
+msgid "5 hours ago"
+msgstr "5 часов назад"
+
+#: templatetags/tree_comments.py:74
+msgid "yesterday in H:i"
+msgstr "вчера в H:i"
+
+#: templatetags/tree_comments.py:79
+msgid "1 day ago"
+msgstr "1 день назад"
+
+#: templatetags/tree_comments.py:80
+msgid "2 days ago"
+msgstr "2 дня назад"
+
+#: templatetags/tree_comments.py:81
+msgid "5 days ago"
+msgstr "5 дней назад"

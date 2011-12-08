@@ -1,0 +1,24 @@
+{% spaceless %}
+{% load i18n %}
+{% endspaceless %}
+<div class="postbg"><div class="endblock">&nbsp;</div><div id="post-{{ post.id }}" class="post">
+    <div class="metadata">
+        {{ post.date|date }} {{ post.date|time }}
+    </div>
+    <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
+    <div class="text">
+        {% if post.teaser %}
+            {{ post.teaser|safe }}
+        {% else %}
+            {{ post.text|truncatewords:"20"|safe }}
+        {% endif %}
+    </div>
+    <div style="clear: both"></div>
+    {% if post.tags.all %}
+    <div>теги:
+    {% for li in post.tags.all %}
+        <a href="{{ li.get_absolute_url }}">{{ li }}</a>
+    {% endfor %}
+    </div>
+    {% endif %}
+</div>&nbsp;</div>

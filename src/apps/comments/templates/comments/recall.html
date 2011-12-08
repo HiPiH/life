@@ -1,0 +1,10 @@
+{% load i18n dbgutils thumbnail %}
+<tr>
+    <td><div style="margin: 0px 4px 0px 0px;"><img src="{% thumbnail recall.author.user_photo 26x26 %}" /></td>
+    <td><div style="margin: 4px 4px 0px 0px;"><nobr><a href="{{ comment.author.get_absolute_url }}" style="color: #777; font-weigth: bold;"><b>{{ recall.author }}</b></a></nobr></div></td>
+    <td><div class="recall_date" style="margin: 4px 4px 0px 0px; font-size: 11px;"><nobr>{{ recall.pub_date|date:"j F Y" }}, {{ recall.pub_date|time }}</nobr></div></td>
+    <td width="100%">&nbsp;</td>
+</tr>
+<tr>
+    <td colspan="4"><div style="margin-top: 2px; margin-bottom: 20px; color: #000;">{{ recall.body|safe }}</div></td>
+</tr>

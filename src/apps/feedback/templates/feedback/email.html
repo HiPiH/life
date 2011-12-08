@@ -1,0 +1,8 @@
+Поступило новое сообщение с сайта:<br/>
+{% if feedback.author %}
+	<a href="{{ feedback.author.get_absolute_url }}">{{ feedback.author }}</a><br/>
+{% else %}
+	{{ feedback.fio }}<br/>
+	{{ feedback.email }}<br/>	
+{% endif %}
+{{ feedback.text|linebreaksbr }}<br/>

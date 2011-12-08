@@ -1,0 +1,11 @@
+<div class="event_info">
+	<div class="photo"></div>
+
+	<div class="etext">
+		<div class="title">{{ event.title }}</div>
+		<div class="city">{{ event.metro.city }}</div>
+		<div class="date">c: {{ event.begin|date }} по: {{ event.end|date }}</div>
+		<div class="category">Категория: <a href="{{ event.category.get_absolute_url }}">{{ event.category }}</a></div>
+		<div class="description">{{ event.description }}</div>
+	</div>
+<hr/>

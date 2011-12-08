@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% load tree_comments compress_static thumbnail %}
+
+{% block extrahead %}
+	{% static_add "js/jquery.form.js" %}
+
+	{% static_add "js/kajax.js" %}
+	{% static_add 'tree_comments/comments.css' %}
+	{% static_add 'tree_comments/comments.js' %}
+{% endblock extrahead %}
+
+{% block content %}
+<div class="view_opened">
+	<div class="title">
+		<div class="endblock">&nbsp;</div>
+		<h1>Фотография - {{ photo.event.title }}</h1>
+	</div>
+	<div class="view_content">
+		{% if prev_photo %}<a href="{{ prev_photo.get_absolute_url }}" class="prev_photo">&lt;&lt;&lt;</a>{% endif %}
+		{% if next_photo %}<a href="{{ next_photo.get_absolute_url }}" class="next_photo">&gt;&gt;&gt;</a>{% endif %}
+		<div class="endblock">&nbsp;</div>
+			
+		{% thumbnail photo.photo 533x400 quality=80,crop as thumb %}
+		{% if next_photo %}<a href="{{ next_photo.get_absolute_url }}">{% endif %}
+		<img src="{{ thumb.absolute_url }}" title="{{ event }}" alt="{{ event }}" width="{{ thumb.width }}" height="{{ thumb.height }}" border="0"/>
+		{% if next_photo %}</a>{% endif %}
+		<br/>
+		<a href="{{ photo.event.get_absolute_url }}" class="btn2_return">Обратно к событию</a>		
+	</div>
+</div>
+
+<div class="view_opened inside">
+	<div class="title">
+		<div class="endblock">&nbsp;</div>
+		<span class="open"></span>
+		<h1>Комментарии</h1>
+	</div>
+	<div class="view_content2">
+		<script type="text/javascript">
+			var comments = new CommentsAjax('{% url comments_ajax %}',"{% comments_post_url photo %}", '{{ user.is_authenticated }}');
+			comments.init();	
+		</script>
+		{% tree_comments_ajax photo %}
+	</div>
+</div>
+{% endblock %}

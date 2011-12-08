@@ -1,0 +1,12 @@
+AddHandler fcgid-script .fcgi
+#AddHandler fastcgi-script fcg fcgi fpl .fcgi
+RewriteEngine On
+RewriteBase /
+RewriteRule ^(test.php)$ - [L]
+RewriteRule ^(media/.*)$ - [L]
+RewriteRule ^(admin-media/.*)$ - [L]
+
+RewriteCond %{REQUEST_URI} !(django.fcgi)
+RewriteRule ^(.*)$ django.fcgi/$1 [L]
+
+#/var/www/events.brandir.ru/htdocs/src/django/contrib/admin/media/

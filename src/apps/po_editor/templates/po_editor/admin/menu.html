@@ -1,0 +1,13 @@
+{% load i18n %}
+      <div class="module">
+      <table summary="Переводы">
+      <caption>{% trans 'Translation' %}</caption>
+      {#% for config in cp_po_editor.get_list %#}
+      		<tr>
+      			<th scope="row"><a href="{% url po_editor_list %}">{% trans 'Choose module for translation' %}</a></th>
+      			<td>&nbsp;</td>
+      			<td>&nbsp;</td>
+            </tr>
+      {#% endfor %#}
+      </table>
+      </div>      

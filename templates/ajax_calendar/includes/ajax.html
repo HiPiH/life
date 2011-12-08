@@ -1,0 +1,29 @@
+{% spaceless %}
+<div class="calendarbg">
+	<div class="cheader">
+	    <div class="calendar_prev"><a href="{{ ajax_calendar.prev_month_url }}" class="jq_calendar_link">&nbsp;</a></div>
+		<div class="today"><a href="{{ ajax_calendar.today_month_url }}" class="jq_calendar_link">сегодня</a></div>
+	    <div class="calendar_next"><a href="{{ ajax_calendar.next_month_url }}" class="jq_calendar_link">&nbsp;</a></div>
+	    <h3>{{ ajax_calendar.cur_date|date:"F Y" }}</h3>
+	</div>
+<table class="ajax_calendar">
+{% for week in ajax_calendar.month %}
+<tr>
+    {% for day in week.days %}
+        <td class="{% if day.is_actual %}actual{% else %}not-actual{% endif %}{% if day.is_today %} current{% endif %}{% if day.is_day_off %} day-off{% endif %}{% if day.is_selected %} selected{% endif %}">
+        	{% if day.is_actual %}
+	            {% if day.is_linked %}
+	                <a href="{{ day.url }}">{{day.date.day}}</a>
+	            {% else %}
+	                {{day.date.day}}	                
+	            {% endif %}
+	       {% else %}
+                {{day.date.day}}
+           {% endif %}
+        </td>
+    {% endfor %}
+</tr>
+{% endfor%}
+</table>
+</div>
+{% endspaceless %}

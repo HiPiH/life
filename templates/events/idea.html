@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% load compress_static %}
+
+{% block extrahead %}
+	{% static_add "js/events_list.js" %}
+{% endblock extrahead %}
+
+{% block metatitle %}
+    Life.interzet.ru |Интересные, оригинальные идеи проведения праздников, идеи необычных подарков, проведения времени с друзьями и просто хорошие идеи мероприятий в Санкт-Петербурге. Создание новых идей для событий Санкт-Петербурга.
+{% endblock %}
+{% block metadescription %}
+    Life.interzet.ru — это интересные и оригинальные идеи проведения праздников, идеи необычных подарков, проведения времени с друзьями и просто хорошие идеи мероприятий в Санкт-Петербурге. У вас есть креативная идея, как интересно и весело провести время с друзьями, но вы не знаете как ее воплотить или наоборот — вам не хватает участников для ее проведения? Создавайте сами новые идеи для событий Санкт-Петербурга на портале Life.interzet.ru. О них узнают тысячи пользователей сети и вы обязательно воплотите ее в жизнь!
+{% endblock %}
+{% block metakeywords %}
+    интересные идеи, оригинальные идеи, хорошая идея, креативные идеи, создание идей, создание новых идей, идеи праздников, идеи проведения праздника, интересные идеи для праздника, необычные идеи, идеи необычных подарков
+{% endblock %}
+
+{% block content %}
+<div class="view_opened">
+	<div class="title">
+		<div class="endblock">&nbsp;</div>
+		<span class="open"></span>
+		<h1>Идеи</h1>
+	</div>
+	<div class="view_content{% if search_closed %} closed{% endif %}">
+		{% if big_url %}
+		<form method="POST" action=".">
+		{% else %}
+		<form method="POST" action="{% url events_idea %}">
+		{% endif %}
+		<table border="0" class="filter_form">
+			<tr>
+				<th>Название:</th>
+				<td>{{ filter.string }}</td>
+			</tr>
+		</table>
+		
+		<hr/>
+		<h2>Выбрать категории</h2>
+		<div class="category">{{ filter.category }}</div>
+		<div class="endblock">&nbsp;</div>
+		<div class="btn_search"><input type="image" src="/media/i/btn_search.gif" value="найти"/></div>				
+		</form>
+	</div>
+</div>
+
+<div class="event_list">
+{% for event in page.object_list %}
+	{% include 'events/include/event.html' %}
+{% empty %}
+<div class="eventbg"><div class="endblock">&nbsp;</div><div class="event">
+	<strong>идей не найдено</strong>
+	<br/><br/>
+</div></div>
+{% endfor %}
+</div>
+
+{% include 'paginator.html' %}
+
+{% endblock %}

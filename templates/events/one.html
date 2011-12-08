@@ -1,0 +1,281 @@
+{% extends 'base.html' %}
+
+{% block metatitle %}{% if event.seo_title %}{{event.seo_title}}{% else %}{{ event.title }}{% endif %}{% endblock %}
+{% block metadescription %}{% if event.seo_title %}{{event.seo_description}}{% else %}{{ event.description }}{% endif %}{% endblock %}
+{% block metakeywords %}{{event.seo_keywords}}{% endblock %}
+
+{% load thumbnail compress_static tree_comments utils %}
+
+{% block extrahead %}
+	{% static_add "js/jquery.form.js" %}
+	{% static_add "js/event.js" %}
+
+	{% static_add "js/kajax.js" %}
+	{% static_add 'tree_comments/comments.css' %}
+	{% static_add 'tree_comments/comments.js' %}
+{% endblock extrahead %}
+
+
+{% block content %}
+<div class="view_opened">
+	<div class="title">
+		<div class="endblock">&nbsp;</div>
+		<span class="open"></span>
+		<h1>{{ event.title }}</h1>
+	</div>
+	<div class="view_content">
+
+	<table class="oneevent" border="0"><tr>
+	<td class="photo">
+		{% if event.is_interzet %}
+			<div class="org_interzet" title="Организовано при поддержке InterZet">Организовано при поддержке InterZet</div>
+		{% endif %}		
+		{% if event.get_photo %}
+			{% thumbnail event.get_photo 350x466 quality=80 as thumb %}
+			<img src="{{ thumb.absolute_url }}" title="{{ event }}" alt="{{ event }}" width="{{ thumb.width }}" height="{{ thumb.height }}"/>
+		{% endif %}
+	</td>
+		
+	<td class="info">
+		<div class="date">	
+		{% if meeting %}
+			{% if meeting.is_equal_date %}
+				{% if meeting.is_equal_time %}
+					{{ meeting.begin|date }} {{ meeting.begin|time }}
+				{% else %}
+					{{ meeting.begin|date }} c {{ meeting.begin|time }} по {{ meeting.end|time }}
+				{% endif %}
+			{% else %}
+				{{ meeting.begin|date }} - {{ meeting.end|date }}
+			{% endif %}
+		{% endif %}
+		</div>
+		<div class="category"><a href="{{ event.category.get_absolute_url }}">{{ event.category }}</a></div>
+	
+		{% if meeting %}
+			<div class="rating">
+				<div class="rating_value" id="jq_rating_value_{{ event.id }}" style="width:{{ event.rating_percent }}%"></div>
+				<div id="hide_if_vote_{{ event.id }}">
+				<a class="start1" href="{% url ajax_event_rating event.id 1 %}" onclick="return rating(this, {{ event.id }})"></a>
+				<a class="start2" href="{% url ajax_event_rating event.id 2 %}" onclick="return rating(this, {{ event.id }})"></a>
+				<a class="start3" href="{% url ajax_event_rating event.id 3 %}" onclick="return rating(this, {{ event.id }})"></a>
+				<a class="start4" href="{% url ajax_event_rating event.id 4 %}" onclick="return rating(this, {{ event.id }})"></a>
+				<a class="start5" href="{% url ajax_event_rating event.id 5 %}" onclick="return rating(this, {{ event.id }})"></a>
+				</div>
+			</div>
+		{% else %}
+			<div class="jq_idea_rang">
+				{% if event.can_i_set_rating %}
+				<a href="{% url ajax_idea_rang_mins event.id %}" class="idea_mins">&darr;</a>
+				<a href="{% url ajax_idea_rang_plus event.id %}" class="idea_plus">&uarr;</a>
+				{% else %}
+				<div class="idea_mins">&darr;</div><div class="idea_plus">&uarr;</div>
+				{% endif %}
+				{{ event.idea_rang }}
+			</div>
+			<br/>
+		{% endif %}
+		<div class="endblock">&nbsp;</div>
+		<hr/>
+		
+		
+		
+		<div class="author">Координатор:<br/> <a href="{{ event.author.get_absolute_url }}">{{ event.author }}</a></div>
+		{% if meeting.author %}
+			<div class="author">Организатор:<br/> <a href="{{ meeting.author.get_absolute_url }}">{{ meeting.author }}</a></div>
+		{% endif %}
+		<hr/>
+		
+		<dl class="place">
+		{% if meeting %}
+			<dt>Баллы:</dt><dd>{{ meeting.cached_ball }}</dd>
+		{% else %}
+			<dt>Баллы:</dt><dd>{{ event.cached_ball }}</dd>
+		{% endif %}
+			<dt>Статус:</dt><dd>
+			{% if event.is_idea  %}идея{% else %}
+			{% if not meeting.is_past %}сформированное
+			{% else %}прошедшее{% endif %}{% endif %}
+			</dd>				
+		</dl>
+		
+		{% if event.is_interzet or meeting %}
+		<hr/>		
+		<dl class="place">
+			{% if meeting %}
+			<dt>Место:</dt><dd>{{ meeting.place }}</dd>
+				{% if meeting.visiters_count %}
+					<dt>Идут:</dt><dd><a href="{% url event_visiters meeting.id %}">{{ meeting.visiters_count }}</a>
+					(из них моих друзей <a href="{% url event_my_friends_visiters meeting.id %}">{{ my_frend_visiters_visiters }}</a>)</dd>
+				{% endif %}
+			{% endif %}			
+		</dl>
+		{% endif %}
+		
+		<hr/>
+		<div class="buttons">		
+		{% if i_am_author %}			
+			{% if meeting %}
+				<div><a href="{% url events_edit_meeting event.id meeting.id %}" class="btn2_edit">редактировать</a></div>
+			{% else %}
+				<div><a href="{% url events_edit event.id %}" class="btn2_edit">редактировать</a></div>
+			{% endif %} 
+			<div><a href="{% url events_photos_edit event.id %}" class="btn2_photos">список фотографий</a></div>
+			<div><a href="{% url events_edit_meeting event.id 0 %}" class="btn2_meeting">добавить встречу</a></div>
+		{% else %}
+			{% if assistant_requests_count %}
+				заявка на помощника координатора отправлена
+			{% else %}
+				<div><a href="{% url assisten_request event.id %}" class="btn2_organizator">подать заявку на помощника координатора</a></div>
+			{% endif %}
+            {% if meeting %}
+                {% if i_am_visitor %}
+                    <div><a href="{% url visiter_request meeting.id %}" class="btn2_refuse_to_meet">Непойду</a></div>
+                {% else %}
+                    <div><a href="{% url visiter_request meeting.id %}" class="btn2_organizate_list_go">Иду</a></div>
+                {% endif %}
+            {% endif %}
+		{% endif %}
+        
+		</div>
+		
+		</td></tr>
+	<tr>
+        <td colspan="2" class="description">
+		<hr/>
+		{{ event.description|linebreaksbr }}	
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2" class="social">
+		<hr/>
+            <script type="text/javascript" src="//yandex.st/share/share.js" charset="utf-8"></script>
+            <div class="yashare-auto-init" data-yashareType="button" data-yashareQuickServices="yaru,vkontakte,facebook,twitter,odnoklassniki,moimir"></div>
+        </td>
+    </tr>
+	</table>
+</div>
+	<div id="btn_visit_toggle">{% include 'events/ajax/btn_visit_toggle.html' %}</div>
+</div>
+
+{% if meeting.can_i_invite %}
+<div class="view_opened inside">
+	<div class="title">
+		<div class="endblock">&nbsp;</div>
+		<span class="open"></span>
+		<h1>Пригласить моих друзей</h1>
+	</div>
+	<div class="view_content closed">
+	<div id="jq_invite_friends">
+		{% include 'events/ajax/friends_invite_list.html' %}
+	</div>
+</div></div>
+{% endif %}
+
+
+{% if event.all_photo or event.can_i_add_photo %}
+<div class="view_opened inside">
+	<div class="title">
+		<div class="endblock">&nbsp;</div>
+		<span class="open"></span>
+		<h1>Фото</h1>
+	</div>
+	<div class="view_content closed">
+	<div id="jq_events_photo">
+		<div class="btn_left"><a href=""></a></div>		<div class="btn_right"><a href=""></a></div>
+		<div class="photo_lite">
+	{% for photo in event.all_photo %}
+			{% thumbnail photo.photo 160x120 quality=80,crop as thumb %}
+			{% thumbnail photo.photo 800x800 quality=80 as thumb2 %}
+			<a href="{{ photo.get_absolute_url }}"><img src="{{ thumb.absolute_url }}" title="{{ photo.title }}" alt="{{ photo.title }}" width="{{ thumb.width }}" height="{{ thumb.height }}"/></a>
+	{% endfor %}
+		{% if event.can_i_add_photo %}
+			<div class="buttons"><div><a href="{% url event_photo_add event.id %}" class="btn2_add_photo">добавить фото</a></div></div>
+			<div class="endblock">&nbsp;</div>
+		{% endif %}		
+		</div>
+	</div>
+</div></div>
+{% endif %}
+
+{% if event.all_video or event.can_i_add_video %}
+<div class="view_opened inside">
+	<div class="title">
+		<div class="endblock">&nbsp;</div>
+		<span class="open"></span>
+		<h1>Видео</h1>
+	</div>
+	<div class="view_content closed">
+	<div id="jq_events_photo">
+		<div class="btn_left"><a href=""></a></div>		<div class="btn_right"><a href=""></a></div>
+		<div class="photo_lite">
+	{% for video in event.all_video %}
+		{% if video.processed %}		
+			{% thumbnail video.thumb 160x120 quality=80,crop as thumb %}
+			<a href="{{ video.get_absolute_url }}"><img src="{{ thumb.absolute_url }}" title="{{ photo.title }}" alt="{{ photo.title }}" width="{{ thumb.width }}" height="{{ thumb.height }}"/></a>
+		{% else %}
+			{% if video.convert_in_process %}
+				<img src="/media/i/video_converting_process.jpg" alt="Видео в обработке в данный момент" width="160" height="120"/>
+			{% else %}	
+				<img src="/media/i/video_converting.jpg" alt="Видео в обработке" width="160" height="120"/>
+			{% endif %}						
+		{% endif %}
+	{% endfor %}
+		{% if event.can_i_add_video %}
+			<div class="buttons"><div><a href="{{ event.get_video_add_url }}" class="btn2_add_video">добавить видео</a></div></div>
+			<div class="endblock">&nbsp;</div>
+		{% endif %}		
+		</div>
+	</div>
+</div></div>
+{% endif %}
+
+
+	
+<div class="view_opened inside">
+	<div class="title">
+		<div class="endblock">&nbsp;</div>
+		<span class="open"></span>
+		<h1>Комментарии</h1>
+	</div>
+	<div class="view_content2">
+		<script type="text/javascript">
+			var comments = new CommentsAjax('{% url comments_ajax %}',"{% comments_post_url event %}", '{{ user.is_authenticated }}');
+			comments.init();	
+		</script>
+		{% tree_comments_ajax event %}
+	</div>
+</div>
+
+
+{% endblock %}
+
+
+{% block right_column %}
+	{% if meeting.limited_visiters_list %}
+	<div class="right_block">
+		<div class="title">{{ meeting.visiters_count}} присоединились:</div>
+		<div class="right_block_bg">
+		{% for visiter in meeting.limited_visiters_list %}
+			<div class="right_block_item">
+				<div class="etext">
+					<div class="rating"><div class="rating_value" style="width:{{ visiter.rating_percent }}%"></div></div>
+					<a href="{{ visiter.get_absolute_url }}">{{ visiter }}</a>
+				</div>
+				<div class="photo">
+					{{ visiter.get_avatar }}
+				</div>
+			</div>
+		{% endfor %}
+		<br/></div>	
+		{% if meeting.visiters_more_then_limit %}<a href="{% url event_visiters event.id %}">все участники</a>{% endif %}
+	</div>
+	{% endif %}
+	
+	{% include "includes/right_idea_top5.html" %}
+
+	
+    {% include "includes/right_calendar.html" %}
+	
+
+{% endblock right_column %}

@@ -1,0 +1,41 @@
+﻿{% extends 'base.html' %}
+
+{% block crums %}
+    <a href="/">Главная</a> &gt;
+    <a href="{{ user_profile.get_absolute_url }}">Профиль</a>
+{% endblock crums %}
+
+{% block content %}
+<h1>Профиль {% if is_my_profile %}<a href="{% url apps.accounts.views.profile_edit %}">редактировать</a>{% endif %}</h1>
+
+<div>{{ cp_config.access.apps__accounts__config__Config.text_for_profile_page|safe }}</div>
+
+<div class="table">
+    <table>
+        <tr>
+            <th>Логин:</th>
+            <td>{{ user_profile }}</td>
+        </tr>
+        <tr>
+            <th>Имя:</th>
+            <td>{{ user_profile.first_name }}</td>
+        </tr>
+        <tr>
+            <th>Фамилия:</th>
+            <td>{{ user_profile.last_name }}</td>
+        </tr>
+        <tr>
+            <th>E-mail:</th>
+            <td>{{ user_profile.email }}</td>
+        </tr>
+        <tr>
+            <th>Аватарка</th>
+            <td>
+                <div class="avatar">{{ user_profile.get_avatar|safe }}</div>
+                <div><a href="{% url apps.accounts.views.change_avatar %}">Сменить</a></div>
+            </td>
+        </tr>
+    </table>
+</div>
+
+{% endblock content %}

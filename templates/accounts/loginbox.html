@@ -1,0 +1,33 @@
+﻿<div class="loginbox">
+{% if user.is_authenticated %}
+	<div class="profilemini">
+		<div class="welcome"><a href="{{ user.get_absolute_url }}" title="Мой профиль">{{ user }}</a>
+			{% if cp_events.has_new_invite %}, <a href="{% url events_invite_list %}" class="alert">есть новые приглашения{% endif %}
+			{% if cp_events.has_new_friends %}, <a href="{% url events_friends %}" class="alert">есть новые знакомства{% endif %}
+			
+			{% if user.im_incoming %}			
+				{% load instant_messages %}
+				{% open_im %}
+			{% endif %}
+			
+		</div>
+		<div class="edit_profile"><a  href="{% url accounts_profile_edit %}">Редактировать профиль</a></div>
+		<div class="exit"><a href="{% url apps.accounts.views.logout_user %}">Выход</a></div>
+		<div class="create_event"><a href="{% url events_create %}">Создать событие</a></div>
+	</div>
+{% else %}
+	<div class="loginform">
+	    <form method="post" action="{% url apps.accounts.views.login_user %}">
+			<div class="login"><div>Логин:</div> <input type="text" name="username"></div>
+	        <div class="pass"><div>Пароль:</div> <input type="password" name="password"></div>
+	        <div class="exit">
+	        	<input type="image" src="/media/i/btn_login.gif">
+	        </div>
+	        <div>
+				<a href="{% url apps.accounts.views.registration %}">Регистрация</a>&nbsp;&nbsp;&nbsp;
+	        	<a href="{% url apps.accounts.views.forgot_password %}">Забыли пароль?</a>
+			</div>	        
+	    </form>
+	</div>
+{% endif %}
+</div>

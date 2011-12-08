@@ -1,0 +1,27 @@
+﻿{% extends "base.html" %}
+
+{% block content %}
+<h1>Друзья &laquo;{{ selected_user }}&raquo;</h1>
+
+<div>{{ cp_config.access.apps__accounts__config__Config.text_for_myfriends_page|safe }}</div>
+<br />
+{% if not page.object_list %}
+    <h3>Список пока пуст</h3>
+    <br />
+{% endif %}
+<br />
+
+<table border="0">
+    {% for fuser in page.object_list %}
+	        <tr>                    	
+	            <td width="150px">
+	            <a href="{{ fuser.get_absolute_url }}">{{ fuser.get_avatar|safe }}</a>
+	                <a href="{{ fuser.get_absolute_url }}">{{ fuser }}</a>
+	            </td>
+	        </tr>
+	        <tr><td colspan="2">&nbsp;</td></tr>
+    {% endfor %}
+</table>
+
+{% include "paginator.html" %}
+{% endblock content %}

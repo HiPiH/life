@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block javascripts %}
+<script type="text/javascript" src="/media/js/photo_add.js"></script>
+{% endblock javascripts %}
+
+{% block content %}
+<h1>Добавление фотографии в &laquo;{{ event }}&raquo;</h1>
+{% if event.can_i_add_photo %}
+	<input type="button" class='btn_plus' onclick='return add_photo()' value="+"/>
+	<form method="POST"  enctype="multipart/form-data" action="{% url event_photo_add event.id %}">
+	<div id="jq_add_photos">
+	</div>
+	<input type="submit" value="сохранить"/>
+	</form>
+{% else %}
+	Вы не можите добавлять сюда сейчас фотографии
+{% endif %}
+
+<a href="{{ event.get_absolute_url }}">К событию</a>
+
+{% endblock content %}

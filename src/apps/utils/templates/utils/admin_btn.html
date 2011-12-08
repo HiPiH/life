@@ -1,0 +1,9 @@
+{% spaceless %}{% if user.is_superuser %}
+{% if cur_lang %}
+<a href="/{{ cur_lang }}/admin/{{ app }}/{{ model }}/{{ id }}/" title="редактировать в системе администрирования" target="_blank">
+{% else %}
+<a href="/admin/{{ app }}/{{ model }}/{{ id }}/" title="редактировать в системе администрирования" target="_blank">
+{% endif %}
+	<img src="/media/i/preferences-desktop-gray.gif" alt="редактировать в системе администрирования"/>
+</a>&nbsp;
+{% endif %}{% endspaceless %}

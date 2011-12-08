@@ -1,0 +1,20 @@
+	<h1>Messages! ver 1.2</h1>
+	
+	<div style="margin: 10px;">
+		<strong>Сообщение пользователю:</strong>
+		{{ to_user }}
+	</div>
+	
+	
+	<div style="width: 500px; height: 300px; overflow-y:auto; border: 1px solid #555; padding: 10px;">
+		&nbsp;
+	</div>
+	
+	<div style="margin-top: 10px;">
+		<form method="post">
+			<div style="color: red;">{{ textarea_error }}</div>
+			<input type="hidden" name="action" value="send">
+			<textarea style="width: 525px; height: 70px;" name="text"></textarea>
+			<div><input type="submit" value="Отправить"></div>
+		</form>
+	</div>

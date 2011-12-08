@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% load compress_static %}
+
+{% block javascripts %}
+	{% static_add "js/photo_add.js" %}
+{% endblock javascripts %}
+
+{% block content %}
+<div class="view_opened">
+	<div class="title">
+		<div class="endblock">&nbsp;</div>
+		<h1>Добавить фото</h1>
+	</div>
+	<div class="view_content">
+{% if event.can_i_add_photo %}
+	<input  type='image' src='/media/i/btn_plus.gif' class='btn_plus' onclick='return add_photo()' value="+"/>
+	<form method="POST"  enctype="multipart/form-data" action="{% url event_photo_add event.id %}">
+	<div id="jq_add_photos">
+	</div>
+	<div class="submit"><input type="image" value="сохранить" src="/media/i/btn_load.gif"/></div>
+	</form>
+{% else %}
+	Вы не можите добавлять сюда сейчас фотографии
+{% endif %}
+<a href="{{ event.get_absolute_url }}" class="btn2_return">Обратно к событию</a>
+</div>&nbsp;</div>
+
+{% endblock content %}

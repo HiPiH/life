@@ -1,0 +1,45 @@
+{% load compress_static i18n utils %}
+<div class="comments-tree">
+<a name="comments"></a>
+{% if comments %}
+	<h3>Комментарии:</h3>		
+	{% for comment in comments %}
+		<dl class="comment">		
+			<dt><div class='submit-date'>{{ comment.submit_date|human_datetime }}</div><a name="{{ comment.id }}_" href="{{ comment.author.get_absolute_url }}">{{ comment.author.get_full_name }}</a>{% admin_btn "comments" "comment" comment.id %}</dt>
+			{% if comment.is_removed %}
+				<dd class="removed">{% trans 'Comment has been removed' %}</dd>
+			{% else %}
+			<dd>
+				<div class='avatar'><a href="{{ comment.author.get_absolute_url }}">{{ comment.author.get_avatar }}</a></div>
+				<div class="text">
+					{{ comment.text|linebreaks }}
+					<div class='buttons'>
+						{% if user.is_authenticated %}
+							<a href="#" name="{{ comment.id }}" class="jq_answer">ответить</a>
+						{% endif %}
+						{% if comment.comments_count %}
+						<a href="#" name="{{ comment.id }}" class="jq_show">коментарии ({{ comment.comments_count }})</a>
+						{% endif %}
+					</div>
+				</div>
+				<div class='sep'>&nbsp;</div>
+			</dd>				
+			{% endif %}
+		</dl>		
+	{% endfor %}
+{% endif %}
+</div>
+
+
+<h3>Ваш комментарий:</h3>
+<div class="comment-form">
+{% if user.is_authenticated %}
+<form method="post" action="{{ action }}">
+	<input type='hidden' name='parent' value=''>	
+	<textarea name="text"></textarea>
+	<div class="submit"><input type="submit" value="сохранить"/></div>	
+</form>
+{% else %}
+	<div class="msg">Вам необходимо <a href="{% url login %}">авторизоваться</a> для того, что бы написать комментарий.</div>
+{% endif %}
+</div>

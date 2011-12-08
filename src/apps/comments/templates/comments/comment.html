@@ -1,0 +1,18 @@
+{% load i18n %}
+{% load dbgutils %}
+  <div
+     style=" padding-left:{% widthratio comment.indent 30 100 %}%">
+    <div style="border-top: 1px dotted #a0a0a0; padding-top: 5px">
+    <div style="float: left; margin-right: 14px;">{{ comment.author.get_avatar|safe }}</div>
+    <div class="title"><span class="datespan">{{ comment.pub_date|date }}</span>
+    <span class="author"><a href="{{ comment.author.get_absolute_url }}">{{ comment.author }}</a></span></div>
+    <div style="float: left">{{ comment.body }}</div>
+    <div style="clear: both"></div>
+    <div style="text-align: right; margin-top: 10px;">
+        {% if user.is_authenticated %}<a href="javascript:" style=" text-decoration: underline; cursor: hand"
+        onclick="close_open(this);">ответить</a>{% endif %}
+        <div style="display: none; margin-right: 10px;" id=cf_{{ comment.id }}></div>
+    </div>
+    </div>
+  </div>
+  <div style="height: 10px"></div>

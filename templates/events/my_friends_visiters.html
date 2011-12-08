@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>Список моих друзей которые идут на &laquo;{{ event }}&raquo;</h1>
+
+{% for visitor in page.object_list %}
+	<div class="visiter">
+		{{ visitor.get_avatar }}
+		{{ visitor }}
+	</div>
+{% empty %}
+	Список пуст
+{% endfor %}
+
+{% include 'paginator.html' %}
+
+{% endblock %}

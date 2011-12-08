@@ -1,0 +1,24 @@
+﻿{% extends 'base.html' %}
+
+{% block crums %}
+    <a href="/">Главная</a> &gt;
+    <a href="{% url apps.accounts.views.validation %}">Активация учетной записи</a>
+{% endblock crums %}
+
+{% block content %}
+
+<h1>Активация учетной записи</h1>
+
+<div>{{ cp_config.access.apps__accounts__config__Config.text_for_validation_page|safe }}</div>
+
+<div class="forms">
+    <form method="get" action="{% url apps.accounts.views.validation %}">
+        <table>
+            {{ validation_form.as_table }}
+        </table>
+        <div style='color: #ff2400;'>{{ message_error }}</div>
+        <div align="right"><input type="submit" value="Отправить" class="submit_button"></div>
+    </form>
+</div>
+
+{% endblock content %}

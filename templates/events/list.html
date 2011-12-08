@@ -1,0 +1,120 @@
+{% extends 'base.html' %}
+{% load thumbnail compress_static %}
+
+{% block extrahead %}
+	{% static_add "js/events_list.js" %}
+	{% static_add "js/calendar.js" %}
+	{% static_add "js/calendar-en.js" %}
+	{% static_add "js/set.js" %}
+	{% static_add "js/event_invite_list.js" %}
+	
+	{% static_add "css/cal.css" %}
+{% endblock extrahead %}
+
+
+    {% block metatitle %}
+        {% if is_archive %}
+            Life.interzet.ru | Архив событий
+        {% else %}
+            Life.interzet.ru |События в Санкт-Петербурге сегодня, афиша культурных, интересных событий Санкт-Петербурга 2011
+        {% endif %}
+    {% endblock %}
+    
+    {% block metadescription %}
+        {% if is_archive %}
+            Архив событий и встреч на событийном социальном портале Life.interzet.ru. То, что прошло еще можно вернуть! Создавайте свои событий и встречи на основе прошедших событий.
+        {% else %}
+            Life.interzet.ru — это новая уникальная в своем роде событийная социальная сеть. Культурные, спортивные и другие события, о которых не пишут в газетах, афишах новостей и прочих СМИ, эти события созданы самими пользователями портала для общения вне сети. Вы ищете компанию, чтобы поехать отдохнуть или поиграть в футбол во дворе? Хотите научиться росписи по стеклу или заняться скалолазанием? Все самые интересные события в Санкт-Петербурге 2011 находятся здесь!
+        {% endif %}
+    {% endblock %}
+
+    {% block metakeywords %}
+        {% if is_archive %}
+            архив событий
+        {% else %}
+            события в санкт петербурге, события в санкт петербурге сегодня, события в санкт петербурге 2011, культурные события санкт петербурга, афиша событий в санкт петербурге, интересные события в санкт петербурге
+        {% endif %}
+    {% endblock %}
+
+{% block content %}
+
+{% if cp_events.has_new_invite %}
+
+<div class="view_opened">
+	<div class="title">
+		<div class="endblock">&nbsp;</div>
+		<h1>Вас приглашают на события</h1>
+	</div>
+</div>
+
+	<div class="event_list">
+	{% for invite in cp_events.has_new_invite %}
+	{% with invite.event as event %}
+	<div class="eventbg"><div class="endblock">&nbsp;</div><div class="event">
+		<div class="photo">
+		{% if event.get_photo %}
+			{% thumbnail event.get_photo 160x120 quality=80,crop as thumb %}
+			<a href="{{ event.get_absolute_url }}"><img src="{{ thumb.absolute_url }}" title="{{ self }}" alt="{{ self }}" width="{{ thumb.width }}" height="{{ thumb.height }}"/></a>
+		{% else %}
+			<a href="{{ event.get_absolute_url }}"><img src="/media/i/nophoto.jpg" title="{{ self }}" alt="{{ self }}" width="{{ thumb.width }}" height="{{ thumb.height }}"/></a>
+		{% endif %}	
+		</div>
+		<div class="info">
+			<div class="title"><a href="{{ event.get_absolute_url }}">{{ event.title }}</a></div>
+			<div class="right1">
+			</div>
+			<div class="left1">
+				<div class="category"><a href="{{ event.category.get_absolute_url }}">{{ event.category }}</a></div>
+				<div class="date">
+					{% if event.is_equal_date %}
+						{% if event.is_equal_time %}
+							{{ event.begin|date }} {{ event.begin|time }}
+						{% else %}
+							{{ event.begin|date }} c {{ event.begin|time }} по {{ event.end|time }}
+						{% endif %}
+					{% else %}
+						c {{ event.begin|date }} по {{ event.end|date }}
+					{% endif %}			
+				</div>
+			</div>
+			<dl class="place">
+				<dt>Место:</dt>
+				<dd>{{ event.place }}</dd>
+			</dl>
+			{% if event.visiters_count %}
+			<dl class="place">
+				<dt>Идут:</dt>
+				<dd><a href="{% url event_visiters event.id %}">{{ event.visiters_count }}</a>
+				(из них моих друзей <a href="{% url event_my_friends_visiters event.id %}">{{ event.my_friends_visiters_count }}</a>)</dd>
+			</dl>
+			{% endif %}
+			<div class="invite_btns">
+				Пригласил: <a href="{{ invite.who.get_absolute_url }}">{{ invite.who }}</a>, {{ invite.when|date }} {{ invite.when|time }}
+				<div id="jq_invite_buttons_{{ invite.id }}">
+				{% include "events/ajax/invite_buttons.html" %}
+			</div>
+			</div>
+		</div>
+	<div class="endblock">&nbsp;</div>
+	</div><div class="endblock">&nbsp;</div></div>
+	{% endwith %}
+	{%endfor %}	
+	</div>
+
+{% endif %}
+
+{% include 'events/include/meeting_list_filter.html' %}
+
+<div class="order_input"></div>
+
+<div class="event_list">
+{% for meeting in page.object_list %}
+	{% include 'events/include/meeting.html' %}
+{% empty %}
+	событий не найдено
+{% endfor %}
+</div>
+
+{% include 'paginator.html' %}
+
+{% endblock %}

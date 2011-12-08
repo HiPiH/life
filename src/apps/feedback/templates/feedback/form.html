@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block metatitle %}
+    	Life.interzet.ru | Обратная связь
+{% endblock %}
+{% block metadescription %}
+    По вопросам рекламного характера, повышения юзабилити, партнерской программы и любым другим вопросам пишите на Обратную связь событийной социальной сети Life.interzet.ru.
+{% endblock %}
+{% block content %}
+<div class="view_opened">
+	<div class="title">
+		<div class="endblock">&nbsp;</div>
+		<h1>Обратная связь</h1>
+	</div>
+	<form method="POST" action="{% url feedback_form %}">
+		<div class="view_content">
+			<table border="0" class="filter_form">
+			{{ form.as_table }}
+			</table>	
+			<div class="endblock">&nbsp;</div>
+		</div>
+		<div class="btn_submit"><input type="image" value="Отправить" src="/media/i/btn_send.gif"/></div>
+		</div>	
+	</form>	
+</div><div class="endblock">&nbsp;</div>	
+{% endblock content %}

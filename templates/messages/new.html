@@ -1,0 +1,38 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <link rel="SHORTCUT ICON" href="/i/favicon.ico"/>
+        <title>Общение с &laquo;{{ c.apponent }}&raquo;</title>
+        <script type="text/javascript" src="/media/js/jquerymin.js"></script>
+        <script type="text/javascript" src="/media/js/messages.js"></script>
+		<link rel='stylesheet' type='text/css' href='/media/css/messages.css'>
+    </head>
+<body>
+<div class="view_opened">
+<form method="post">
+<div class="endblock">&nbsp;</div>
+
+	<div class="title">
+		<div class="endblock">&nbsp;</div>
+		<h1>{{ c.apponent }}</h1>
+	</div>
+	<div class="view_content"><div class="view_content_bg">
+	
+		<div>Показано {{ messages_list.count }} сообщений: 
+			{{ c.my_message_count }}
+			<a href="{% url messages_history c.id %}">история переписки</a>
+		</div>
+		
+		<div style="margin-top: 10px;">
+				<div style="color: red;">{{ textarea_error }}</div>
+				<input type="hidden" name="action" value="send">
+				<textarea style="width: 525px; height: 70px;" name="text"></textarea>				
+		</div>
+	</div>
+	<div class="btn_submit"><input type="image" value="Отправить" src="/media/i/btn_send.gif"/></div>
+	</div>
+</form>
+</div>
+</body>
+</html>

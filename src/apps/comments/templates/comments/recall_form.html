@@ -1,0 +1,19 @@
+﻿{% load i18n %}
+{% load comments %}
+
+{% if form%}
+<div class="endblock">&nbsp;</div>
+<div style="margin: 10px 0px 20px 0px;">
+    <div id="comment-form" style="margin-right:10px;">
+    <form id="comment-form-itself" action="{% url apps.comments.views.operate_recall %}#recalls" method="post">
+      <div style="margin-left: 14px; color: #ff2400; margin-bottom: 3px;">{{ form.body.errors }}</div>
+      <div style="text-align: left;">
+      <div>{{ form.body }}</div>
+      {{ form.content_type }}{{ form.object_id }}{{ form.next }}
+      <div align=right><input type="submit" class="button_standart" value="Добавить" />
+      </div>
+      </div>
+    </form>
+    </div>
+</div>
+{% endif %}

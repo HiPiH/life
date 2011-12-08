@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block extrahead %}
+	{% load compress_static %}
+    {% static_add 'css/blog.css' %}
+{% endblock extrahead %}
+
+
+{% block content %}
+
+<h1>Новые комментарии</h1>
+
+{% if rs %}
+    {% for r in rs %}
+        <div><h3><a href="{{r.post.get_absolute_url}}">{{r.post}}</a></h3></div>
+        {% for reply in r.replies %}
+            {% include 'ajax_replies/reply.html' %}
+        {% endfor %}
+    {% endfor %}
+{% else %}
+    Новых комментариев нет
+{% endif %}
+
+{% endblock content %}

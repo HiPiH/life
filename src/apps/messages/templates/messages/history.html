@@ -1,0 +1,41 @@
+
+	<h1>Messages! ver 1.2</h1>
+	
+	<a href="{% url messages_list c.id %}">&lt;&lt;&lt; Назад к переписке</a>
+	
+	<div style="margin: 10px;">
+		<strong>История переписки с:</strong>
+		{% ifequal c.author user %}
+			{{ c.recipient }}
+		{% else %}
+			{{ c.author }}
+		{% endifequal %}
+	</div>
+	
+	<div>Всего сообщений: 
+		{% ifequal c.author user %}
+			{{ c.count_mes_a }}
+		{% else %}
+			{{ c.author_mes_r }}
+		{% endifequal %}
+	</div>
+	
+	{% include "paginator.html" %}
+	
+	<div style="width: 500px; height: 450px; overflow-y:auto; border: 1px solid #555; padding: 10px;">
+		{% for m in page.object_list %}
+			{% ifequal m.recipient user %}
+				<div style="background: #fafa9f"><strong>Вам: {% if not m.is_new %}<span style="color: red">Новое</span>{% endif %}</strong>
+			{% else %}
+				<div style="background: #9afa9f"><strong>Вы: {% if not m.is_new %}<span style="color: red">не прочитано получателем</span>{% endif %}</strong>
+			{% endifequal %}
+					<span style="font-size: 12px;">{{ m.date_create|date }} {{ m.date_create|time }}</span>
+					<div style="margin: 0px 0px 10px 10px;">
+						{{ m.text|safe|linebreaks }}
+					</div>
+				</div>
+		{% endfor %}
+	</div>
+	
+	{% include "paginator.html" %}
+	

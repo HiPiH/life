@@ -1,0 +1,245 @@
+# Russian translation of apps accounts.
+# Copyright (C) 2008 THE apps accounts'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the apps accounts package.
+#
+#
+# Kovalenko Pavel <ice.tegliaf@gmail.com>, 2008, 2010.
+msgid ""
+msgstr ""
+"Project-Id-Version: apps accounts 0.6\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-03-29 17:23+0400\n"
+"PO-Revision-Date: 2010-02-16 15:58+0300\n"
+"Last-Translator: Kovalenko Pavel <ice.tegliaf@gmail.com>\n"
+"Language-Team: Russian <ru@li.org>\n"
+"Language: ru\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: __init__.py:3
+msgid "Accounts"
+msgstr "Параметры аккаунтов"
+
+#: admin.py:14
+msgid "Personal info"
+msgstr "Персональные данные"
+
+#: admin.py:16
+msgid "Avatars"
+msgstr "Аватары"
+
+#: admin.py:17
+msgid "Permissions"
+msgstr "Права"
+
+#: admin.py:18
+msgid "Groups"
+msgstr "Группы"
+
+#: config.py:12
+msgid "Accounts config"
+msgstr "Параметры аккаунтов"
+
+#: config.py:14
+msgid "Validation new users"
+msgstr "Проверка новых пользователей"
+
+#: config.py:15
+msgid "Notification admins about new users"
+msgstr "Извещать администратора о новых пользователей"
+
+#: config.py:16
+msgid "Please registreted..."
+msgstr "Пожалуйста, зарегистрируйтесь."
+
+#: config.py:16
+msgid "Text on registration page"
+msgstr "Текст страницы регистрации"
+
+#: config.py:17
+msgid "If you forgot password..."
+msgstr "Если Вы забыли пароль...."
+
+#: config.py:17
+msgid "Text on forgot password page"
+msgstr "Текст страницы восстановление пароля"
+
+#: config.py:18
+msgid "On your email send validation code..."
+msgstr "На Ваш E-Mail отправлен код подтверждения."
+
+#: config.py:18
+msgid "Text on validation page"
+msgstr "Текст страницы подтверждения e-mail"
+
+#: config.py:19
+msgid "Please login..."
+msgstr "Пожалуйста, авторизуйтесь."
+
+#: config.py:19
+msgid "Text on login page"
+msgstr "Текст страницы авторизации"
+
+#: config.py:20
+msgid "This is your profile..."
+msgstr "Это Ваш профиль."
+
+#: config.py:20
+msgid "Text on profile page"
+msgstr "Текст страницы профиля"
+
+#: config.py:24
+msgid "Friends per page"
+msgstr "Друзей на страницу"
+
+#: forms.py:10
+msgid "Nic"
+msgstr "Логин"
+
+#: forms.py:10
+msgid ""
+"Required. 30 characters or fewer. Letters, numbers and @/./+/-/_ characters"
+msgstr ""
+"Введите ваш ник в системе не более 30 символов. Допускаются буквы латинского "
+"алфавита символы дефиса и подчеркивания."
+
+#: forms.py:11
+msgid "last name"
+msgstr "Фамилия"
+
+#: forms.py:12
+msgid "Your password"
+msgstr "Ваш пароль"
+
+#: forms.py:13
+msgid "Your password repeat"
+msgstr "Повторите Ваш пароль"
+
+#: forms.py:14
+msgid "Birthday"
+msgstr "День рождения"
+
+#: forms.py:15
+#, fuzzy
+msgid "Email"
+msgstr "Ваш E-Mail"
+
+#: forms.py:20
+msgid "Please type your first name"
+msgstr "Обязательное поле."
+
+#: forms.py:26
+#, fuzzy
+msgid "Please type your email"
+msgstr "Обязательное поле."
+
+#: forms.py:28
+msgid "This email is already exists."
+msgstr "Этот E-mail уже был использован ранее"
+
+#: forms.py:38
+msgid "Your E-mail"
+msgstr "Ваш E-Mail"
+
+#: forms.py:42
+msgid "This email is not register"
+msgstr "Ваш E-Mail не зарегистрирован"
+
+#: forms.py:67
+msgid "Your new password"
+msgstr "Ваш новый пароль"
+
+#: forms.py:68
+msgid "Your new password repeat"
+msgstr "Повторите Ваш новый пароль"
+
+#: forms.py:72
+msgid "Your login"
+msgstr "Ваш логин"
+
+#: forms.py:73
+msgid "Your validation code"
+msgstr "Ваш код подтверждения"
+
+#: models.py:24
+msgid "Upload admin"
+msgstr "администраторы"
+
+#: models.py:25
+msgid "Upload user"
+msgstr "пользователи"
+
+#: models.py:29
+msgid "Avatar title"
+msgstr "Название аватара"
+
+#: models.py:30
+msgid "link to user"
+msgstr "связь с пользователем"
+
+#: models.py:31
+msgid "who upload"
+msgstr "право на загрузку"
+
+#: models.py:32
+msgid "Your avatar"
+msgstr "Ваш аватар"
+
+#: models.py:35
+msgid "Users avatar"
+msgstr "Аватар пользователя"
+
+#: models.py:36
+msgid "Users avatars"
+msgstr "Аватары пользователя"
+
+#: models.py:80
+msgid "men"
+msgstr "муж."
+
+#: models.py:81
+msgid "women"
+msgstr "жен."
+
+#: models.py:85
+msgid "User standart avatar"
+msgstr "Стандартный аватар пользователя"
+
+#: models.py:86
+msgid "Validation code"
+msgstr "Код подтверждения"
+
+#: models.py:88
+msgid "sex"
+msgstr "пол"
+
+#: models.py:89
+msgid "age"
+msgstr "возраст"
+
+#: models.py:90
+msgid "birthday"
+msgstr "день рождения"
+
+#: models.py:91
+msgid "user metro"
+msgstr "метро"
+
+#: models.py:92
+msgid "user_address"
+msgstr "адрес"
+
+#: models.py:95
+msgid "Friends num"
+msgstr "Кол-во друзей"
+
+#: views.py:161
+msgid "No user or invalid validation code..."
+msgstr "Нет такого пользователя или код подтверждения не верный"
+
+#~ msgid "Avatar image width (pixel)"
+#~ msgstr "Ширина аватара (пиксель)"
+
+#~ msgid "Avatar image height (pixel)"
+#~ msgstr "Высота аватара (пиксель)"

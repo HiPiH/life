@@ -1,0 +1,21 @@
+﻿{% if not page.isOne %}
+    <div class="endblock">&nbsp;</div>
+    
+    <!-- PAGINATOR -->
+    <div class="paginator">
+        <div class="endblock">&nbsp;</div>
+            {% if page.has_previous %}<div class="page_prev"><a href="{{page.previous_page_number}}.html"></a></div>{% endif %}
+
+            {% for p in page.pageList %}
+                {% ifequal p page.number %}
+                    <div class="page_now">{{p}}</div>
+                {% else %}
+                    <div class="page"><a href="{{p}}.html">{{p}}</a></div>
+                {% endifequal %}
+            {% endfor %}
+
+            {% if page.has_next %}<div class="page_next"><a href="{{page.next_page_number}}.html"></a></div>{% endif %}
+        <div class="endblock">&nbsp;</div>
+    </div>
+    <div class="endblock">&nbsp;</div>
+{% endif %}

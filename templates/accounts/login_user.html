@@ -1,0 +1,34 @@
+﻿{% extends 'base.html' %}
+
+{% block crums %}
+    <a href="/">Главная</a> &gt;
+    <a href="{% url apps.accounts.views.login_user %}">Авторизация</a>
+{% endblock crums %}
+
+{% block content %}
+<div class="view_opened">
+	<div class="title">
+		<div class="endblock">&nbsp;</div>
+		<h1>Авторизация</h1>
+	</div>
+	<div class="view_content">
+
+
+
+<div>{{ cp_config.access.apps__accounts__config__Config.text_for_login_page|safe }}</div>
+
+<div class="forms">
+    <form method="post" action=".">
+        <table>
+            {{ login_form.as_table }}
+        </table>
+        <div align="right"><input type="submit" value="Отправить" class="submit_button"></div>
+    </form>
+</div>
+
+<a href="{% url apps.accounts.views.registration %}">Регистрация</a><br />
+<a href="{% url apps.accounts.views.forgot_password %}">Восстановление пароля</a><br />
+<a href="{% url apps.accounts.views.validation %}">Активация учетной записи</a><br />
+
+</div>&nbsp;</div>
+{% endblock content %}

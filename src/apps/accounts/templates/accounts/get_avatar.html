@@ -1,0 +1,5 @@
+{% load i18n thumbnail %}
+{% if self.avatar %}
+{% thumbnail self.avatar.image_orig 64x64 quality=90,crop as thumb %}
+<a href="{{ self.get_absolute_url }}"><img src="{{ thumb.absolute_url }}" title="{{ self }}" alt="{{ self }}" width="{{ thumb.width }}" height="{{ thumb.height }}"/></a>
+{% endif %}

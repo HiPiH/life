@@ -1,0 +1,56 @@
+﻿{% extends 'base.html' %}
+{% load thumbnail %}
+
+
+{% block crums %}
+    <a href="/">Главная</a> &gt;
+    <a href="{{ user.get_absolute_url }}">Профиль</a> &gt;
+    <a href="{% url apps.accounts.views.change_avatar %}">Изменить аватар</a>
+{% endblock crums %}
+
+{% block content %}
+
+<h1>Изменение аватара</h1>
+
+<div class="forms">
+    <form method="post" action="{% url apps.accounts.views.change_avatar %}">
+        <input type="hidden" name="act" value="change_avatar">
+        <div class="endblock">&nbsp;</div>
+        <div style="width: 500px;">
+                <div style="margin-top: 40px; margin-bottom: 30px; width: 80px; margin-right: 20px; float: left; text-align: center;">
+                    <div class="avatar"><label for="ava_no"><img src="/media/i/noavatar.jpg"></label></div>
+                    <div><input type="radio" name="thisava" value="no" id="ava_no" {% ifequal ava.id user.avatar.id %}checked=True{% endifequal %}> {{ ava }}</div>
+                </div>
+            {% for ava in users_avatars %}
+				{% thumbnail  ava.image_orig 64x64 quality=90,crop as thumb %}
+                <div style="margin-top: 40px; margin-bottom: 30px; width: 80px; margin-right: 20px; float: left; text-align: center;">
+                    <div class="avatar"><label for="ava_{{ ava.id }}">
+                    	<img src="{{ thumb.absolute_url }}" title="{{ self }}" alt="{{ self }}" width="{{ thumb.width }}" height="{{ thumb.height }}"/>
+                    </label></div>
+                    <div><input type="radio" name="thisava" value="{{ ava.id }}" id="ava_{{ ava.id }}" {% ifequal ava.id user.avatar.id %}checked=True{% endifequal %}> {{ ava }}</div>
+                    <div><a href="{% url apps.accounts.views.delete_avatar ava.id %}" style="color: #ff2400; font-size: 11px;">delete</a></div>
+                </div>
+            {% endfor %}
+            {% for ava in admin_avatars %}
+                <div style="margin-top: 40px; margin-bottom: 30px; width: 80px; margin-right: 20px; float: left; text-align: center;">
+                    <div class="avatar"><label for="ava_{{ ava.id }}"><img src="{{ ava.image_avatar.url }}"></label></div>
+                    <div><input type="radio" name="thisava" value="{{ ava.id }}" id="ava_{{ ava.id }}" {% ifequal ava.id user.avatar.id %}checked=True{% endifequal %}> {{ ava }}</div>
+                </div>
+            {% endfor %}
+        </div>
+        <div class="endblock">&nbsp;</div>
+        <div align="right"><input type="submit" value="Сохранить" class="submit_button"></div>
+    </form>
+</div>
+
+<h3>Закачать свою аватарку:</h3>
+<div class="forms">
+    <form method="post" action="{% url apps.accounts.views.change_avatar %}" enctype="multipart/form-data">
+        <input type="hidden" name="act" value="upload_avatar">
+        <table>
+            {{ upload_form.as_table }}
+        </table>
+        <div align="right"><input type="submit" value="Сохранить" class="submit_button"></div>
+    </form>
+</div>
+{% endblock content %}

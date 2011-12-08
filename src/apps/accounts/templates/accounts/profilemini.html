@@ -1,0 +1,14 @@
+﻿<div id="profilemini">
+    <h2>Привет, <a href="{{ user.get_absolute_url }}">{{ user }}</a></h2>
+    <table>
+        <tr>
+            <td>
+                <div class="avatar">
+                    {{ user.get_avatar|safe }}
+                </div>
+            </td>
+            <td><a href="{% url events_create %}">Создать событие</a></td>
+        </tr>
+    </table>
+    <div class="exit"><a href="{% url apps.accounts.views.logout_user %}" class="linkred bold">Выход</a></div>
+</div>

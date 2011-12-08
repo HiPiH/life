@@ -1,0 +1,19 @@
+{% if user_profile.all_friends %}
+<div class="right_block">
+	<div class="title">{% ifequal user_profile user %}Мои друзья:{% else %}Друзья:{% endifequal %}</div>
+	<div class="right_block_bg">
+	{% for friend in page.object_list %}
+		<div class="right_block_item">
+			<div class="etext">
+				<div class="rating"><div class="rating_value" style="width:{{ friend.rating_percent }}%"></div></div>
+				<a href="{{ friend.get_absolute_url }}">{{ friend }}</a>
+			</div>
+			<div class="photo">
+				{{ friend.get_avatar }}
+			</div>
+		</div>
+	{% endfor %}
+	<br/></div>
+	{% include 'paginator_ajax.html' %}
+</div>
+{% endif %}

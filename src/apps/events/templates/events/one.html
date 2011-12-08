@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block javascripts %}
+<script type="text/javascript" src="/media/js/event.js"></script>
+{% endblock javascripts %}
+
+{% block content %}
+<h1>{{ event.title }}</h1>
+
+<div class="oneevent">
+	<div class="date">c: {{ event.begin|date }} по: {{ event.end|date }}</div>
+	<div class="category">Категория: {{ event.category }}</div>
+	<div class="description">{{ event.description }}</div>
+</div>
+<h2><a href="{% url event_visiters event.id %}">Участники</a></h2>
+
+	<div id="btn_visit_toggle">
+		{% include 'events/include/ajax_btn_visit_toggle.html' %}
+	</div>
+	
+<h2><a href="#">Комментарии</a></h2>
+{% for comment in event.last_comments %}
+	<div class="comment">
+		<div class="avatar">{{ comment.user.get_avatar }}</div>
+		<a class="author" href="{{ comment.user.get_absolute_url }}">{{ comment.user }}</a>
+		<div class="date">{{ comment.created|date }} {{ comment.created|time }}</div>
+		<div class="text">{{ comment.text }}</div>
+	</div>
+<br/><br/>
+{% endfor %}
+
+
+<hr/>
+{% endblock %}
+
+{% block col-right %}
+ <!-- CALENDAR -->
+ <div id="event_info">
+ 	{% include 'events/one_ajax.html' %}
+ </div>
+ 
+ <div id="calendar">
+     <h1>Календарь</h1>
+     <div align="center">
+         {% include 'ajax_calendar/includes/block.html' %}
+     </div>
+ </div>
+ <!-- /CALENDAR -->
+
+{% endblock col-right %}
