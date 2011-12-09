@@ -7,6 +7,10 @@ from apps.utils.forms               import SelectGraphDate, CustomForm
 
 from registration.forms             import  RegistrationFormUniqueEmail,RegistrationProfile
 from apps.events.models             import Metro, RangHistory
+from django.core.mail               import EmailMultiAlternatives
+import settings
+
+
 
 
 # ФОРМА РЕГИСТРАЦИИ
@@ -80,6 +84,7 @@ class FormUserEdit(forms.ModelForm):
             get_profile.save()
         get_profile.spam = self.cleaned_data['spam']
         get_profile.save()
+        EmailMultiAlternatives("Изменение профиля","Вашь профиль идменился",settings.DEFAULT_FROM_EMAIL,[user.email]).send()
 
     class Meta():
         model = User
