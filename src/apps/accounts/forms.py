@@ -2,10 +2,12 @@
 from django.utils.translation       import ugettext as _
 from django.contrib.auth.models     import User
 from django.forms.widgets           import PasswordInput
-from models                         import UsersAvatars,SEX
+from models                         import UsersAvatars,SEX,ProfileUser
 from apps.utils.forms               import SelectGraphDate, CustomForm
+
 from registration.forms             import  RegistrationFormUniqueEmail,RegistrationProfile
 from apps.events.models             import Metro, RangHistory
+
 
 # ФОРМА РЕГИСТРАЦИИ
 class FormUserReg(RegistrationFormUniqueEmail):
@@ -49,6 +51,15 @@ class FormUserReg(RegistrationFormUniqueEmail):
 # ФОРМА РЕДАКТИРОВАНИЯ ПОЛЬЗОВАТЕЛЯ
 class FormUserEdit(forms.ModelForm):
     birthday = forms.DateField(widget=SelectGraphDate({'showsTime':"false",}), required = True)
+    spam = forms.BooleanField(label='',initial=False,help_text="Подписаться на рассылку событий портала",required=False)
+
+    def init(self):
+        try:
+            get_profile = self.instance.get_profile()
+        except :
+            get_profile = ProfileUser(user=self.instance)
+            get_profile.save()
+        self.fields["spam"].initial=get_profile.spam
 
     def clean_first_name(self):
         if self.cleaned_data['first_name'] == "":
@@ -59,6 +70,16 @@ class FormUserEdit(forms.ModelForm):
         if self.cleaned_data['last_name'] == "":
             raise forms.ValidationError('Please type your last name')
         return self.cleaned_data['last_name']
+
+    def save(self):
+        user = super(FormUserEdit, self).save()
+        try:
+            get_profile = user.get_profile()
+        except :
+            get_profile = ProfileUser(user=user)
+            get_profile.save()
+        get_profile.spam = self.cleaned_data['spam']
+        get_profile.save()
 
     class Meta():
         model = User

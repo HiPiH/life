@@ -255,6 +255,7 @@ def profile_edit(req):
     
     if req.POST:
         out['edit_form'] = edit_form = FormUserEdit(req.POST,instance=req.user)
+        edit_form.init()
         out['edit_formPass'] = edit_formPass = PasswordChangeForm(user=req.user, data=req.POST)
         # ЕСЛИ РЕДАКТИРОВАНИЕ ПРОФАЙЛА
         if 'action' in req.POST and req.POST['action'] == "%s" % 'editprofile':
@@ -273,7 +274,9 @@ def profile_edit(req):
                 return HttpResponseRedirect('/accounts/logout/')
 
     else:
+
         out['edit_form'] = edit_form = FormUserEdit(instance=req.user)
+        edit_form.init()
         out['edit_formPass'] = edit_formPass = PasswordChangeForm(user=req.user)
         
     return out
