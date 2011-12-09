@@ -10,8 +10,11 @@ admin.autodiscover()
 config.autodiscover()
 from django.views.generic.simple import redirect_to,direct_to_template
 from apps.events.views import index
-
+from django.http import HttpResponseNotFound,HttpResponse
 from django.contrib.sitemaps import FlatPageSitemap
+
+def not_found(request):
+    return  HttpResponseNotFound(direct_to_template(request,"404.html"))
 
 urlpatterns = patterns('',
     # INDEX PAGE
@@ -48,5 +51,7 @@ urlpatterns = patterns('',
 
     # sitemap.xml
     (r'^sitemap\.xml$', 'django.contrib.sitemaps.views.sitemap', {'sitemaps': {'flatpages': FlatPageSitemap}}),
-    (r'^robots\.txt$',direct_to_template, {'template': 'robots.txt','mimetype':'text/plain'})
+    (r'^robots\.txt$',direct_to_template, {'template': 'robots.txt','mimetype':'text/plain'}),
+    (r'^.*$',not_found)
 )
+
