@@ -13,6 +13,7 @@ from apps.events.views import index
 from django.http import HttpResponseNotFound,HttpResponse
 from django.contrib.sitemaps import FlatPageSitemap
 
+
 def not_found(request):
     return  HttpResponseNotFound(direct_to_template(request,"404.html"))
 
@@ -38,6 +39,7 @@ urlpatterns = patterns('',
     (r'^admin/config/', include('apps.config.admin.urls')),
     (r'^admin/po_editor/', include('apps.po_editor.admin.urls')),
     #(r'^admin/po_editor/', include('apps.po_editor.admin.urls')),
+
     (r'^admin/(.*)', admin.site.root),
     
     # Uncomment the next line to enable admin documentation:
@@ -52,6 +54,8 @@ urlpatterns = patterns('',
     # sitemap.xml
     (r'^sitemap\.xml$', 'django.contrib.sitemaps.views.sitemap', {'sitemaps': {'flatpages': FlatPageSitemap}}),
     (r'^robots\.txt$',direct_to_template, {'template': 'robots.txt','mimetype':'text/plain'}),
-    (r'^.*$',not_found)
+    (r'^files/',include("filebrowser.urls")),
 )
+if not settings.DEBUG:
+    urlpatterns += patterns('',   (r'^.*$',not_found))
 

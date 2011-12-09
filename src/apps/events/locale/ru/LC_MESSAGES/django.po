@@ -145,8 +145,8 @@ msgid "описание"
 msgstr "описание"
 
 #: models.py:115
-msgid "координатор"
-msgstr "координатор"
+msgid "Автор идеи"
+msgstr "Автор идеи"
 
 #: models.py:120
 msgid "отмечено InterZet"
@@ -257,8 +257,8 @@ msgid "подпись"
 msgstr "подпись"
 
 #: models.py:499
-msgid "опубликовано координатором"
-msgstr "опубликовано координатором"
+msgid "опубликовано автором идеи"
+msgstr "опубликовано автором идеи"
 
 #: models.py:508 models.py:509
 msgid "Фото"

@@ -117,7 +117,7 @@ class Event(models.Model):
 #    #район
 #    metro = models.ForeignKey(Metro, verbose_name=_(u'метро'))
     #координатор
-    author = models.ForeignKey(User, verbose_name=_(u'координатор'), related_name='events_author') #, editable = False
+    author = models.ForeignKey(User, verbose_name=_(u'Автор идеи'), related_name='events_author') #, editable = False
 #    #опубликовано координатором
 #    published_by_author = models.BooleanField(verbose_name=_(u'опубликовано координатором'))
 #    #опубликовано модератором
@@ -510,7 +510,7 @@ class Photo(models.Model):
     #подпись
     title = models.CharField(max_length=255, verbose_name=_(u'подпись'), blank=True)
     #опубликовано координатором
-    published = models.BooleanField(verbose_name=_(u'опубликовано координатором'))
+    published = models.BooleanField(verbose_name=_(u'опубликовано автором идеи'))
     #кто
     author = models.ForeignKey(User, verbose_name=_(u'кто'), related_name='photo_author_set')
     

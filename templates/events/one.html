@@ -80,7 +80,7 @@
 		
 		
 		
-		<div class="author">Координатор:<br/> <a href="{{ event.author.get_absolute_url }}">{{ event.author }}</a></div>
+		<div class="author">Автор идеи:<br/> <a href="{{ event.author.get_absolute_url }}">{{ event.author }}</a></div>
 		{% if meeting.author %}
 			<div class="author">Организатор:<br/> <a href="{{ meeting.author.get_absolute_url }}">{{ meeting.author }}</a></div>
 		{% endif %}
@@ -124,9 +124,9 @@
 			<div><a href="{% url events_edit_meeting event.id 0 %}" class="btn2_meeting">добавить встречу</a></div>
 		{% else %}
 			{% if assistant_requests_count %}
-				заявка на помощника координатора отправлена
+				заявка на помощника автора идеи отправлена
 			{% else %}
-				<div><a href="{% url assisten_request event.id %}" class="btn2_organizator">подать заявку на помощника координатора</a></div>
+				<div><a href="{% url assisten_request event.id %}" class="btn2_organizator">подать заявку на помощника автора идеи</a></div>
 			{% endif %}
             {% if meeting %}
                 {% if i_am_visitor %}

@@ -68,3 +68,11 @@ class Page(models.Model):
         verbose_name        = _('page')
         verbose_name_plural = _('pages')
 
+
+
+def inint():
+    try:
+        Page.objects.get(address="connect")
+    except :
+        Page(title="Подключиться",address="connect",content="text").save()
+inint()
