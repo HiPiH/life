@@ -18,7 +18,7 @@ from models import UsersAvatars, AVATAR_FROM_ADMIN, AVATAR_FROM_USERS
 import datetime
 import random
 from apps.events.models import Event, AssistantRequest
-from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth.forms import PasswordChangeForm,UserChangeForm
 
 @render_to("accounts/login_user.html")
 def login_user(req):

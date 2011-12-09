@@ -16,14 +16,35 @@ class FormUserReg(RegistrationFormUniqueEmail):
     password2 = forms.CharField(label=_('Your password repeat'), required = True, widget=PasswordInput)
     birthday = forms.DateField(label=_('Birthday'), widget=SelectGraphDate({'showsTime':"false",}), required = False)
     email = forms.EmailField(label=_('Email'), required = True)
+    address = forms.CharField(label=_('user_address'), max_length=255)
+    sex = forms.ChoiceField(label=_('sex'),  choices = SEX, initial=None)
+    birthday = forms.DateField(label=_('birthday'))
+    metro = forms.ChoiceField(label=_('user metro'), choices=[(x.id,x.name) for x in Metro.objects.all()],widget=forms.Select)
     rules = forms.BooleanField(label='',initial=True,help_text="Я ознакомлен и согласен с правилами портала и с получением на e-mail уведомлений для моего профиля и обновлений правил портала",required=True)
     spam = forms.BooleanField(label='',initial=False,help_text="Подписаться на рассылку событий портала",required=False)
-    address= forms.CharField(label=_('user_address'), max_length=255)
-    sex= forms.ChoiceField(label=_('sex'),  choices = SEX, initial=None)
-    birthday= forms.DateField(label=_('birthday'))
-    metro= forms.ChoiceField(label=_('user metro'), choices=[(x.id,x.name) for x in Metro.objects.all()],widget=forms.Select)
+    def clean_last_name(self):
+        if self.cleaned_data['last_name'] == "":
+            raise forms.ValidationError('Please type your first name')
+        return self.cleaned_data['last_name']
+
+    def save(self, profile_callback=None):
+        user = super(FormUserReg, self).save()
+        user.last_name = self.cleaned_data['last_name']
+        user.first_name = self.cleaned_data['first_name']
+        user.birthday = self.cleaned_data['birthday']
+        user.address = self.cleaned_data['address']
+        user.sex = self.cleaned_data['sex']
+        user.birthday = self.cleaned_data['birthday']
+        user.metro = Metro.objects.get(id=self.cleaned_data['metro'])
+        user.save()
+        if profile_callback:
+            profile =  profile_callback(user = user,rules=self.cleaned_data['rules'],spam=self.cleaned_data['spam'])
+            profile.save()
+
+            
     class Meta():
         model = User
+        fields =('username ','last_name','first_name','password1','password2','birthday','email','rules','spam','address','sex','birthday','metro')
         
 # ФОРМА РЕДАКТИРОВАНИЯ ПОЛЬЗОВАТЕЛЯ
 class FormUserEdit(forms.ModelForm):

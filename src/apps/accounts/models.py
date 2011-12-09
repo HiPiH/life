@@ -9,7 +9,6 @@ from django.template.loader import render_to_string
 from django.utils.translation import ugettext_lazy as _
 from django.db.models import Avg
 import datetime
-import settings
 
 
 __all__ = ('SEX','MEN_SEX','WOMAN_SEX','Friends','UsersAvatars')
@@ -90,9 +89,15 @@ User.add_to_class('age', models.PositiveSmallIntegerField(verbose_name=_('age'),
 User.add_to_class('birthday', models.DateField(verbose_name=_('birthday'), default=None, blank=True, null=True))
 User.add_to_class('metro', models.ForeignKey(Metro,verbose_name=_('user metro'), default=None, blank=True, null=True))
 User.add_to_class('address', models.CharField(verbose_name=_('user_address'), max_length=255, null=True, blank=True, default=None))
+
+User.add_to_class('friends_num', models.PositiveIntegerField(verbose_name=_('Friends num'), default=0))
+
+
+
+
+
 #User.add_to_class('friends', models.ManyToManyField(User, verbose_name=_('Friends'), related_name='i_am_firend'))
 #кол-во друзей
-User.add_to_class('friends_num', models.PositiveIntegerField(verbose_name=_('Friends num'), default=0))
 ##кол-во друзей которые добавили меня
 #User.add_to_class('friended_num', models.PositiveIntegerField(verbose_name=_('Friended num'), default=0))
 
@@ -178,17 +183,11 @@ def rating_percent(self):
 User.rating_percent = rating_percent
 
 
+
 class ProfileUser(models.Model):
     user = models.ForeignKey(User)
     rules = models.BooleanField(default=True,null=False,blank=False)
     spam = models.BooleanField(default=False,null=False,blank=False)
-    avatar = models.ForeignKey(UsersAvatars, verbose_name=_('User standart avatar'), null=True, blank=True)
-    sex=  models.CharField(verbose_name=_('sex'), max_length=1, choices = SEX, null=True, blank=True, default=None)
-    age= models.PositiveSmallIntegerField(verbose_name=_('age'), default=None, blank=True, null=True)
-    birthday= models.DateField(verbose_name=_('birthday'), default=None, blank=True, null=True)
-    metro= models.ForeignKey(Metro,verbose_name=_('user metro'), default=None, blank=True, null=True)
-    address= models.CharField(verbose_name=_('user_address'), max_length=255, null=True, blank=True, default=None)
-    friends_num= models.PositiveIntegerField(verbose_name=_('Friends num'), default=0)
 
     class Meta:
         verbose_name = _(u'User profile')
