@@ -55,6 +55,7 @@ urlpatterns = patterns('',
     (r'^sitemap\.xml$', 'django.contrib.sitemaps.views.sitemap', {'sitemaps': {'flatpages': FlatPageSitemap}}),
     (r'^robots\.txt$',direct_to_template, {'template': 'robots.txt','mimetype':'text/plain'}),
     (r'^files/',include("filebrowser.urls")),
+    (r'^rss/',include("apps.rss.urls")),
 )
 if not settings.DEBUG:
     urlpatterns += patterns('',   (r'^.*$',not_found))
