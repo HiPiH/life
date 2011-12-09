@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: apps accounts 0.6\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-03-29 17:23+0400\n"
-"PO-Revision-Date: 2010-02-16 15:58+0300\n"
-"Last-Translator: Kovalenko Pavel <ice.tegliaf@gmail.com>\n"
+"PO-Revision-Date: 2011-12-09 11:02+0400\n"
+"Last-Translator: HiPiH <woolepr@gmail.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
@@ -98,11 +98,8 @@ msgid "Nic"
 msgstr "Логин"
 
 #: forms.py:10
-msgid ""
-"Required. 30 characters or fewer. Letters, numbers and @/./+/-/_ characters"
-msgstr ""
-"Введите ваш ник в системе не более 30 символов. Допускаются буквы латинского "
-"алфавита символы дефиса и подчеркивания."
+msgid "Required. 30 characters or fewer. Letters, numbers and @/./+/-/_ characters"
+msgstr "Введите ваш ник в системе не более 30 символов. Допускаются буквы латинского алфавита символы дефиса и подчеркивания."
 
 #: forms.py:11
 msgid "last name"
@@ -237,6 +234,12 @@ msgstr "Кол-во друзей"
 #: views.py:161
 msgid "No user or invalid validation code..."
 msgstr "Нет такого пользователя или код подтверждения не верный"
+
+msgid "This email address is already in use. Please supply a different email address."
+msgstr "Данный адрес уже использован."
+
+msgid "This username is already taken. Please choose another."
+msgstr "Такой ник уже использован."
 
 #~ msgid "Avatar image width (pixel)"
 #~ msgstr "Ширина аватара (пиксель)"

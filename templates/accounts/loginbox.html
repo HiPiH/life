@@ -12,20 +12,20 @@
 			
 		</div>
 		<div class="edit_profile"><a  href="{% url accounts_profile_edit %}">Редактировать профиль</a></div>
-		<div class="exit"><a href="{% url apps.accounts.views.logout_user %}">Выход</a></div>
+		<div class="exit"><a href="{% url  django.contrib.auth.views.logout %}">Выход</a></div>
 		<div class="create_event"><a href="{% url events_create %}">Создать событие</a></div>
 	</div>
 {% else %}
 	<div class="loginform">
-	    <form method="post" action="{% url apps.accounts.views.login_user %}">
+	    <form method="post" action="{% url django.contrib.auth.views.login %}"> {% csrf_token %}
 			<div class="login"><div>Логин:</div> <input type="text" name="username"></div>
 	        <div class="pass"><div>Пароль:</div> <input type="password" name="password"></div>
 	        <div class="exit">
 	        	<input type="image" src="/media/i/btn_login.gif">
 	        </div>
 	        <div>
-				<a href="{% url apps.accounts.views.registration %}">Регистрация</a>&nbsp;&nbsp;&nbsp;
-	        	<a href="{% url apps.accounts.views.forgot_password %}">Забыли пароль?</a>
+				<a href="{% url registration.views.register %}">Регистрация</a>&nbsp;&nbsp;&nbsp;
+	        	<a href="{% url django.contrib.auth.views.password_reset %}">Забыли пароль?</a>
 			</div>	        
 	    </form>
 	</div>

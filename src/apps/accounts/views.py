@@ -18,7 +18,7 @@ from models import UsersAvatars, AVATAR_FROM_ADMIN, AVATAR_FROM_USERS
 import datetime
 import random
 from apps.events.models import Event, AssistantRequest
-
+from django.contrib.auth.forms import PasswordChangeForm
 
 @render_to("accounts/login_user.html")
 def login_user(req):
@@ -74,10 +74,14 @@ def forgot_password(req):
 @render_to("accounts/registration.html")
 def registration(req):
     out={}
-    
-    # ЕСЛИ УЖЕ АВТОРИЗОВАН ТО НЕЛЬЗЯ РЕГИТЬСЯ
     if req.user.is_authenticated():
         return HttpResponseRedirect(req.user.get_absolute_url())
+    from registration.views import register
+    return register(req,form_class=FormUserReg)
+
+    
+    # ЕСЛИ УЖЕ АВТОРИЗОВАН ТО НЕЛЬЗЯ РЕГИТЬСЯ
+
         
     if req.POST:
         out['reg_form'] = reg_form = FormUserReg(req.POST)
@@ -251,7 +255,7 @@ def profile_edit(req):
     
     if req.POST:
         out['edit_form'] = edit_form = FormUserEdit(req.POST,instance=req.user)
-        out['edit_formPass'] = edit_formPass = FormUserChangePassword(req.POST)
+        out['edit_formPass'] = edit_formPass = PasswordChangeForm(user=req.user, data=req.POST)
         # ЕСЛИ РЕДАКТИРОВАНИЕ ПРОФАЙЛА
         if 'action' in req.POST and req.POST['action'] == "%s" % 'editprofile':
             if edit_form.is_valid():
@@ -265,17 +269,12 @@ def profile_edit(req):
         ##########################
         if 'action' in req.POST and req.POST['action'] == 'changepass':
             if edit_formPass.is_valid():
-                passworderr = None
-                if req.POST['passwordnew1'] != req.POST['passwordnew2']:
-                    out['passworderr'] = passworderr = u'Пароли не совпадают'
-                    
-                if not passworderr:
-                    # УСТАНОВКА ПАРОЛЯ И СОХРАНЕНИЕ РЕАЛЬНОГО В БД
-                    req.user.set_password(edit_formPass.cleaned_data['passwordnew1'])
-                    return HttpResponseRedirect('/accounts/logout/')
+                edit_formPass.save()
+                return HttpResponseRedirect('/accounts/logout/')
+
     else:
         out['edit_form'] = edit_form = FormUserEdit(instance=req.user)
-        out['edit_formPass'] = edit_formPass = FormUserChangePassword()
+        out['edit_formPass'] = edit_formPass = PasswordChangeForm(user=req.user)
         
     return out
     

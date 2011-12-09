@@ -176,3 +176,21 @@ def rating_percent(self):
     return  int(rang/5*100)
 
 User.rating_percent = rating_percent
+
+
+class ProfileUser(models.Model):
+    user = models.ForeignKey(User)
+    rules = models.BooleanField(default=True,null=False,blank=False)
+    spam = models.BooleanField(default=False,null=False,blank=False)
+    avatar = models.ForeignKey(UsersAvatars, verbose_name=_('User standart avatar'), null=True, blank=True)
+    sex=  models.CharField(verbose_name=_('sex'), max_length=1, choices = SEX, null=True, blank=True, default=None)
+    age= models.PositiveSmallIntegerField(verbose_name=_('age'), default=None, blank=True, null=True)
+    birthday= models.DateField(verbose_name=_('birthday'), default=None, blank=True, null=True)
+    metro= models.ForeignKey(Metro,verbose_name=_('user metro'), default=None, blank=True, null=True)
+    address= models.CharField(verbose_name=_('user_address'), max_length=255, null=True, blank=True, default=None)
+    friends_num= models.PositiveIntegerField(verbose_name=_('Friends num'), default=0)
+
+    class Meta:
+        verbose_name = _(u'User profile')
+        verbose_name_plural = _(u'User profile')
+

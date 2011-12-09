@@ -1,4 +1,4 @@
-﻿{% extends 'base.html' %}
+{% extends 'base.html' %}
 
 {% load compress_static %}
 
@@ -12,7 +12,7 @@
 <script>
 $(function() {
     $.datepicker.setDefaults( $.datepicker.regional[ "ru" ] );
-    $( "#birthday" ).datepicker({
+    $( "#id_birthday" ).datepicker({
 			changeMonth: true,
 			changeYear: true,
             yearRange: '1968:2006',
@@ -28,14 +28,21 @@ $(function() {
 		<div class="endblock">&nbsp;</div>
 		<h1>Регистрация</h1>
 	</div>
-	<form method="POST" action="{% url apps.accounts.views.registration %}">
+	<form method="POST" action="{% url registration.views.register %}">
 		<div class="view_content">
 			<div>{{ cp_config.access.apps__accounts__config__Config.text_for_registration_page|safe }}</div>
 			<table border="0" class="filter_form">
-				{{ reg_form.as_table }}
+                {% for i in form %}
+                    <tr><th>{{ i.label }}{% if i.field.required %}<span class="red"> * </span>{% endif %}
+                    </th><td>{{ i }}<br/>{{ i.help_text }}</td></tr>
+                    {%  if i.errors %}<tr>
+                        <th></th>
+                        <td>{{ i.errors }}</td>
+                    </tr>{% endif %}
+                {% endfor %}
 			</table>
-
-            <!-- <div class="red">* обязательные для заполнения поля</div> -->
+			<div class="errorlist"></div>
+            <div class="red">* обязательные для заполнения поля</div>
 			<div class="endblock">&nbsp;</div>
 		</div>
         

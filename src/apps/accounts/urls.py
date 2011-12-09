@@ -1,11 +1,43 @@
 from django.conf.urls.defaults import *
+from django.views.generic.simple import direct_to_template
+from apps.accounts.forms import FormUserReg
+from registration.views import register,activate
+from apps.accounts.models import ProfileUser
+from django.contrib.auth.views import  login,password_reset,logout,password_reset_confirm,password_reset_complete,password_reset_done
 
-urlpatterns = patterns('apps.accounts.views',
-    url(r'^login/$', 'login_user', name="login"),
-    (r'^logout/$', 'logout_user'),
-    (r'^registration/$', 'registration'),
-    (r'^forgot/$', 'forgot_password'),
-    
+urlpatterns = patterns('',
+    url(r'^activate/(?P<activation_key>\w+)/$',
+                           activate,
+                           name='registration_activate'),
+    url(r'^login/$', login),
+    url(r'^logout/$', logout,{"next_page":"/"}),
+
+    url(r'^password/reset/$',
+                           password_reset,{"template_name":"registration/reset.html"},
+                           name='auth_password_reset'),
+
+    url(r'^password/reset/confirm/(?P<uidb36>[0-9A-Za-z]+)-(?P<token>.+)/$',
+                           password_reset_confirm,
+                           name='auth_password_reset_confirm'),
+    url(r'^password/reset/complete/$',
+                           password_reset_complete,
+                           name='auth_password_reset_complete'),
+    url(r'^password/reset/done/$',
+                           password_reset_done,
+                           name='auth_password_reset_done'),
+
+    url(r'^register/$', register,
+                            {'form_class': FormUserReg,'profile_callback': ProfileUser.objects.create },
+                            name='registration_register'),
+    url(r'^register/complete/$',direct_to_template,
+                           {'template': 'registration/registration_complete.html'},
+                           name='registration_complete')
+    )
+
+
+
+
+urlpatterns += patterns('apps.accounts.views',
     url(r'^profile/(?P<username>[\w-]+)/$', 'profile', name="accounts_profile"),
     url(r'^myprofile/$', 'myprofile', name="myprofile"),
     

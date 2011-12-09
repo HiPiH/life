@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% load compress_static %}
+
+{% block extrahead %}
+	{% static_add "js/calendar.js" "js/calendar-en.js" "js/set.js" "js/jquery-ui-1.7.3.custom.min.js" %}
+	{% static_add "css/cal.css" "css/jquery-ui-1.7.3.custom.css" %}
+{% endblock extrahead %}
+
+
+{% block content %}
+  {% load i18n %}
+  <div align="center" >
+        {%  if not user.is_authenticated %}
+            <div  class="fifty"><h1><label>{% trans "Авторизация" %}</label></h1><br/>
+            <form action="{% url django.contrib.auth.views.login %}" method="POST">
+                 
+                {% if  form.errors %}<div class="errorlist">{% trans "Пожалуйста, введите верные имя пользователя и пароль. Помните, оба поля чувствительны к регистру." %}</div><br/>{% endif %}
+                <div class="view_content">
+                    
+                    <table border="0" class="filter_form">
+                        {% for i in form %}
+                            <tr><th>{{ i.label }}
+                            </th><td>{{ i }}<br/>{{ i.help_text }}</td></tr>
+                            {%  if i.errors %}<tr>
+                                <th></th>
+                                <td>{{ i.errors }}</td>
+                            </tr>{% endif %}
+                        {% endfor %}
+                    </table>
+                    <div class="errorlist"></div>
+                    
+                    <div class="endblock">&nbsp;</div>
+                </div>
+                        
+
+                <div align="center"><input type="submit" class='submit' value="{% trans "Войти" %}" accept="" /></div><br/>
+            </form>
+            <div><a href="{% url registration.views.register %}">Регистрация</a>&nbsp;&nbsp;&nbsp;
+	        	<a href="{% url django.contrib.auth.views.password_reset %}">Забыли пароль?</a></div>
+            </div>
+        {% else %}
+            <div class="help">
+               <h2> {% trans "Зачем?" %} </h2>
+               <p>{% trans "Вы уже вошли в систему. Если Вы запутались, то обратитесь к разделу <a href='/help'>помощь</a>." %}</p>
+            </div>
+        {% endif %}
+  </div>
+{% endblock %}

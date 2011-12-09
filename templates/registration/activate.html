@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% load compress_static %}
+
+{% block extrahead %}
+	{% static_add "js/calendar.js" "js/calendar-en.js" "js/set.js" "js/jquery-ui-1.7.3.custom.min.js" %}
+	{% static_add "css/cal.css" "css/jquery-ui-1.7.3.custom.css" %}
+{% endblock extrahead %}
+
+
+{% block content %}
+  {% load i18n %}
+  <div a >
+        {% if account %}
+            <div  class="fifty"><h1><label>{% trans "Авторизация" %}</label></h1><br/>
+
+            <p>Теперь вы можете войти в свой профиль, указав Логин и Пароль.</p>
+         <p>Не можете авторизоваться, обратитесь в администрации сайта посредством <a href=="{% url feedback_form %}">«Обратной связи»</a>.</p>
+
+       <p> Если вы не знаете, почему открылась данная страница, вероятно, вы еще не являетесь зарегистрированным пользователем Life.interzet.ru. </p>
+
+         <p>Чтобы зарегистрироваться, перейдите по ссылке:<a href="{% url registration.views.register %}">Регистрация</a> </p>
+
+        {% else %}
+            <div class="error">
+    <h2 >{% trans "Ошибка" %}</h2>
+	<p>Ошибка активации, повторите <a href='{% url registration.views.register %}'>регистрацию</a>.</p>
+            </div>
+        {% endif %}
+  </div>
+{% endblock %}
