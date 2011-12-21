@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-  
-__author__ = 'Aleksey.Novgorodov'
+
 from django.contrib.syndication.views import FeedDoesNotExist
 from django.shortcuts import get_object_or_404
 from django.contrib.syndication.views import Feed

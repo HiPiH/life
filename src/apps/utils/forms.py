@@ -98,9 +98,9 @@ DEFAULT_DATETIME_INPUT_FORMATS = (
 
 class SelectGraphDate(forms.Widget):
     
-    def __init__(self, calendar_args = {}):
+    def __init__(self, calendar_args = {},attrs={}):
         self.calendar_args = calendar_args
-        super(SelectGraphDate, self).__init__()
+        super(SelectGraphDate, self).__init__(attrs=attrs)
     
     def render(self, name, value, attrs=None):
         if not value:

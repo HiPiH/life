@@ -91,7 +91,7 @@ def tag(req, tagID, page_num):
 
 def post_list(req, author, page_num):
     out = {}
-    out['author'] = author = get_object_or_404(User, username=author, is_blog_author = True)
+    out['author'] = author = get_object_or_404(User, username=author)
 
     page_num = 1 if not page_num else page_num
     if req.user == author:
@@ -158,7 +158,7 @@ def friends_last_posts(req, author):
 @login_required
 def create_post(req, author):
     out={}
-    out['author'] = author = get_object_or_404(User, username=author, is_blog_author = True)
+    out['author'] = author = get_object_or_404(User, username=author)
     out['back_link'] = reverse("blog_post_list", args=[author])
     if req.POST:
         pm = Post(author = req.user)
@@ -236,7 +236,7 @@ def delete_post(req, author, date, slug):
 @render_to('blog/authors.html')
 def authors(req, page_num=None):
     out={}
-    authors = User.objects.filter(is_blog_author = True, is_active = True)
+    authors = User.objects.filter( is_active = True)
     out['paginator']=pagin=Paginator(authors, config.authors_per_page())
     out['page']=page=pagin.page(int(page_num) if page_num else 1)
     return out

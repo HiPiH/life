@@ -8,6 +8,7 @@ from django.db import models
 from django.template.loader import render_to_string
 from django.utils.translation import ugettext_lazy as _
 from django.db.models import Avg
+from apps.events.models import Category
 import datetime
 
 
@@ -186,10 +187,16 @@ User.rating_percent = rating_percent
 
 class ProfileUser(models.Model):
     user = models.ForeignKey(User)
-    rules = models.BooleanField(default=True,null=False,blank=False)
-    spam = models.BooleanField(default=False,null=False,blank=False)
-
+    rules = models.BooleanField(verbose_name=_(u'Согласен с правилами '),default=True,null=False,blank=False)
+    spam = models.BooleanField(verbose_name=_(u'Согласен получать рассылку '),default=False,null=False,blank=False)
+    user_moderation = models.ManyToManyField(Category, verbose_name=_(u'Модератор в '), blank=True,null=True,default=[])
     class Meta:
         verbose_name = _(u'User profile')
         verbose_name_plural = _(u'User profile')
+
+    def moderator(self):
+        if self.user_moderation.count():
+            return True
+        return False
+
 

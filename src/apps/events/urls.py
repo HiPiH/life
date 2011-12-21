@@ -44,6 +44,11 @@ urlpatterns = patterns('apps.events.views',
     url(r'^event/(?P<id>\d+).html.ajax$', 'one_ajax'),
     url(r'^event/create.html$', 'create', name="events_create"),
     
+    url(r'^event/moderation.html$', 'moderation', name="events_moderation"),
+    url(r'^event/moderation_(?P<id>\d+).html$', 'moderation_event', name="events_moderation_id"),
+    url(r'^event/moderation_(?P<id>\d+)_(?P<meeting_id>\d+).html$', 'moderation_event', name="events_moderation_id_meeting"),
+
+    
     url(r'^event/(?P<id>\d+)/edit.html$', 'edit', name="events_edit"),
     url(r'^event/(?P<id>\d+)_(?P<meeting_id>\d+)/edit.html$', 'edit', name="events_edit_meeting"),    
     

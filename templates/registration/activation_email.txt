@@ -1,6 +1,10 @@
-Здравствуйте, Фамилия Имя,
-Вы зарегистрировались на сайте life.interzet.ru.
-Логин: {{ user.login}}\r\n
-Пароль: \r\n
-Чтобы активировать Ваш аккаунт, необходимо перейти по ссылке, либо скопировать ее в адресную строку браузера:
-<a href='{{ site }}/accounts/activate/{{ activation_key }}/'>ссылка на авторизационную страницу</a>
+{% extends 'registration/email.html' %}
+
+{% block content %}
+<p>Здравствуйте {{new_user.last_name }} {{new_user.first_name }}</p>
+<p>Вы зарегистрировались на сайте <a href='http://life.interzet.ru'>Life.interzet.ru</a>  .</p>
+<p>Логин: {{ username}}</p>
+<p>Пароль: {{ password }}</p>
+<p>Чтобы активировать Ваш аккаунт, необходимо перейти по ссылке, либо скопировать ее в адресную строку браузера:
+<a href='http://life.interzet.ru/accounts/activate/{{ activation_key }}/'>ссылка на авторизационную страницу</a></p>
+{% endblock %}

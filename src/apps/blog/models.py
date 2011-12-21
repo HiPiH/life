@@ -183,5 +183,5 @@ def get_blog_absolute_url ( self ):
 User.get_blog_absolute_url = get_blog_absolute_url
 
 
-User.add_to_class ( 'is_blog_author', models.BooleanField ( _(u'Это автор блога?'), default=False ))
+User.add_to_class ( 'is_blog_author', models.BooleanField ( _(u'Это автор блога?'), default=True ))
 AnonymousUser.is_blog_author = False

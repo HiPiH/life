@@ -27,7 +27,7 @@ class CPEvents(object):
     
     
     def top5_idea(self):
-        return Event.objects.filter(is_idea = True).order_by('-idea_rang', '-id')[:5]
+        return Event.objects.filter(is_idea = True,accept_moder=True).order_by('-idea_rang', '-id')[:5]
     
 
     

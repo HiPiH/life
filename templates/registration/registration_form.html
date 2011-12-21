@@ -33,8 +33,12 @@ $(function() {
 			<div>{{ cp_config.access.apps__accounts__config__Config.text_for_registration_page|safe }}</div>
 			<table border="0" class="filter_form">
                 {% for i in form %}
-                    <tr><th>{{ i.label }}{% if i.field.required %}<span class="red"> * </span>{% endif %}
-                    </th><td>{{ i }}<br/>{{ i.help_text }}</td></tr>
+                    <tr><th style='text-transform:capitalize;'> {{ i.label }}{% if i.field.required %}<span class="red"> * </span>{% endif %}
+                    </th><td>{{ i }}<br/>
+                        {% autoescape off %}
+                        {{ i.help_text }}
+                        {% endautoescape %}
+                    </td></tr>
                     {%  if i.errors %}<tr>
                         <th></th>
                         <td>{{ i.errors }}</td>

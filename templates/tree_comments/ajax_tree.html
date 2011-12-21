@@ -45,7 +45,7 @@
 		<div class="submit"><input type="submit" value="Сохранить"></div>	
 	</form>
 	{% else %}
-		<div class="msg">Вам необходимо <a href="{% url login %}">авторизоваться</a> для того, что бы написать комментарий.</div>
+		<div class="msg">Вам необходимо <a href="{% url  django.contrib.auth.views.login %}">авторизоваться</a> для того, что бы написать комментарий.</div>
 	{% endif %}
 	</div>
 </div>

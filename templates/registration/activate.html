@@ -10,9 +10,14 @@
 
 {% block content %}
   {% load i18n %}
-  <div a >
+<div class="view_opened">
+            	<div class="title">
+		<div class="endblock">&nbsp;</div>
+		<h1>Активация</h1>
+	</div>
+        <div class="view_content">
         {% if account %}
-            <div  class="fifty"><h1><label>{% trans "Авторизация" %}</label></h1><br/>
+
 
             <p>Теперь вы можете войти в свой профиль, указав Логин и Пароль.</p>
          <p>Не можете авторизоваться, обратитесь в администрации сайта посредством <a href=="./{% url feedback_form %}">«Обратной связи»</a>.</p>
@@ -25,5 +30,6 @@
 	<p>Ошибка активации, повторите <a href='{% url registration.views.register %}'>регистрацию</a>.</p>
             </div>
         {% endif %}
+    </div>
   </div>
 {% endblock %}

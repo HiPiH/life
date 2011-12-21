@@ -5,21 +5,25 @@ from django import forms
 from django.db import models
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
+from django.db.models.query_utils import Q
 from django.utils.translation import ugettext_lazy as _
 from pytils import numeral
 from apps.utils.forms import SelectGraphDate
+from apps.accounts.models import ProfileUser
 import base64
 import cPickle
 import datetime, time
 import urllib
 from django.utils.encoding import force_unicode
-
+from django.core.mail               import EmailMessage
+from django.template.loader import render_to_string
+import settings
 ###!!!!!
 import form_patch
 
 
 __all__ = ('FilterForm', 'CreateEventForm','EditIdeaEventForm','EditAcceptedEventForm',
-           'InviteForm','FriendsFilterForm', 'MeetingForm', 'IdeaFilterForm',)
+           'InviteForm','FriendsFilterForm', 'MeetingForm', 'IdeaFilterForm','EditIdeaEventFormModerator','MeetingFormModerator','MeetingFormNoEnd')
 
 
 class FilterForm(forms.Form):
@@ -83,13 +87,12 @@ class FilterForm(forms.Form):
         return reverse("events_list", kwargs=kwargs)
     
     def filter(self, meetings):
-        
+
         if self.is_valid():
             data = self.cleaned_data
         else:
             data = self.initial
-            
-            
+
         if 'string' in data and data['string']:
             meetings = meetings.filter(event__title__icontains = data['string'])
             
@@ -97,7 +100,7 @@ class FilterForm(forms.Form):
             date = datetime.date(*time.strptime(data['date'], "%Y-%m-%d")[:3])
             lo_date = date
             hi_date = date + datetime.timedelta(1)
-            meetings = meetings.filter(end__gte = lo_date)
+            meetings = meetings.filter(Q(end__gte = lo_date) | Q(end = None))
         
         if 'date2' in data and  data['date2']:
             date2 = datetime.date(*time.strptime(data['date2'], "%Y-%m-%d")[:3])
@@ -114,10 +117,10 @@ class FilterForm(forms.Form):
             
             
         if 'is_archive' in data and data['is_archive']:
-            meetings = meetings.filter(end__lt=datetime.datetime.today())
+            meetings = meetings.filter(Q(end__lt=datetime.datetime.today())|Q(end = None))
         else:
             #meetings in next time
-            meetings = meetings.filter(end__gte=datetime.datetime.today())
+            meetings = meetings.filter(Q(end__gte=datetime.datetime.today())|Q(end = None))
         return meetings
     
 class IdeaFilterForm(forms.Form):
@@ -169,7 +172,7 @@ class IdeaFilterForm(forms.Form):
 
 
 class CreateEventForm(forms.ModelForm):
-    
+
     class Meta:
         model = Event
         fields = ['title',
@@ -177,21 +180,81 @@ class CreateEventForm(forms.ModelForm):
                   'description',
                   'photo',
                   ]
+    def save(self):
+        event = super(CreateEventForm, self).save()
+        message = EmailMessage("Модерация на Life.interzet.ru",render_to_string("registration/add_event.html",
+                {"url":event.get_absolute_url_moderator()}),settings.DEFAULT_FROM_EMAIL,[x.user.email for x in ProfileUser.objects.filter(user_moderation__pk=event.category.pk)])
+        message.content_subtype = 'html'
+        message.send()
+
+class MeetingFormNoEnd(forms.ModelForm):
+    
+    begin = forms.DateTimeField(label=_(u'Начало'),widget=forms.TextInput(attrs={'id':'meeting-begin','readonly':'true'},))
+    class Meta:
+        model = Meeting
+        fields = ['begin',
+                  'metro',
+                  'address','place',
+                  'min_participants','max_participants',
+                  ]
+    def save(self):
+        event = super(MeetingFormNoEnd, self).save()
+        event.end = None
+        event.save()
+        message = EmailMessage("Модерация на Life.interzet.ru",render_to_string("registration/add_event.html",
+                {"url":event.get_absolute_url_moderator()}),settings.DEFAULT_FROM_EMAIL,[x.user.email for x in ProfileUser.objects.filter(user_moderation__pk=event.event.category.pk)])
+        message.content_subtype = 'html'
+        message.send()
         
 class MeetingForm(forms.ModelForm):
     
+    begin = forms.DateTimeField(label=_(u'Когда'),widget=forms.TextInput(attrs={'id':'meeting-begin','readonly':'true'},))
+    end = forms.DateTimeField(label=_(u'Конец'),widget=forms.TextInput(attrs={'id':'meeting-end','readonly':'true'},))
+
+    class Meta:
+        model = Meeting
+        fields = ['begin','end',
+                  'metro',
+                  'address','place',
+                  'min_participants','max_participants',
+                  ]
+
+    def save(self):
+        event = super(MeetingForm, self).save()
+        message = EmailMessage("Модерация на Life.interzet.ru",render_to_string("registration/add_event.html",
+                {"url":event.get_absolute_url_moderator()}),settings.DEFAULT_FROM_EMAIL,[x.user.email for x in ProfileUser.objects.filter(user_moderation__pk=event.event.category.pk)])
+        message.content_subtype = 'html'
+        message.send()
+#    def __init__(self, *args, **kwargs):
+#
+#        MeetingForm.base_fields = {}
+#        MeetingForm.base_fields["begin"] = forms.DateTimeField(label=_(u'Когда'),widget=forms.TextInput(attrs={'id':'meeting-begin','readonly':'true'},))
+#        if end_date:
+#            MeetingForm.base_fields["end"] = forms.DateTimeField(label=_(u'Конец'),widget=forms.TextInput(attrs={'id':'meeting-begin','readonly':'true'},))
+#        for x in temp:
+#            MeetingForm.base_fields[x] = temp[x]
+#
+#        return super(MeetingForm, self).__init__(*args, **kwargs)
+
+
+
+
+
+
+
+class MeetingFormModerator(forms.ModelForm):
+
     begin = forms.DateTimeField(label=_(u'Начало'), widget=SelectGraphDate({'showsTime':"true", 'ifFormat':     "\"%Y-%m-%d %H:%M\"",}))
-    end = forms.DateTimeField(label=_(u'Конец'), widget=SelectGraphDate({'showsTime':"true", 'ifFormat':     "\"%Y-%m-%d %H:%M\"",}))
+    end = forms.DateTimeField(label=_(u'Конец'), required=False, widget=SelectGraphDate({'showsTime':"true", 'ifFormat':     "\"%Y-%m-%d %H:%M\"",}))
 
     class Meta:
         model = Meeting
         fields = [
-                   'begin','end', 
+                   'begin','end',
                   'metro',
-                  'address','place', 
-                  'min_participants','max_participants',                  
+                  'address','place',
+                  'min_participants','max_participants',  'accept_moder'
                   ]
-        
 
 class EditIdeaEventForm(forms.ModelForm):
     
@@ -202,7 +265,17 @@ class EditIdeaEventForm(forms.ModelForm):
                    'description',
                   'photo'
                   ]
-        
+
+class EditIdeaEventFormModerator(forms.ModelForm):
+
+    class Meta:
+        model = Event
+        fields = ['title',
+                  'category',
+                   'description',
+                  'photo','accept_moder'
+                  ]
+
 class EditAcceptedEventForm(forms.ModelForm):
     
     class Meta:

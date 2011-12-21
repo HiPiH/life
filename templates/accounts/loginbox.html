@@ -14,6 +14,9 @@
 		<div class="edit_profile"><a  href="{% url accounts_profile_edit %}">Редактировать профиль</a></div>
 		<div class="exit"><a href="{% url  django.contrib.auth.views.logout %}">Выход</a></div>
 		<div class="create_event"><a href="{% url events_create %}">Создать событие</a></div>
+        {% if user.get_profile.moderator or user.is_superuser%}
+            <div class="create_event"><a href="{% url events_moderation %}">Модерация</a></div>
+        {% endif %}
 	</div>
 {% else %}
 	<div class="loginform">

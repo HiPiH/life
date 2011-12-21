@@ -1,6 +1,8 @@
 from django.conf.urls.defaults import *
 from django.views.generic.simple import direct_to_template
 from apps.accounts.forms import FormUserReg
+from apps.accounts.views import reg_complite
+
 from registration.views import register,activate
 from apps.accounts.models import ProfileUser
 from django.contrib.auth.views import  login,password_reset,logout,password_reset_confirm,password_reset_complete,password_reset_done
@@ -29,8 +31,7 @@ urlpatterns = patterns('',
     url(r'^register/$', register,
                             {'form_class': FormUserReg,'profile_callback': ProfileUser.objects.create },
                             name='registration_register'),
-    url(r'^register/complete/$',direct_to_template,
-                           {'template': 'registration/registration_complete.html'},
+    url(r'^register/complete/$',reg_complite,{"form":None},
                            name='registration_complete')
     )
 

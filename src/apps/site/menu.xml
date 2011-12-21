@@ -4,6 +4,7 @@
 			<item name="Идеи">
 				<url name="events_idea"/>
 				<view name="apps.events.views.idea"/>
+                <view name="events_one"/>
 			</item>
 			<item name="События">
 				<url name="events_list">
@@ -13,7 +14,7 @@
 				<view name="apps.events.views.list">
 					<is_archive value_ne="1"/>
 				</view>
-				<view name="apps.events.views.one"/>
+                <view name="events_meeting"/>
 				<view name="apps.events.views.create"/>
 				<view name="apps.events.views.edit"/>
 				<view name="apps.events.views.visiters"/>

@@ -33,7 +33,7 @@ urlpatterns = patterns('',
     (r'^im/', include('apps.instant_messages.urls')),
     (r'^video/', include('apps.video_convertor.urls')),
     
-    #(r'^filebrowser/', include('apps.filebrowser.urls')),
+    (r'^filebrowser/', include('filebrowser.urls')),
     
     # FOR ADMIN 
     (r'^admin/config/', include('apps.config.admin.urls')),

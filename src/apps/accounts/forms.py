@@ -1,13 +1,14 @@
 ﻿from django                         import forms
+from django.template.loader import render_to_string
 from django.utils.translation       import ugettext as _
 from django.contrib.auth.models     import User
 from django.forms.widgets           import PasswordInput
 from models                         import UsersAvatars,SEX,ProfileUser
 from apps.utils.forms               import SelectGraphDate, CustomForm
 
-from registration.forms             import  RegistrationFormUniqueEmail,RegistrationProfile
+from registration.forms             import  RegistrationFormUniqueEmail
 from apps.events.models             import Metro, RangHistory
-from django.core.mail               import EmailMultiAlternatives
+from django.core.mail               import EmailMessage
 import settings
 
 
@@ -22,11 +23,11 @@ class FormUserReg(RegistrationFormUniqueEmail):
     password2 = forms.CharField(label=_('Your password repeat'), required = True, widget=PasswordInput)
     birthday = forms.DateField(label=_('Birthday'), widget=SelectGraphDate({'showsTime':"false",}), required = False)
     email = forms.EmailField(label=_('Email'), required = True)
-    address = forms.CharField(label=_('user_address'), max_length=255)
-    sex = forms.ChoiceField(label=_('sex'),  choices = SEX, initial=None)
-    birthday = forms.DateField(label=_('birthday'))
-    metro = forms.ChoiceField(label=_('user metro'), choices=[(x.id,x.name) for x in Metro.objects.all()],widget=forms.Select)
-    rules = forms.BooleanField(label='',initial=True,help_text="Я ознакомлен и согласен с правилами портала и с получением на e-mail уведомлений для моего профиля и обновлений правил портала",required=True)
+    address = forms.CharField(label=_('user_address'), max_length=255, required = False)
+    sex = forms.ChoiceField(label=_('sex'),  choices = SEX, initial=None, required = False)
+    birthday = forms.DateField(label=_('birthday') , required = False)
+    metro = forms.ChoiceField(label=_('user metro'), choices=[(x.id,x.name) for x in Metro.objects.all()],widget=forms.Select , required = False)
+    rules = forms.BooleanField(label='',initial=True,help_text="Я ознакомлен и согласен с <a href='/pages/rules.html'>правилами портала</a> и с получением на e-mail уведомлений для моего профиля и обновлений правил портала",required=True)
     spam = forms.BooleanField(label='',initial=False,help_text="Подписаться на рассылку событий портала",required=False)
     def clean_last_name(self):
         if self.cleaned_data['last_name'] == "":
@@ -42,6 +43,7 @@ class FormUserReg(RegistrationFormUniqueEmail):
         user.sex = self.cleaned_data['sex']
         user.birthday = self.cleaned_data['birthday']
         user.metro = Metro.objects.get(id=self.cleaned_data['metro'])
+        user.is_blog_author = True
         user.save()
         if profile_callback:
             profile =  profile_callback(user = user,rules=self.cleaned_data['rules'],spam=self.cleaned_data['spam'])
@@ -54,7 +56,7 @@ class FormUserReg(RegistrationFormUniqueEmail):
         
 # ФОРМА РЕДАКТИРОВАНИЯ ПОЛЬЗОВАТЕЛЯ
 class FormUserEdit(forms.ModelForm):
-    birthday = forms.DateField(widget=SelectGraphDate({'showsTime':"false",}), required = True)
+    birthday = forms.DateField(label=_('birthday'),widget=SelectGraphDate({'showsTime':"false",}), required = True)
     spam = forms.BooleanField(label='',initial=False,help_text="Подписаться на рассылку событий портала",required=False)
 
     def init(self):
@@ -84,7 +86,9 @@ class FormUserEdit(forms.ModelForm):
             get_profile.save()
         get_profile.spam = self.cleaned_data['spam']
         get_profile.save()
-        EmailMultiAlternatives("Изменение профиля","Вашь профиль идменился",settings.DEFAULT_FROM_EMAIL,[user.email]).send()
+        message = EmailMessage("Изменение профиля на Life.interzet.ru",render_to_string("registration/change_profile.html",{"user":user}),settings.DEFAULT_FROM_EMAIL,[user.email])
+        message.content_subtype = 'html'
+        message.send()
 
     class Meta():
         model = User

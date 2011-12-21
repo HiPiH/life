@@ -326,3 +326,9 @@ def check_profile_menu_state(view_name, kwargs):
             return req.user.username==kwargs['username']
 
     return False
+
+
+@render_to("registration/registration_complete.html")
+def reg_complite(req,form=None):
+    out={"form":form}
+    return out

@@ -2,32 +2,20 @@
 {% load compress_static %}
 
 {% block extrahead %}
-	{% static_add "js/calendar.js" "js/calendar-en.js" "js/set.js" "js/jquery-ui-1.7.3.custom.min.js" %}
+	{% static_add "js/calendar.js" "js/calendar-en.js" "js/set.js" %}
 	{% static_add "css/cal.css" "css/jquery-ui-1.7.3.custom.css" %}
+    {% static_add "js/jquery-ui-1.8.16.custom.min.js" "js/ui.datepicker-ru.js" "css/jquery_ui_datepicker.css"  "css/datepick.css" "js/timepicker.js" %}
 {% endblock extrahead %}
+
+
 
 
 {% block content %}
 <script>
+
 $(function() {
-    $( "#meeting-begin" ).datepicker({
-			changeMonth: true,
-			changeYear: true,
-            yearRange: '1968:2006',
-            dateFormat: 'yy-mm-dd',
-            showOn: "button",
-            buttonImage: '/media/i/calendar.gif',
-			buttonImageOnly: true
-    });
-    $( "#meeting-end" ).datepicker({
-			changeMonth: true,
-			changeYear: true,
-            yearRange: '1968:2006',
-            dateFormat: 'yy-mm-dd',
-            showOn: "button",
-            buttonImage: '/media/i/calendar.gif',
-			buttonImageOnly: true
-    });
+    $( "#meeting-begin").datetime({});
+    $( "#meeting-end" ).datetime({});
 });
 </script>
 <div class="view_opened">
@@ -36,7 +24,7 @@ $(function() {
 		<h1>&laquo;{{ event }}&raquo;</h1>
 	</div>
 
-	<form method="POST" action="{{ post_url }}" enctype="multipart/form-data">
+	<form method="POST" name='form' action="{{ post_url }}" enctype="multipart/form-data">
 	<div class="view_content">
 	<table border="0" class="forms">
 		{{ form.as_table }}			
@@ -49,8 +37,31 @@ $(function() {
 	{% else %}
 		<h2>Новая встреча:</h2>
 	{% endif %}
+    <input name="end_date" id='end_date' value="{{ end_date }}" type='hidden'/>
 	<table border="0" class="forms">
-		{{ meeting_form.as_table }}
+        {% for i in meeting_form %}
+                    <tr id='row_{{ i.name }}'>
+                            <th style='text-transform:capitalize;'> {{ i.label }}{% ifequal i.name 'begin' %}<span class="hidden">Начало:</span>{% endifequal %}{% if i.field.required %}<span class="red"> * </span>{% endif %}</th>
+                            <td >{{ i }}</td>
+                            <td>
+                                {% ifequal i.name 'begin' %}
+                                    {% ifnotequal end_date '1' %}
+                                            <a href="javascript:$('#end_date').val('1');document.form.submit();">Добавить дату окончания</a>
+                                    {% endifnotequal %}
+                                {% endifequal %}
+                                {% ifequal i.name 'end' %}
+                                    {% ifequal end_date '1' %}
+                                        <a href="javascript:$('#end_date').val(null);document.form.submit();">Удалить дату окончания</a>
+                                    {% endifequal %}
+                                {% endifequal %}
+                            </td>
+                    </tr>
+                    {%  if i.errors %}
+                       <tr id='row_{{ i.name }}' >
+                        <th></th>
+                        <td>{{ i.errors }}</td>
+                    </tr>{% endif %}
+                {% endfor %}
 	</table>
 	{% endif %}
 	</div>

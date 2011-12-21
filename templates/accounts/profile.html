@@ -63,7 +63,7 @@
         
         {% endif %}
         <div><a href="{% url my_events_assistan_users_list %}" class="btn2_org_list">Заявки организаторов</a></div>
-
+        	<div><a href="{% url blog_create_post user.username %}" class="btn2_add_post">добавить пост блога</a></div>
 
 
 		<div><a href="{% url events_friends %}" class="btn2_find_friends">Поиск друзей</a></div>
@@ -73,13 +73,10 @@
      {% else %}
      	<div><a href="{% url accounts_add_friend user_profile.id %}" class="btn2_add_friends">добавить в друзья</a></div>
      {% endif %}
-     {% if user_profile.is_blog_author %}
-		{% if is_my_profile %}
-			<div><a href="{% url blog_create_post user.username %}" class="btn2_add_post">добавить пост блога</a></div>
-		{% else %}
+
+
      		<div><a href="{% url blog_post_list user_profile.username %}" class="btn2_view_blog">смотреть блог</a></div>
-     	{% endif %}
-     {% endif %}
+     
      
      
      <br/>{% message_to_user user_profile %}
@@ -92,9 +89,9 @@
 </div>
 <br/>
 {% include "events/include/user_events.html" %}
-{% if user_profile.is_blog_author %}
-	{% include "blog/include/user_posts.html" %}
-{% endif %}
+
+{% include "blog/include/user_posts.html" %}
+
 {% endblock content %}
 
 {% block right_column %}

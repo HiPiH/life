@@ -43,10 +43,10 @@
 					{% if meeting.is_equal_time %}
 						{{ meeting.begin|date }} {{ meeting.begin|time }}
 					{% else %}
-						{{ meeting.begin|date }} c {{ meeting.begin|time }} по {{ meeting.end|time }}
+						{{ meeting.begin|date }} c {{ meeting.begin|time }}{% if meeting.end %} по {{ meeting.end|time }}{% endif %}
 					{% endif %}
 				{% else %}
-					c {{ meeting.begin|date }} по {{ meeting.end|date }}
+					 {% if meeting.end %} c {{ meeting.begin|date }} по {{ meeting.end|date }}{% else  %}{{ meeting.begin|date }}{% endif %}
 				{% endif %}			
 			</div>
 		</div>

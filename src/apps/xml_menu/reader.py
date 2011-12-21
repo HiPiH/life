@@ -173,6 +173,7 @@ class Menu(object):
     def load_from_xml(self):
         f = open(os.path.join(settings.PROJECT_ROOT, DEFAULT_MENU), "r")
         xml_document = "".join(f.readlines())
+        
         f.close()
         doc = minidom.parseString(xml_document)
         for child in doc.childNodes:
@@ -191,7 +192,9 @@ class Menu(object):
             return 
 
         url_view_name =  ret._callback_str
-
+        if ret._callback_str == 'apps.events.views.one':
+            url_view_name = ret.name.replace('events_one_meeting','events_meeting')
+        
         for item in self.root_item:
             if item.select(url_view_name, view_kwargs):
                 return True

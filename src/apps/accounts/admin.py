@@ -1,22 +1,39 @@
-﻿from django.contrib.auth.models import User
+﻿# coding: utf-8
+from django.contrib.auth.models import User
 from django.contrib             import admin
 from django.utils.translation   import ugettext_lazy as _
 from django.template.loader import render_to_string
 
 # original layout taken from django.contrib.auth.admin
 from django.contrib.auth.admin  import UserAdmin as UserAdminOld
-from apps.accounts.models       import UsersAvatars
+from apps.accounts.models       import UsersAvatars,ProfileUser
 
-class UserAdmin(UserAdminOld):
+
+class UserProfileInline(admin.TabularInline):
+    model = ProfileUser
+    verbose_name = _(u"Профиль")
+    fk_name = "user"
+    verbose_name_plural = _(u"Профиль")
+    fieldsets = (
+        (_(u'Флаги'),{'fields': ('rules', 'spam')}),
+        (_(u'Модерация'),{'fields': ('user_moderation',)}),
+    )
+    extra=0
+    max_num = 1
+    can_delete = False
+
+class UserAdmin(admin.ModelAdmin):
     
     fieldsets = (
         (None, {'fields': ('username', 'password')}),
         (_('Personal info'), {'fields': ('first_name', 'last_name','sex','birthday', 'email','metro','address')}),
         #(_('Important dates'), {'fields': ()}),
+        
         (_('Avatars'), {'fields': ('avatar',)}),
         (_('Permissions'), {'fields': ('is_staff', 'is_active', 'is_superuser', 'is_blog_author', 'user_permissions')}),
         (_('Groups'), {'fields': ('groups',)}),
     )
+    inlines = [UserProfileInline,]
     list_display = ('username', 'first_name', 'last_name', 'email', 'is_active','sex','birthday', )
     list_filter = ('is_staff', 'is_active', 'is_superuser', 'is_blog_author','sex')
     

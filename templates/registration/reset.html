@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% load compress_static %}
-
+{% block metatitle %}Восстановление пароля life.interzet.ru{% endblock %}
 {% block extrahead %}
 	{% static_add "js/calendar.js" "js/calendar-en.js" "js/set.js" "js/jquery-ui-1.7.3.custom.min.js" %}
 	{% static_add "css/cal.css" "css/jquery-ui-1.7.3.custom.css" %}
@@ -26,11 +26,11 @@ $(function() {
 <div class="view_opened">
 	<div class="title">
 		<div class="endblock">&nbsp;</div>
-		<h1>Регистрация</h1>
+		<h1>Восстановление пароля</h1>
 	</div>
 	<form method="POST" action="{% url django.contrib.auth.views.password_reset  %}">
 		<div class="view_content">
-			<div>{{ cp_config.access.apps__accounts__config__Config.text_for_registration_page|safe }}</div>
+			<div>Введите адрес электронной почты для восстановления пароля...</div>
 			<table border="0" class="filter_form">
                 {% for i in form %}
                     <tr><th>{{ i.label }}{% if i.field.required %}<span class="red"> * </span>{% endif %}

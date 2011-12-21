@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="view_opened">
+	<div class="title">
+		<div class="endblock">&nbsp;</div>
+		<h1>Список идей и событий на модерацию</h1>
+	</div>
+</div>
+
+<div class="event_list">
+
+<table class="assistant_list">
+	<tr>
+		<th>Событие</th>
+        <th>Пользователь</th>
+	</tr>
+	{% for event in events %}
+	<tr>
+		<td><a href="{{ event.get_absolute_url_moderator }}">{{ event.title }}</a></td>
+        <td>
+            {{ event.author }}
+        </td>
+	</tr>
+	{% empty %}
+	<tr>
+		<td colspan="2"><strong>Список пуст</strong></td>
+	</tr>
+	{% endfor %}
+    <tr height='60px'>
+            <td></td><td></td>
+        </tr>
+    
+	<tr>
+		<th>Идея</th>
+        <th>Пользователь</th>
+	</tr>
+    {% for event in ideis %}
+	<tr>
+		<td><a href="{{ event.get_absolute_url_moderator }}">{{ event.event.title }}</a></td>
+        <td>
+            {{ event.author }}
+        </td>
+	</tr>
+	{% empty %}
+	<tr>
+		<td colspan="2"><strong>Список пуст</strong></td>
+	</tr>
+	{% endfor %}
+</table>
+
+</div>
+
+{% endblock %}

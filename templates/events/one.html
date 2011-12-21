@@ -39,15 +39,17 @@
 	<td class="info">
 		<div class="date">	
 		{% if meeting %}
+
 			{% if meeting.is_equal_date %}
 				{% if meeting.is_equal_time %}
 					{{ meeting.begin|date }} {{ meeting.begin|time }}
 				{% else %}
-					{{ meeting.begin|date }} c {{ meeting.begin|time }} по {{ meeting.end|time }}
+					{{ meeting.begin|date }} c {{ meeting.begin|time }} {% if  meeting.end %}по {{ meeting.end|time }}{% endif %}
 				{% endif %}
 			{% else %}
-				{{ meeting.begin|date }} - {{ meeting.end|date }}
+				{{ meeting.begin|date }}{% if  meeting.end %}- {{ meeting.end|date }}{% endif %}
 			{% endif %}
+
 		{% endif %}
 		</div>
 		<div class="category"><a href="{{ event.category.get_absolute_url }}">{{ event.category }}</a></div>
@@ -84,6 +86,9 @@
 		{% if meeting.author %}
 			<div class="author">Организатор:<br/> <a href="{{ meeting.author.get_absolute_url }}">{{ meeting.author }}</a></div>
 		{% endif %}
+        {% if meeting %}
+           <div class="author">Адрес:<br/>{{ meeting.address  }}</div>
+        {% endif %}
 		<hr/>
 		
 		<dl class="place">

@@ -64,9 +64,6 @@ class Category(models.Model):
     name = models.CharField(max_length=255, verbose_name=_(u'название'))
     #группа
     group = models.ForeignKey(to='CategoryGroup', verbose_name=_(u'группа'), related_name='category_group_categorygroup_set')
-    
-    
-
     __unicode__ = lambda self: u"%s" % self.name
     
     @models.permalink
@@ -135,8 +132,11 @@ class Event(models.Model):
     
     assistents = models.ManyToManyField(User, related_name="assistent_for_events")
 
-    date_create = models.DateField(u'Дата создания', auto_now_add=True)
+    date_create = models.DateField(u'Дата создания', auto_now_add=True,null=True,blank=True)
+
+    accept_moder = models.BooleanField(u'Разрешено модератором', default=True )
     
+
     __unicode__ = lambda self: self.title
 
     
@@ -157,14 +157,14 @@ class Event(models.Model):
         
     def soon_next_meeting(self):
         try:        
-            return self.meetings.filter(end__gt=datetime.today()).order_by('end')[0]
+            return self.meetings.filter(end__gt=datetime.today(),accept_moder=True).order_by('end')[0]
         except:
             pass
         return None
     
     def soon_prev_meeting(self):
         try:        
-            return self.meetings.filter(end__lt=datetime.today()).order_by('-end')[0]
+            return self.meetings.filter(end__lt=datetime.today(),accept_moder=True).order_by('-end')[0]
         except:
             pass
         return None
@@ -320,7 +320,11 @@ class Event(models.Model):
     @models.permalink
     def get_absolute_url(self):
         return ('events_one', [self.id])
-    
+
+    @models.permalink
+    def get_absolute_url_moderator(self):
+        return ('events_moderation_id', [self.id])
+
     def get_start_ball(self):
         ball=0
         if self.title:
@@ -365,7 +369,7 @@ class Meeting(models.Model):
     #начало
     begin = models.DateTimeField(verbose_name=_(u'начало'))
     #конец
-    end = models.DateTimeField(verbose_name=_(u'конец'))
+    end = models.DateTimeField(verbose_name=_(u'конец'),null=True,blank=True)
     #район
     metro = models.ForeignKey(Metro, verbose_name=_(u'метро'))
     #мин. ограничение участников
@@ -377,7 +381,9 @@ class Meeting(models.Model):
     
     cached_ball = models.PositiveSmallIntegerField(editable = False, default=0,verbose_name=_(u'заполненность'))
     
-    
+    accept_moder = models.BooleanField(u'Разрешено модератором', default=True )
+
+
     __unicode__ = lambda self: u"%s [%s..%s]" % (self.event.title, self.begin, self.end)
     
     class Meta():
@@ -388,7 +394,9 @@ class Meeting(models.Model):
     @models.permalink
     def get_absolute_url(self):
         return ('events_one_meeting', [self.event.id, self.id])
-        
+    @models.permalink
+    def get_absolute_url_moderator(self):
+        return ('events_moderation_id_meeting', [self.event.id, self.id])
         
     def save(self):
         is_new = not self.id

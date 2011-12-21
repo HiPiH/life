@@ -5,6 +5,7 @@ from apps.events.models import *
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.core.urlresolvers import reverse
+from django.db.models.query_utils import Q
 from django.forms import model_to_dict
 from django.http import HttpResponseRedirect, HttpResponse, HttpResponseNotFound,\
     Http404
@@ -28,6 +29,7 @@ def index(req):
 def list(req, page_num=None, target=None, big_url=False, **kwargs):
     
     out={}
+
     out['big_url']=big_url
     out['target']=target
     if 'date' in kwargs:
@@ -41,8 +43,7 @@ def list(req, page_num=None, target=None, big_url=False, **kwargs):
     else:
         out['filter'] = form =  FilterForm(initial = kwargs)
         
-    meetings = Meeting.objects.all()
-    
+    meetings = Meeting.objects.filter(Q(accept_moder=True))
     if req.user.is_authenticated():
         if target=="my":            
             meetings=Meeting.objects.filter( models.Q(event__author=req.user) |  models.Q(author = req.user))
@@ -58,14 +59,15 @@ def list(req, page_num=None, target=None, big_url=False, **kwargs):
                                  models.Q(visiters__requestor__acceptor=req.user, visiters__requestor__accepted=True)|
                                  models.Q(visiters__acceptor__requestor=req.user, visiters__acceptor__accepted=True)
                                  )
+
     meetings = form.filter(meetings)
- 
+    
     out['meetings'] = meetings
 
     pagin=Paginator(meetings, config.events_per_page())
     out['paginator']=pagin
     out['page']=page=pagin.page(int(page_num) if page_num else 1)
-    
+
     out['is_archive'] = kwargs['is_archive']
 
     
@@ -85,10 +87,10 @@ def list(req, page_num=None, target=None, big_url=False, **kwargs):
 @render_to('events/one.html')
 def one(req, id, meeting_id = None):
     out={}    
-    out['event'] = event = get_object_or_404(Event, pk = id)
-
+    out['event'] = event = get_object_or_404(Event,Q(accept_moder=True)|Q(author=req.user), pk = id)
+    
     if meeting_id:
-        out['meeting'] = meeting = get_object_or_404(Meeting, pk=meeting_id, event = event)
+        out['meeting'] = meeting = get_object_or_404(Meeting,Q(accept_moder=True)|Q(author=req.user), pk=meeting_id, event = event)
         out['i_am_visitor'] = meeting.visiters.all().filter(id=req.user.id).count()
     else:
         meeting = event.soon_meeting()
@@ -156,13 +158,13 @@ def ajax_btn_visit_toggle(req, id):
 @render_to('events/one_ajax.html')
 def one_ajax(req, id):
     out={}
-    out['event'] = get_object_or_404(Event, pk = id)
+    out['event'] = get_object_or_404(Event,Q(accept_moder=True), pk = id)
     return out
 
 @ajax_request
 def ajax_rating(req, id, ball):
     out={}
-    event = get_object_or_404(Event, pk = id)
+    event = get_object_or_404(Event,Q(accept_moder=True), pk = id)
     if event.can_i_set_rating():
         if event.rating(req.user, ball):
             out['value']=event.rating_percent()
@@ -177,22 +179,23 @@ def ajax_rating(req, id, ball):
 @render_to('events/create.html')
 def create(req):
     out={}
+    form  = Event(accept_moder = False,author = req.user)
     if req.POST:
-        out['form'] = form = CreateEventForm(req.POST, files = req.FILES)
+        out['form'] = form = CreateEventForm(req.POST, files = req.FILES,instance = form)
         if form.is_valid():
-            form.instance.author = req.user
             form.save()
             req.flash.notice = ugettext('Event success added')
             return HttpResponseRedirect(form.instance.get_absolute_url())
     else:
-        out['form'] = CreateEventForm()
+
+        out['form'] = CreateEventForm(instance = form)
     return out
 
 @login_required
 @render_to('events/edit.html')
 def edit(req, id, meeting_id=None):
     out={}
-    out['event'] = event = get_object_or_404(Event, pk = id) #, author = req.user
+    out['event'] = event = get_object_or_404(Event,Q(accept_moder=True), pk = id) #, author = req.user
     if event.author != req.user and req.user not in event.assistents.all():
         raise Http404('No Events matches the given query.')
     
@@ -211,22 +214,37 @@ def edit(req, id, meeting_id=None):
         out['form'] = form = form_class(req.POST, files=req.FILES, instance=event)
         if meeting:
 #            print "Load meeting form"
-            out['meeting_form'] = meeting_form = MeetingForm(req.POST, instance=meeting, prefix='meeting')
+            try:
+                out["end_date"] = req.POST["end_date"]
+            except :
+                out["end_date"] = '0'
+            print out["end_date"]
+            if  out["end_date"]  == '1':
+                out['meeting_form'] = meeting_form = MeetingForm(req.POST, instance=meeting, prefix='meeting')
+            else:
+                out['meeting_form'] = meeting_form = MeetingFormNoEnd(req.POST, instance=meeting, prefix='meeting')
+
         if (form.is_valid() and not meeting ) or (form.is_valid() and meeting_form.is_valid()):            
             form.save()
             req.flash.notice = ugettext('Event success edited')
             if meeting:
                 meeting_form.save()
                 if int(meeting_id)==0: #если только что создали занчит добавить создателя в участников
+                    meeting.accept_moder = False
                     meeting.visiters.add(req.user)
-
-                return HttpResponseRedirect(meeting.get_absolute_url())
+                    meeting.save()
+                #return HttpResponseRedirect(meeting.get_absolute_url())
             
-            return HttpResponseRedirect(event.get_absolute_url())
+            #return HttpResponseRedirect(event.get_absolute_url())
     else:
         out['form'] = form_class(instance = event)
         if meeting:
-            out['meeting_form'] = MeetingForm(instance=meeting, prefix='meeting')
+            if meeting.end is not None:
+                out["end_date"] = '1'
+                out['meeting_form'] = MeetingForm(instance=meeting, prefix='meeting')
+            else:
+                out["end_date"] = '0'
+                out['meeting_form'] = MeetingFormNoEnd(instance=meeting, prefix='meeting')
         
     return out
 
@@ -234,7 +252,7 @@ def edit(req, id, meeting_id=None):
 @render_to('events/visiters.html')
 def visiters(req, id, page_num=None):
     out={}
-    out['event'] = meeting = get_object_or_404(Meeting, pk = id)
+    out['event'] = meeting = get_object_or_404(Meeting,Q(accept_moder=True), pk = id)
     objects = meeting.visiters.all()
     pagin=Paginator(objects, config.events_per_page())
     out['paginator']=pagin
@@ -245,7 +263,7 @@ def visiters(req, id, page_num=None):
 @render_to('events/my_friends_visiters.html')
 def my_friends_visiters(req, id, page_num=None):
     out={}
-    out['event'] = event = get_object_or_404(Event, pk = id)
+    out['event'] = event = get_object_or_404(Event,Q(accept_moder=True), pk = id)
     objects = req.user.actual_friends().filter(events_visit=event)
     pagin=Paginator(objects, config.events_per_page())
     out['paginator']=pagin
@@ -334,7 +352,7 @@ def ajax_btn_photo_delete(req, photo_id):
 @render_to("events/photo_add.html")
 def photo_add(req, id):
     out={}
-    out['event'] = event = get_object_or_404(Event, pk = id)
+    out['event'] = event = get_object_or_404(Event,Q(accept_moder=True), pk = id)
 #    if event.can_add_photo(req.user):
 #        out['ok']=True
 #        print req.POST, 
@@ -388,9 +406,9 @@ def top(req, page_num=None, target=None):
     far_limit = datetime.datetime.today() - datetime.timedelta(30)
     
     if target=='idea':
-        objects = Event.objects.filter(is_idea=True).order_by('-cached_ball','-idea_rang')
+        objects = Event.objects.filter(Q(accept_moder=True),is_idea=True).order_by('-cached_ball','-idea_rang')
     else:
-        objects = Meeting.objects.for_top().filter(begin__gte=far_limit).order_by('-cached_ball')
+        objects = Meeting.objects.for_top().filter(Q(accept_moder=True),begin__gte=far_limit).order_by('-cached_ball')
     
     pagin=Paginator(objects, config.events_per_page())
     out['paginator']=pagin
@@ -408,9 +426,11 @@ def idea(req, big_url=False, page_num=None, **kwargs):
             return HttpResponseRedirect(form.make_url())
     else:
         out['filter'] = form =  IdeaFilterForm(initial = kwargs)
+
+
         
-    objects = Event.objects.filter(is_idea=True).order_by('-cached_ball','-idea_rang')
-    objects = form.filter(objects)    
+    objects = Event.objects.filter(Q(accept_moder=True),is_idea=True).order_by('-cached_ball','-idea_rang')
+    objects = form.filter(objects)
     
     pagin=Paginator(objects, config.events_per_page())
     out['paginator']=pagin
@@ -421,7 +441,7 @@ def idea(req, big_url=False, page_num=None, **kwargs):
 def ajax_user_events(req, id, page_num=1):
     out={}
     out['user_profile'] = user_profile = get_object_or_404(User, pk = id, is_active = True)
-    objects = Event.objects.filter(author = user_profile)
+    objects = Event.objects.filter(author = user_profile,is_idea=False)
     
     pagin=Paginator(objects, config.events_per_user_page())
     out['paginator']=pagin
@@ -488,7 +508,7 @@ def ajax_idea_rang(req, id, sign):
 
 @login_required
 def make_organization(req, id):
-    event = get_object_or_404(Event, pk = id, state = STATE_COMPLITE)
+    event = get_object_or_404(Event,Q(accept_moder=True), pk = id, state = STATE_COMPLITE)
     if event.can_i_make_organization():
         event.make_complite_to_organization()
 
@@ -498,7 +518,7 @@ def make_organization(req, id):
 @render_to("events/comments.html")
 def comments(req, id, page_num):
     out={}
-    out['event'] = event = get_object_or_404(Event, pk = id)
+    out['event'] = event = get_object_or_404(Event,Q(accept_moder=True), pk = id)
     
     if req.POST and req.user.is_authenticated():
         out['form'] = form = CommentForm(req.POST)
@@ -521,14 +541,14 @@ def comments(req, id, page_num):
 
 @login_required
 def assisten_request(req, id):
-    event = get_object_or_404(Event, pk = id)
+    event = get_object_or_404(Event,Q(accept_moder=True), pk = id)
     AssistantRequest(user = req.user, event=event).save()
     req.flash.notice = ugettext('Request for assistant successfully sent')
     return HttpResponseRedirect(event.get_absolute_url())
 
 @login_required
 def visiter_request(req, id):
-    meeting = get_object_or_404(Meeting, pk = id)
+    meeting = get_object_or_404(Meeting,Q(accept_moder=True), pk = id)
     visiter = meeting.visiters.all().filter(id = req.user.id)
     if not visiter:
         meeting.visiters.add(req.user)
@@ -565,14 +585,14 @@ def assistenrequest_list(req):
 @render_to("events/assisten_list.html")
 def assisten_list(req):
     out={}
-    out['objects'] = Event.objects.filter(assistents = req.user).exclude(author=req.user)
+    out['objects'] = Event.objects.filter(Q(accept_moder=True),assistents = req.user).exclude(author=req.user)
     return out
 
 @login_required
 @render_to("events/my_events_assistan_users_list.html")
 def my_events_assistan_users_list(req):
     out={}
-    out['events'] = Event.objects.filter(author = req.user)
+    out['events'] = Event.objects.filter(Q(accept_moder=True),author = req.user)
     return out
 
 @render_to("events/photo.html")
@@ -593,4 +613,59 @@ def photo(req, id):
         out['next_photo']=None
         out['prev_photo']=prev        
     
+    return out
+
+@login_required()
+@render_to("events/moderator_list.html")
+def moderation(req):
+    ret = {}
+    profile = req.user.get_profile()
+
+
+    if req.user.is_superuser:
+        list_cat = Category.objects.all()
+    else:
+        list_cat = profile.user_moderation
+    if not list_cat.count():
+        raise Http404('No page matches the given query.')
+    ret["events"] = Event.objects.filter(category__in= list_cat.all(), accept_moder=False)
+    ret["ideis"] = Meeting.objects.filter(event__category__in= list_cat.all(), accept_moder=False)
+    return ret
+
+@login_required()
+@render_to('events/edit.html')
+def moderation_event(req, id, meeting_id=None):
+    out={}
+    profile = req.user.get_profile()
+    if req.user.is_superuser:
+        list_cat = Category.objects.all()
+    else:
+        list_cat = profile.user_moderation
+    if not list_cat.count():
+        raise Http404('No page matches the given query.')
+    out['event'] = event = get_object_or_404(Event, category__in= list_cat.all(),pk = id) #, author = req.user
+    if meeting_id:
+        out['meeting'] = meeting = get_object_or_404(Meeting, event__category__in= list_cat.all(),pk = meeting_id) #, author = req.user
+    if req.POST:
+
+        if meeting_id:
+            form2 = MeetingFormModerator(req.POST, files=req.FILES, instance=meeting)
+            if form2.is_valid():
+                form2.save()
+                
+        form = EditIdeaEventFormModerator(req.POST, files=req.FILES, instance=event)
+        if form.is_valid():
+            form.save()
+
+    else:
+        form = EditIdeaEventFormModerator(instance = event)
+        if meeting_id:
+            form2 = MeetingFormModerator(instance = meeting)
+            
+    out['form'] = form
+    
+    if meeting_id:
+        out["meeting_form"] = form2
+
+
     return out
